@@ -886,16 +886,6 @@ app.get('/user/:userId', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'profile', 'index.html'));
 });
 
-// Health check endpoint for Nginx
-app.get('/health', (req, res) => {
-  res.status(200).json({
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    service: 'cccc-backend'
-  });
-});
-
 // Start server
 app.listen(PORT, HOST, () => {
   console.log(`Server running on http://${HOST}:${PORT}`);
