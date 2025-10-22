@@ -1,0 +1,150 @@
+---
+title: Create Account
+layout: 'base.njk'
+bodyClass: 'auth-page'
+---
+
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Join the Community</h1>
+      <p>Create your account to start tracking your experiences</p>
+    </div>
+
+    <form id="registerForm" class="auth-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required minlength="3" maxlength="20">
+        <small>3-20 characters, letters and numbers only</small>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6">
+        <small>At least 6 characters</small>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+      </div>
+
+      <button type="submit" class="btn-primary">Create Account</button>
+
+      <div class="auth-divider">
+        <span>Already have an account?</span>
+      </div>
+
+      <a href="/login/" class="btn-secondary">Sign In</a>
+    </form>
+
+    <div id="error-message" class="error-message" style="display: none;"></div>
+  </div>
+</div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = new FormData(e.target);
+  const password = formData.get('password');
+  const confirmPassword = formData.get('confirmPassword');
+
+  // Validate passwords match
+  if (password !== confirmPassword) {
+    document.getElementById('error-message').textContent = 'Passwords do not match';
+    document.getElementById('error-message').style.display = 'block';
+    return;
+  }
+
+  const data = {
+    username: formData.get('username'),
+    password: password
+  };
+
+  try {
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243';
+    const response = await fetch(`${backendUrl}/api/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      credentials: 'include'
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      // Store user info in sessionStorage for immediate access
+      sessionStorage.setItem('user', JSON.stringify(result.user));
+      
+      // Redirect to profile page
+      window.location.href = '{{ "/profile/" | url }}';
+    } else {
+      document.getElementById('error-message').textContent = result.error;
+      document.getElementById('error-message').style.display = 'block';
+    }
+  } catch (error) {
+    console.error('Registration error:', error);
+    document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
+    document.getElementById('error-message').style.display = 'block';
+  }
+});
+
+// Validate username input
+document.getElementById('username').addEventListener('input', (e) => {
+  const username = e.target.value;
+  const isValid = /^[a-zA-Z0-9_-]+$/.test(username);
+  
+  if (username.length > 0 && !isValid) {
+    e.target.setCustomValidity('Username can only contain letters, numbers, underscores, and hyphens');
+  } else {
+    e.target.setCustomValidity('');
+  }
+});
+
+// Check if user is already logged in
+async function checkAuth() {
+  try {
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243';
+    
+    // Add timeout to prevent infinite waiting
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+    
+    const response = await fetch(`${backendUrl}/api/auth/check`, {
+      credentials: 'include',
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+    
+    if (response.ok) {
+      window.location.href = '{{ "/profile/" | url }}';
+    } else {
+      console.log('User not authenticated');
+    }
+  } catch (error) {
+    console.log('Backend not available or user not logged in:', error.message);
+    // Display a notice that backend features are unavailable
+    const errorDiv = document.getElementById('error-message');
+    if (error.name === 'AbortError') {
+      errorDiv.textContent = 'Backend server is currently unavailable. Registration functionality is temporarily disabled.';
+      errorDiv.style.display = 'block';
+      errorDiv.style.backgroundColor = '#fff3cd';
+      errorDiv.style.color = '#856404';
+      errorDiv.style.border = '1px solid #ffeaa7';
+    }
+  }
+}
+
+// Check auth if we're on GitHub Pages (which should connect to backend)
+if (window.location.hostname === 'uwaniumnya.github.io') {
+  checkAuth();
+} else {
+  console.log('Non-GitHub Pages deployment - backend features may not work');
+  // For local development or other deployments, still try but with warning
+  checkAuth();
+}
+</script>

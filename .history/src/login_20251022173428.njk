@@ -1,0 +1,142 @@
+---
+title: Login
+layout: 'base.njk'
+bodyClass: 'auth-page'
+---
+
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Welcome Back</h1>
+      <p>Sign in to access your profile and experiences</p>
+    </div>
+
+    <form id="loginForm" class="auth-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <button type="submit" class="btn-primary">Sign In</button>
+
+      <div class="auth-divider">
+        <span>Don't have an account?</span>
+      </div>
+
+      <a href="{{ '/register/' | url }}" class="btn-secondary">Create Account</a>
+    </form>
+
+    <div id="error-message" class="error-message" style="display: none;"></div>
+  </div>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = new FormData(e.target);
+  const data = {
+    username: formData.get('username'),
+    password: formData.get('password')
+  };
+
+  try {
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243';
+    const response = await fetch(`${backendUrl}/api/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      credentials: 'include'
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      // Store user info in sessionStorage for immediate access
+      sessionStorage.setItem('user', JSON.stringify(result.user));
+      
+      // Redirect to profile page
+      window.location.href = '{{ "/profile/" | url }}';
+    } else {
+      document.getElementById('error-message').textContent = result.error;
+      document.getElementById('error-message').style.display = 'block';
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
+    document.getElementById('error-message').style.display = 'block';
+  }
+});
+
+// Check if user is already logged in
+async function checkAuth() {
+  console.log('🔍 checkAuth() called');
+  console.log('Current hostname:', window.location.hostname);
+  
+  try {
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243';
+    console.log('🌐 Backend URL:', backendUrl);
+    
+    // Add timeout to prevent infinite waiting
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+    
+    console.log('📡 Making auth check request...');
+    const response = await fetch(`${backendUrl}/api/auth/check`, {
+      credentials: 'include',
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+    
+    console.log('📨 Auth check response status:', response.status);
+    console.log('📨 Auth check response ok:', response.ok);
+    
+    if (response.ok) {
+      const userData = await response.text();
+      console.log('✅ User authenticated, response:', userData);
+      console.log('🔄 Redirecting to profile...');
+      window.location.href = '{{ "/profile/" | url }}';
+    } else {
+      console.log('❌ User not authenticated, status:', response.status);
+    }
+  } catch (error) {
+    console.log('🚨 Auth check error:', error.message);
+    console.log('🚨 Error name:', error.name);
+    
+    // Only show error message if it's a timeout or network error
+    const errorDiv = document.getElementById('error-message');
+    if (error.name === 'AbortError') {
+      console.log('⏰ Request timed out');
+      errorDiv.textContent = 'Backend server is currently unavailable. Login functionality is temporarily disabled.';
+      errorDiv.style.display = 'block';
+      errorDiv.style.backgroundColor = '#fff3cd';
+      errorDiv.style.color = '#856404';
+      errorDiv.style.border = '1px solid #ffeaa7';
+    } else if (error.message.includes('fetch')) {
+      console.log('🌐 Network error');
+      errorDiv.textContent = 'Cannot connect to authentication server. Please try again later.';
+      errorDiv.style.display = 'block';
+      errorDiv.style.backgroundColor = '#f8d7da';
+      errorDiv.style.color = '#721c24';
+      errorDiv.style.border = '1px solid #f5c6cb';
+    }
+  }
+}
+
+// Check auth if we're on GitHub Pages (which should connect to backend)
+if (window.location.hostname === 'uwaniumnya.github.io') {
+  checkAuth();
+} else {
+  console.log('Non-GitHub Pages deployment - backend features may not work');
+  // For local development or other deployments, still try but with warning
+  checkAuth();
+}
+</script>
