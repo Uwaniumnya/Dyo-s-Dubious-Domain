@@ -1,6 +1,14 @@
 // Friends management system for CCCC
 console.log('Friends.js loaded!');
 
+// Helper function to get the correct site URL for redirects
+function getSitePath(path) {
+  const basePath = window.SITE_BASE_PATH || '/';
+  // Remove leading slash from path if basePath already has one
+  const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+  return basePath + cleanPath;
+}
+
 // Helper function to get the correct backend URL
 function getBackendUrl() {
   // If running locally, use local backend
@@ -96,7 +104,7 @@ class FriendsManager {
       
       if (!authResponse.ok) {
         // Not authenticated, redirect to login
-        window.location.href = '/login/';
+        window.location.href = getSitePath('login/');
         return;
       }
       
@@ -147,7 +155,7 @@ class FriendsManager {
       <div class="public-profile-container">
         <!-- Navigation -->
         <div class="profile-navigation">
-          <a href="/profile" class="btn-secondary">← Back to My Profile</a>
+          <a href="${getSitePath('profile')}" class="btn-secondary">← Back to My Profile</a>
         </div>
         
         <!-- Profile Banner -->
@@ -318,7 +326,7 @@ class FriendsManager {
           <div class="error-icon">❌</div>
           <h2>Profile Not Found</h2>
           <p>The user profile you're looking for doesn't exist or you don't have permission to view it.</p>
-          <a href="/profile" class="btn-primary">Return to My Profile</a>
+          <a href="${getSitePath('profile')}" class="btn-primary">Return to My Profile</a>
         </div>
       `;
       profileContent.style.display = 'block';
@@ -622,7 +630,7 @@ class FriendsManager {
     document.querySelectorAll('.view-profile-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const userId = e.target.dataset.userId;
-        window.location.href = `/user/${userId}`;
+        window.location.href = getSitePath(`user/${userId}`);
       });
     });
   }
@@ -654,7 +662,7 @@ class FriendsManager {
     document.querySelectorAll('.view-profile-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const userId = e.target.dataset.userId;
-        window.location.href = `/user/${userId}`;
+        window.location.href = getSitePath(`user/${userId}`);
       });
     });
   }

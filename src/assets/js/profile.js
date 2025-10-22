@@ -1,6 +1,14 @@
 // Profile management system for Dyo's Domain with Backend Authentication
 console.log('Profile.js loaded!');
 
+// Helper function to get the correct site URL for redirects
+function getSitePath(path) {
+  const basePath = window.SITE_BASE_PATH || '/';
+  // Remove leading slash from path if basePath already has one
+  const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+  return basePath + cleanPath;
+}
+
 // Helper function to get the correct backend URL
 function getBackendUrl() {
   // If running locally, use local backend
@@ -74,7 +82,7 @@ class ProfileManager {
   }
 
   redirectToLogin() {
-    window.location.href = '/login/';
+    window.location.href = getSitePath('login/');
   }
 
   showProfileContent() {
@@ -405,12 +413,12 @@ class ProfileManager {
       
       if (response.ok) {
         sessionStorage.removeItem('user');
-        window.location.href = '/login/';
+        window.location.href = getSitePath('login/');
       }
     } catch (error) {
       console.error('Logout error:', error);
       // Force redirect anyway
-      window.location.href = '/login/';
+      window.location.href = getSitePath('login/');
     }
   }
 

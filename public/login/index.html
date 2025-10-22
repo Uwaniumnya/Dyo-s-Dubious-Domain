@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="/Dyo-s-Dubious-Domain/style.css">
+    <script>
+        // Set base path for JavaScript files to use
+        window.SITE_BASE_PATH = '/Dyo-s-Dubious-Domain/';
+    </script>
 </head>
 
 <body class="
@@ -72,7 +76,7 @@
         <span>Don't have an account?</span>
       </div>
 
-      <a href="/register/" class="btn-secondary">Create Account</a>
+      <a href="/Dyo-s-Dubious-Domain/register/" class="btn-secondary">Create Account</a>
     </form>
 
     <div id="error-message" class="error-message" style="display: none;"></div>
@@ -107,7 +111,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       sessionStorage.setItem('user', JSON.stringify(result.user));
       
       // Redirect to profile page
-      window.location.href = '/profile/';
+      window.location.href = '/Dyo-s-Dubious-Domain/profile/';
     } else {
       document.getElementById('error-message').textContent = result.error;
       document.getElementById('error-message').style.display = 'block';
@@ -128,7 +132,7 @@ async function checkAuth() {
     });
     
     if (response.ok) {
-      window.location.href = '/profile/';
+      window.location.href = '/Dyo-s-Dubious-Domain/profile/';
     }
   } catch (error) {
     // User not logged in, stay on login page

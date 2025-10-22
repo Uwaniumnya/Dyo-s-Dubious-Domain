@@ -1,0 +1,33 @@
+<header class="page-header">
+  <div class="container">
+    <div class="page-header__content">
+      <div class="logo-container">
+        <a href="{{ '/' | url }}" class="site-title">Dyo's Dubious Domain</a>
+      </div>
+      
+      <nav>
+        <ul role="list" class="nav-list flex-group">
+          <li>
+            <a href="{{ '/' | url }}">Home</a>
+          </li>
+          <li>
+            <a href="{{ '/dyos-domain/' | url }}">Dyo's Domain</a>
+          </li>
+          <li>
+            <a href="{{ '/about/' | url }}">About</a>
+          </li>
+          <li>
+            <a href="{{ '/profile/' | url }}">My Profile</a>
+          </li>
+         
+        </ul>
+      </nav>
+    </div>
+    
+    <!-- Search Bar - Now underneath header -->
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search substances..." class="search-input" />
+      <div id="search-results" class="search-results" style="display: none;"></div>
+    </div>
+  </div>
+</header>

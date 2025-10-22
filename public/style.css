@@ -447,7 +447,7 @@ section,
 }
 
 body {
-  background-image: url('/assets/blog/back.jpg');
+  background-image: url('/Dyo-s-Dubious-Domain/assets/blog/back.jpg');
   background-size: cover;            /* fill the page */
   background-repeat: no-repeat;      /* no tiles, ew */
   background-attachment: fixed;      /* keep it still */
@@ -719,7 +719,7 @@ footer .img6 {
 }
 
 body.bag-bg {
-  background-image: url('/assets/blog/de.jpg');
+  background-image: url('/Dyo-s-Dubious-Domain/assets/blog/de.jpg');
     list-style-type: none;
   background-size: cover;
   background-repeat: no-repeat;
@@ -733,7 +733,7 @@ body.bag-bg {
 }
 
 body.bre {
-  background-image: url('/assets/blog/about/bgg.jpg');
+  background-image: url('/Dyo-s-Dubious-Domain/assets/blog/about/bgg.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
