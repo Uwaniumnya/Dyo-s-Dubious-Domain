@@ -1,0 +1,124 @@
+---
+title: Create Account
+layout: 'base.njk'
+bodyClass: 'auth-page'
+---
+
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Join the Community</h1>
+      <p>Create your account to start tracking your experiences</p>
+    </div>
+
+    <form id="registerForm" class="auth-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required minlength="3" maxlength="20">
+        <small>3-20 characters, letters and numbers only</small>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6">
+        <small>At least 6 characters</small>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+      </div>
+
+      <button type="submit" class="btn-primary">Create Account</button>
+
+      <div class="auth-divider">
+        <span>Already have an account?</span>
+      </div>
+
+      <a href="/login/" class="btn-secondary">Sign In</a>
+    </form>
+
+    <div id="error-message" class="error-message" style="display: none;"></div>
+  </div>
+</div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = new FormData(e.target);
+  const password = formData.get('password');
+  const confirmPassword = formData.get('confirmPassword');
+
+  // Validate passwords match
+  if (password !== confirmPassword) {
+    document.getElementById('error-message').textContent = 'Passwords do not match';
+    document.getElementById('error-message').style.display = 'block';
+    return;
+  }
+
+  const data = {
+    username: formData.get('username'),
+    password: password
+  };
+
+  try {
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : '';
+    const response = await fetch(`${backendUrl}/api/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      credentials: 'include'
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      // Store user info in sessionStorage for immediate access
+      sessionStorage.setItem('user', JSON.stringify(result.user));
+      
+      // Redirect to profile page
+      window.location.href = '/profile/';
+    } else {
+      document.getElementById('error-message').textContent = result.error;
+      document.getElementById('error-message').style.display = 'block';
+    }
+  } catch (error) {
+    console.error('Registration error:', error);
+    document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
+    document.getElementById('error-message').style.display = 'block';
+  }
+});
+
+// Validate username input
+document.getElementById('username').addEventListener('input', (e) => {
+  const username = e.target.value;
+  const isValid = /^[a-zA-Z0-9_-]+$/.test(username);
+  
+  if (username.length > 0 && !isValid) {
+    e.target.setCustomValidity('Username can only contain letters, numbers, underscores, and hyphens');
+  } else {
+    e.target.setCustomValidity('');
+  }
+});
+
+// Check if user is already logged in
+async function checkAuth() {
+  try {
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : '';
+    const response = await fetch(`${backendUrl}/api/auth/check`, {
+      credentials: 'include'
+    });
+    
+    if (response.ok) {
+      window.location.href = '/profile/';
+    }
+  } catch (error) {
+    // User not logged in, stay on register page
+  }
+}
+
+checkAuth();
+</script>

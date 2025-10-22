@@ -1,0 +1,5 @@
+{
+  "layout": "base.njk",
+  "tags": ["substance-profile"],
+  "templateClass": "tmpl-substance"
+}

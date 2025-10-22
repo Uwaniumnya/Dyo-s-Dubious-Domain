@@ -1,0 +1,70 @@
+---
+pagination:
+  data: collections.tagList
+  size: 1
+  alias: tag
+permalink: "/tags/{{ tag | slug }}/"
+layout: base
+eleventyComputed:
+  title: "Tag: {{ tag }}"
+---
+
+<div class="all-articles-container">
+  <h1>{{ tag | title }}</h1>
+  
+  <p class="intro-text">Posts tagged with "{{ tag }}"</p>
+  
+  {% set taggedPosts = collections.postsByTag[tag] or [] %}
+  
+  {% if taggedPosts.length > 0 %}
+    <p class="results-count">{{ taggedPosts.length }} {% if taggedPosts.length == 1 %}post{% else %}posts{% endif %} tagged with "{{ tag }}"</p>
+    
+    <div class="articles-grid">
+      {% for post in taggedPosts %}
+        <div class="article-card">
+          {% if post.data.image %}
+            <img src="{{ post.data.image }}" alt="{{ post.data.imageAlt or post.data.title }}" class="article-image" loading="lazy">
+          {% endif %}
+          
+          <div class="article-content">
+            <h2 class="article-title">
+              <a href="{{ post.url }}">{{ post.data.title }}</a>
+            </h2>
+            
+            <div class="article-meta">
+              <span class="author">{{ post.data.author }}</span>
+              {% if post.data.category %}
+                <span class="category">{{ post.data.category }}</span>
+              {% endif %}
+            </div>
+            
+            {% if post.data.description %}
+              <p class="article-description">{{ post.data.description }}</p>
+            {% endif %}
+            
+            {% if post.data.tags and post.data.tags.length > 1 %}
+              <div class="article-tags">
+                {% for postTag in post.data.tags %}
+                  {% if postTag != "post" %}
+                    <a href="/tags/{{ postTag | slug }}/" class="tag-link">{{ postTag }}</a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+            
+            {% if post.data.archive %}
+              <a href="{{ post.data.archive }}" class="btn btn--primary">Open Archive</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="no-results">No posts found with the tag "{{ tag }}". The void stares back, unimpressed.</p>
+  {% endif %}
+  
+  <div class="navigation-links">
+    <a href="/tags/" class="back-link">← Back to All Tags</a>
+    <a href="/blog/" class="back-link">View All Posts</a>
+  </div>
+</div>

@@ -1,0 +1,95 @@
+---
+title: Login
+layout: 'base.njk'
+bodyClass: 'auth-page'
+---
+
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Welcome Back</h1>
+      <p>Sign in to access your profile and experiences</p>
+    </div>
+
+    <form id="loginForm" class="auth-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <button type="submit" class="btn-primary">Sign In</button>
+
+      <div class="auth-divider">
+        <span>Don't have an account?</span>
+      </div>
+
+      <a href="/register/" class="btn-secondary">Create Account</a>
+    </form>
+
+    <div id="error-message" class="error-message" style="display: none;"></div>
+  </div>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = new FormData(e.target);
+  const data = {
+    username: formData.get('username'),
+    password: formData.get('password')
+  };
+
+  try {
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : '';
+    const response = await fetch(`${backendUrl}/api/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      credentials: 'include'
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      // Store user info in sessionStorage for immediate access
+      sessionStorage.setItem('user', JSON.stringify(result.user));
+      
+      // Redirect to profile page
+      window.location.href = '/profile/';
+    } else {
+      document.getElementById('error-message').textContent = result.error;
+      document.getElementById('error-message').style.display = 'block';
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
+    document.getElementById('error-message').style.display = 'block';
+  }
+});
+
+// Check if user is already logged in
+async function checkAuth() {
+  try {
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : '';
+    const response = await fetch(`${backendUrl}/api/auth/check`, {
+      credentials: 'include'
+    });
+    
+    if (response.ok) {
+      window.location.href = '/profile/';
+    }
+  } catch (error) {
+    // User not logged in, stay on login page
+  }
+}
+
+checkAuth();
+</script>

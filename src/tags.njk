@@ -1,0 +1,103 @@
+---
+layout: base
+title: Tags
+---
+<div class="all-articles-container">
+  <h1>Tags</h1>
+  <p class="intro-text">Navigate the chemical cosmos by substance type, topic, or theme. Warning: May cause compulsive clicking and existential revelations.</p>
+  
+  <section class="tag-section">
+    <h2>All Tags</h2>
+    <p class="section-description">The complete chemical taxonomy. Every tag, every topic, every rabbit hole waiting to be explored.</p>
+    <div class="all-tags-list">
+      {% for tag in collections.tagList %}
+        {% set postCount = (collections.postsByTag[tag] | length) or 0 %}
+        {% if postCount > 0 %}
+        <a href="/tags/{{ tag | slug }}/" class="tag-pill">
+          {{ tag }}
+          <span class="tag-count">({{ postCount }})</span>
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  
+  {% if collections.tagList %}
+  <section class="tag-section">
+    <h2>Tag Categories</h2>
+    <p class="section-description">Organized by purpose and complexity level for easier navigation.</p>
+    
+    <div class="tags-grid">
+      <!-- Substance-related tags -->
+      {% for tag in collections.tagList %}
+        {% if tag in ["psychedelics", "stimulants", "depressants", "dissociatives", "empathogens", "cannabinoids", "opioids", "nootropics", "synthetic", "natural"] %}
+          {% set postCount = (collections.postsByTag[tag] | length) or 0 %}
+          {% if postCount > 0 %}
+          <a href="/tags/{{ tag | slug }}/" class="tag-card substance-tag">
+            <h3>{{ tag | title }}</h3>
+            <p class="tag-type">Substance Type</p>
+            <span class="post-count">{{ postCount }} {% if postCount == 1 %}post{% else %}posts{% endif %}</span>
+          </a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      
+      <!-- Chemistry-related tags -->
+      {% for tag in collections.tagList %}
+        {% if tag in ["synthesis", "extraction", "pharmacology", "analytical", "organic-chemistry", "biochemistry", "precursors"] %}
+          {% set postCount = (collections.postsByTag[tag] | length) or 0 %}
+          {% if postCount > 0 %}
+          <a href="/tags/{{ tag | slug }}/" class="tag-card chemistry-tag">
+            <h3>{{ tag | title }}</h3>
+            <p class="tag-type">Chemistry Topic</p>
+            <span class="post-count">{{ postCount }} {% if postCount == 1 %}post{% else %}posts{% endif %}</span>
+          </a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      
+      <!-- Theme tags -->
+      {% for tag in collections.tagList %}
+        {% if tag in ["harm-reduction", "safety", "history", "legal", "medical", "research", "dosage", "testing", "cultivation", "underground"] %}
+          {% set postCount = (collections.postsByTag[tag] | length) or 0 %}
+          {% if postCount > 0 %}
+          <a href="/tags/{{ tag | slug }}/" class="tag-card theme-tag">
+            <h3>{{ tag | title }}</h3>
+            <p class="tag-type">Theme</p>
+            <span class="post-count">{{ postCount }} {% if postCount == 1 %}post{% else %}posts{% endif %}</span>
+          </a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      
+      <!-- Archive types -->
+      {% for tag in collections.tagList %}
+        {% if tag in ["forum-archive", "scientific-paper", "book-scan", "website-mirror", "personal-collection"] %}
+          {% set postCount = (collections.postsByTag[tag] | length) or 0 %}
+          {% if postCount > 0 %}
+          <a href="/tags/{{ tag | slug }}/" class="tag-card archive-tag">
+            <h3>{{ tag | title }}</h3>
+            <p class="tag-type">Archive Type</p>
+            <span class="post-count">{{ postCount }} {% if postCount == 1 %}post{% else %}posts{% endif %}</span>
+          </a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      
+      <!-- Difficulty levels -->
+      {% for tag in collections.tagList %}
+        {% if tag in ["beginner", "intermediate", "advanced", "reference"] %}
+          {% set postCount = (collections.postsByTag[tag] | length) or 0 %}
+          {% if postCount > 0 %}
+          <a href="/tags/{{ tag | slug }}/" class="tag-card difficulty-tag">
+            <h3>{{ tag | title }}</h3>
+            <p class="tag-type">Difficulty Level</p>
+            <span class="post-count">{{ postCount }} {% if postCount == 1 %}post{% else %}posts{% endif %}</span>
+          </a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</div>

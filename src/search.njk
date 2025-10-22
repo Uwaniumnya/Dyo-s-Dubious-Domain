@@ -1,0 +1,34 @@
+---
+permalink: /search.json
+---
+[
+{%- for post in collections.post -%}
+  {
+    "id": "post_{{ loop.index0 }}",
+    "type": "post",
+    "title": {{ (post.data.title or "Untitled") | dump | safe }},
+    "author": {{ (post.data.author or "Unknown") | dump | safe }},
+    "description": {{ (post.data.description or "") | dump | safe }},
+    "category": {{ (post.data.category or "Uncategorized") | dump | safe }},
+    "tags": {{ (post.data.tags | join(" ") or "") | dump | safe }},
+    "url": "{{ post.url }}",
+    "archive": {{ (post.data.archive or "") | dump | safe }},
+    "content": {{ (post.templateContent | striptags or "") | dump | safe }},
+    "alternativeNames": []
+  },
+{%- endfor -%}
+{%- for substance in collections.substances -%}
+  {
+    "id": "substance_{{ loop.index0 }}",
+    "type": "substance",
+    "title": {{ (substance.data.substance or "Unknown Substance") | dump | safe }},
+    "chemicalName": {{ (substance.data.chemical_name or "") | dump | safe }},
+    "description": {{ (substance.data.description or "") | dump | safe }},
+    "category": {{ (substance.data.category or "Substance") | dump | safe }},
+    "legalStatus": {{ (substance.data.legal_status or "") | dump | safe }},
+    "url": "{{ substance.url }}",
+    "content": {{ (substance.templateContent | striptags or "") | dump | safe }},
+    "alternativeNames": {{ (substance.templateContent | extractAlternativeNames) | dump | safe }}
+  }{% if not loop.last %},{% endif %}
+{%- endfor -%}
+]

@@ -1,0 +1,45 @@
+
+TODO LINKS:
+
+Use  DuckDuckGo to search
+
+
+https://web.archive.org/web/20120314160547/http://www.dextroverse.org/forums/index.php
+
+https://web.archive.org/web/20230307143053/http://www.dextroverse.org/
+
+the hive
+
+https://www.dmt-nexus.me/
+
+sites like roguesci.org
+
+https://web.archive.org/web/20160331201346/http://deoxy.org/
+
+https://www.jacobsm.com/deoxy/deoxy.org/deoxy.htm
+
+
+https://www.erowid.org/general/mentions/mentions.shtml
+
+https://www.erowid.org/general/submissions/links/reciprocal_links.php
+
+https://forum.grasscity.com/
+
+https://yourroom.health.nsw.gov.au/
+
+
+
+
+
+
+
+
+Okay now, lets start creating more substance profiles. We will do them one by one, following the style of the MDMA template
+Next:
+
+
+After adding the profile, also immediately add it to the categories page. 
+Then also add it to browse.njk.
+Next, add them to profile.js for the search.
+After that, add them to market-analysis.njk.
+Lastly, add them to the interaction checker.

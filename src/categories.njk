@@ -1,0 +1,42 @@
+---
+layout: base.njk
+title: "All Categories"
+---
+
+{% set catDescriptions = {
+   "Forum": "Where the internet’s loudest know-it-alls gather to out-shout each other. Bring popcorn and a helmet.",
+  "Database": "A digital graveyard for obsessive list-makers and spreadsheet addicts. Organized chaos has never looked so boring.",
+  "Books": "Paperless prisons for words, trapping your brain in an endless existential crisis. Escape? Good luck.",
+  "Blogs": "A wild zoo of self-important monologues disguised as wisdom. Proceed with skepticism and a stiff drink.",
+  "News": "The apocalypse delivered fresh daily with extra panic and confusion. Batteries not included.",
+  "Documentation": "The torture manual nobody reads until the system explodes and they have to. Enjoy your pain.",
+  "Resources": "The internet’s garage sale of freebies and life hacks — some gems, mostly glitter-covered junk.",
+  "Collective": "The beautiful dumpster fire of the web. All your weird obsessions, smashed into one gloriously messy pile."
+} %}
+
+
+<div class="bag">
+ <h1 class="Categories">Categories</h1>
+
+  <ul>
+  {% for category in collections.categories %}
+    {% set count = 0 %}
+    {% for post in collections.post %}
+      {% if post.data.category == category %}
+        {% set count = count + 1 %}
+      {% endif %}
+    {% endfor %}
+    <li>
+    <a class="cate" href="/categories/{{ category | slug }}/">{{ category }}</a> <span class="postc">({{ count }} posts)</span>
+
+
+      <p class="cdes">{{ catDescriptions[category] or "No description available." }}</p>
+
+    </li>
+  {% endfor %}
+  </ul>
+</div>
+<body class="{% if title == 'All Categories' %}page-all-categories{% endif %}">
+  ...
+  <footer>...</footer>
+</body>

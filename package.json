@@ -1,0 +1,38 @@
+{
+  "name": "github",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "server": "node server.js",
+    "dev": "concurrently \"npm run server\" \"npm run start\"",
+    "prod": "npm run build && npm run server",
+    "pm2:start": "pm2 start ecosystem.config.js --env production",
+    "pm2:stop": "pm2 stop cccc-backend",
+    "pm2:restart": "pm2 restart cccc-backend",
+    "pm2:logs": "pm2 logs cccc-backend",
+    "pm2:status": "pm2 status"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "browser-sync": "^3.0.4",
+    "browser-sync-webpack-plugin": "^2.4.0",
+    "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "lunr": "^2.3.9",
+    "sqlite3": "^5.1.7"
+  }
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <body class="
+  {% if title == 'All Categories' %}bag-bg{% endif %}
+  {% if title == 'about' %}bre{% endif %}
+  {% if title == 'Dyo\'s Domain - Substance Profiles' %}home{% endif %}
+  ">
+    {% include "header.njk"  %}
+    <main>
+      {{  content | safe }}
+    </main>
+     {% include "footer.njk"  %}
+
+    <!-- Search Scripts -->
+    <script src="/js/lunr.min.js"></script>
+    <script src="/assets/js/search.js"></script>
+    <script src="/assets/js/substance-integration.js"></script>
+</body>
+</html>
