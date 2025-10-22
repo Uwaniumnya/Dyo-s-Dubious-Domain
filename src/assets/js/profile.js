@@ -120,19 +120,38 @@ class ProfileManager {
 
   async saveProfile(profileData) {
     try {
-      console.log('Saving profile data:', {
-        profilePicture: profileData.profilePicture ? profileData.profilePicture.substring(0, 50) + '...' : 'none',
-        bannerImage: profileData.bannerImage ? profileData.bannerImage.substring(0, 50) + '...' : 'none',
-        avatar_url: profileData.avatar_url ? profileData.avatar_url.substring(0, 50) + '...' : 'none',
-        banner_url: profileData.banner_url ? profileData.banner_url.substring(0, 50) + '...' : 'none'
-      });
+      // Clean the data - remove undefined values and only send what's actually set
+      const cleanData = {};
+      
+      // Always include basic profile fields if they exist
+      if (profileData.username !== undefined) cleanData.username = profileData.username;
+      if (profileData.display_name !== undefined) cleanData.display_name = profileData.display_name;
+      if (profileData.bio !== undefined) cleanData.bio = profileData.bio;
+      if (profileData.location !== undefined) cleanData.location = profileData.location;
+      if (profileData.website !== undefined) cleanData.website = profileData.website;
+      
+      // Only include image fields if they have actual data
+      if (profileData.profilePicture && profileData.profilePicture !== 'none') {
+        cleanData.profilePicture = profileData.profilePicture;
+      }
+      if (profileData.bannerImage && profileData.bannerImage !== 'none') {
+        cleanData.bannerImage = profileData.bannerImage;
+      }
+      if (profileData.avatar_url && profileData.avatar_url !== 'none') {
+        cleanData.avatar_url = profileData.avatar_url;
+      }
+      if (profileData.banner_url && profileData.banner_url !== 'none') {
+        cleanData.banner_url = profileData.banner_url;
+      }
+      
+      console.log('Saving clean profile data:', cleanData);
       
       const response = await fetch(`${getBackendUrl()}/api/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(profileData),
+        body: JSON.stringify(cleanData),
         credentials: 'include'
       });
 
