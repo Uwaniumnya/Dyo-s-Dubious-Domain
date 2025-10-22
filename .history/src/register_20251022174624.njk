@@ -173,63 +173,36 @@ document.getElementById('username').addEventListener('input', (e) => {
 
 // Check if user is already logged in
 async function checkAuth() {
-  console.log('🔍 checkAuth() called in register page');
-  console.log('Current hostname:', window.location.hostname);
-  
-  // Try both HTTPS and HTTP backends
-  const backends = [
-    'https://62.169.21.243',
-    'http://62.169.21.243'
-  ];
-  
-  for (const backendUrl of backends) {
-    try {
-      console.log('🌐 Trying backend URL:', backendUrl);
-      
-      // Add timeout to prevent infinite waiting
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
-      
-      console.log('📡 Making auth check request...');
-      const response = await fetch(`${backendUrl}/api/auth/check`, {
-        credentials: 'include',
-        signal: controller.signal,
-        mode: 'cors'
-      });
-      
-      clearTimeout(timeoutId);
-      
-      console.log('📨 Auth check response status:', response.status);
-      console.log('📨 Auth check response ok:', response.ok);
-      
-      if (response.ok) {
-        const userData = await response.text();
-        console.log('✅ User already authenticated, response:', userData);
-        console.log('🔄 Redirecting to profile...');
-        window.location.href = '{{ "/profile/" | url }}';
-        return; // Exit function after successful redirect
-      } else {
-        console.log('❌ User not authenticated, registration page can be shown');
-        return; // Exit function, user not authenticated but backend is working
-      }
-    } catch (error) {
-      console.log(`🚨 Auth check error with ${backendUrl}:`, error.message);
-      console.log('🚨 Error name:', error.name);
-      
-      // Try next backend URL
-      continue;
+  try {
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243';
+    
+    // Add timeout to prevent infinite waiting
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+    
+    const response = await fetch(`${backendUrl}/api/auth/check`, {
+      credentials: 'include',
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+    
+    if (response.ok) {
+      window.location.href = '{{ "/profile/" | url }}';
+    } else {
+      console.log('User not authenticated');
     }
-  }
-  
-  // If we get here, all backends failed
-  console.log('🚨 All backend URLs failed');
-  const errorDiv = document.getElementById('error-message');
-  if (error && error.name === 'AbortError') {
-    errorDiv.textContent = 'Backend server is currently unavailable. Registration functionality is temporarily disabled.';
-    errorDiv.style.display = 'block';
-    errorDiv.style.backgroundColor = '#fff3cd';
-    errorDiv.style.color = '#856404';
-    errorDiv.style.border = '1px solid #ffeaa7';
+  } catch (error) {
+    console.log('Backend not available or user not logged in:', error.message);
+    // Display a notice that backend features are unavailable
+    const errorDiv = document.getElementById('error-message');
+    if (error.name === 'AbortError') {
+      errorDiv.textContent = 'Backend server is currently unavailable. Registration functionality is temporarily disabled.';
+      errorDiv.style.display = 'block';
+      errorDiv.style.backgroundColor = '#fff3cd';
+      errorDiv.style.color = '#856404';
+      errorDiv.style.border = '1px solid #ffeaa7';
+    }
   }
 }
 
