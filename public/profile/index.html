@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <body class="
+  
+  
+  
+  ">
+    <header class="page-header">
+  <div class="container">
+    <div class="page-header__content">
+      <div class="logo-container">
+        <a href="/" class="site-title">Dyo's Domain</a>
+      </div>
+      
+      <nav>
+        <ul role="list" class="nav-list flex-group">
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/dyos-domain/">Dyo's Domain</a>
+          </li>
+          <li>
+            <a href="/about/">About</a>
+          </li>
+          <li>
+            <a href="/profile/">My Profile</a>
+          </li>
+         
+        </ul>
+      </nav>
+    </div>
+    
+    <!-- Search Bar - Now underneath header -->
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search substances..." class="search-input" />
+      <div id="search-results" class="search-results" style="display: none;"></div>
+    </div>
+  </div>
+</header>
+
+    <main>
+      
+<!-- Authentication check and user info display -->
+<div id="auth-check" style="display: none;">
+  <div class="loading-message">
+    <p>Checking authentication...</p>
+  </div>
+</div>
+
+<div id="profile-content" class="profile-container" style="display: none;">
+  <!-- Logout button -->
+  <div class="profile-controls">
+    <button id="logout-btn" class="btn-secondary">Logout</button>
+  </div>
+
+  <!-- Profile Banner -->
+  <div class="profile-banner" id="profile-banner">
+    <div class="banner-overlay"></div>
+    <button class="banner-edit-btn" id="edit-banner-btn" title="Change Banner">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 20h9"></path>
+        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="profile-avatar-container">
+      <div class="profile-avatar" id="profile-avatar">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="default-avatar">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </div>
+      <button class="avatar-edit-btn" id="edit-avatar-btn" title="Change Avatar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="profile-info">
+      <h1 class="profile-username" id="profile-username">Anonymous Explorer</h1>
+      <p class="profile-bio" id="profile-bio">No bio set yet.</p>
+      <button class="edit-profile-btn" id="edit-profile-btn">Edit Profile</button>
+    </div>
+  </div>
+
+  <!-- Profile Stats -->
+  <div class="profile-stats">
+    <div class="stat-item">
+      <span class="stat-number" id="substances-count">0</span>
+      <span class="stat-label">Substances Logged</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" id="categories-count">0</span>
+      <span class="stat-label">Categories Explored</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" id="recent-count">0</span>
+      <span class="stat-label">Added This Month</span>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" id="avg-rating">
+        <span class="text-muted">No experiences yet</span>
+      </div>
+      <span class="stat-label">Average Rating</span>
+    </div>
+  </div>
+
+  <!-- Experience Analytics Section -->
+  <div class="analytics-section">
+    <div class="analytics-grid">
+      <div class="analytics-card">
+        <div id="experience-timeline"></div>
+      </div>
+      <div class="analytics-card">
+        <div id="top-rated-substances"></div>
+      </div>
+    </div>
+    <div class="analytics-card">
+      <div id="recent-experience-activity"></div>
+    </div>
+  </div>
+
+  <!-- Wishlist Section -->
+  <div class="analytics-card">
+    <div id="wishlist-section"></div>
+  </div>
+
+  <!-- Profile Content -->
+  <div class="profile-content">
+    <!-- Substance Collection -->
+    <div class="profile-section">
+      <div class="section-header">
+        <h2>🧪 My Substance Collection</h2>
+        <button class="add-substance-btn" id="add-substance-btn">+ Add Substance</button>
+      </div>
+      
+      <div class="substance-filters">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="Stimulants">Stimulants</button>
+        <button class="filter-btn" data-category="Psychedelics">Psychedelics</button>
+        <button class="filter-btn" data-category="Depressants">Depressants</button>
+        <button class="filter-btn" data-category="Empathogens">Empathogens</button>
+        <button class="filter-btn" data-category="Dissociatives">Dissociatives</button>
+        <button class="filter-btn" data-category="Cannabinoids">Cannabinoids</button>
+        <button class="filter-btn" data-category="Nootropics">Nootropics</button>
+      </div>
+
+      <div class="substances-grid" id="substances-grid">
+        <div class="empty-state">
+          <div class="empty-icon">🌿</div>
+          <h3>No substances logged yet</h3>
+          <p>Start building your collection by adding substances you've researched or experienced.</p>
+          <button class="add-substance-btn">Add Your First Substance</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Friends Section -->
+    <div class="profile-section">
+      <div class="section-header">
+        <h2>👥 Friends</h2>
+        <button class="btn-secondary" id="open-search-modal">Find Friends</button>
+      </div>
+      <div id="friends-section" class="friends-section">
+        <div class="loading-message">
+          <p>Loading friends...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Friend Requests Section -->
+    <div class="profile-section">
+      <h2>📬 Friend Requests</h2>
+      <div id="friend-requests-section" class="requests-section">
+        <div class="loading-message">
+          <p>Loading friend requests...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="profile-section">
+      <h2>📊 Recent Activity</h2>
+      <div class="activity-timeline" id="activity-timeline">
+        <div class="empty-state">
+          <div class="empty-icon">📅</div>
+          <h3>No recent activity</h3>
+          <p>Your recent substance additions and profile updates will appear here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden file inputs -->
+<input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+<input type="file" id="banner-upload" accept="image/*" style="display: none;">
+
+<!-- Edit Profile Modal -->
+<div class="modal" id="edit-profile-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Edit Profile</h3>
+            <button class="modal-close" id="close-add-to-wishlist-modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="edit-profile-form">
+        <div class="form-group">
+          <label for="edit-username">Username</label>
+          <input type="text" id="edit-username" maxlength="50" placeholder="Enter your username">
+        </div>
+        <div class="form-group">
+          <label for="edit-bio">Bio</label>
+          <textarea id="edit-bio" maxlength="200" placeholder="Tell us about yourself..." rows="4"></textarea>
+        </div>
+        <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancel-add-to-wishlist">Cancel</button>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Add Substance Modal -->
+<div class="modal" id="add-substance-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Add Substance to Profile</h3>
+      <button class="modal-close" id="close-substance-modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="add-substance-form">
+        <div class="form-group">
+          <label for="substance-search">Select Substance</label>
+          <div class="substance-search-container">
+            <input type="text" id="substance-search" placeholder="Search substances (e.g., MDMA, LSD, Cannabis)" autocomplete="off">
+            <div id="substance-dropdown" class="substance-dropdown">
+              <!-- Dropdown will be populated by JavaScript -->
+            </div>
+          </div>
+          <p class="form-hint">Start typing to search through all available substances</p>
+        </div>
+        <div class="form-group">
+          <label for="substance-category">Category</label>
+          <select id="substance-category">
+            <option value="">Select Category</option>
+            <option value="Stimulants">Stimulants</option>
+            <option value="Psychedelics">Psychedelics</option>
+            <option value="Depressants">Depressants</option>
+            <option value="Empathogens">Empathogens</option>
+            <option value="Dissociatives">Dissociatives</option>
+            <option value="Cannabinoids">Cannabinoids</option>
+            <option value="Nootropics">Nootropics</option>
+            <option value="Research Chemicals">Research Chemicals</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="substance-notes">Notes (Optional)</label>
+          <textarea id="substance-notes" placeholder="Personal notes, experiences, or thoughts..." rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="cancel-substance">Cancel</button>
+          <button type="submit" class="btn-primary">Add to Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Rate Substance Modal -->
+<div id="rate-substance-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Rate <span id="rating-substance-name"></span></h3>
+      <button class="modal-close" id="close-rating-modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="rate-substance-form">
+        <div class="form-group">
+          <label for="substance-rating">Rating (1-10 stars)</label>
+          <div class="rating-input">
+            <div class="star-rating" id="star-rating">
+              <span class="star" data-rating="1">★</span>
+              <span class="star" data-rating="2">★</span>
+              <span class="star" data-rating="3">★</span>
+              <span class="star" data-rating="4">★</span>
+              <span class="star" data-rating="5">★</span>
+              <span class="star" data-rating="6">★</span>
+              <span class="star" data-rating="7">★</span>
+              <span class="star" data-rating="8">★</span>
+              <span class="star" data-rating="9">★</span>
+              <span class="star" data-rating="10">★</span>
+            </div>
+            <input type="hidden" id="substance-rating" value="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="substance-comment">Comment (up to 30 words)</label>
+          <textarea id="substance-comment" placeholder="Share your thoughts about this substance..." rows="3" maxlength="150"></textarea>
+          <div class="word-count">
+            <span id="word-count">0</span> / 30 words
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="cancel-rating">Cancel</button>
+          <button type="submit" class="btn-primary">Save Rating</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- View Ratings Modal -->
+<div id="view-ratings-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="ratings-modal-title">Ratings for <span id="ratings-substance-name"></span></h2>
+      <span class="close" id="close-ratings-modal">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div id="ratings-list" class="ratings-container">
+        <!-- Rating cards will be inserted here -->
+      </div>
+      <div id="no-ratings" class="empty-state" style="display: none;">
+        <p>No ratings for this substance yet.</p>
+        <button class="btn btn-primary" id="add-first-rating">Add Your First Rating</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add to Wishlist Modal -->
+<div id="add-to-wishlist-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Add to Wishlist</h3>
+      <button class="modal-close" id="close-add-to-wishlist-modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="add-to-wishlist-form">
+        <div class="form-group">
+          <label for="wishlist-substance-search">Select Substance</label>
+          <div class="substance-search-container">
+            <input type="text" id="wishlist-substance-search" placeholder="Search substances (e.g., MDMA, LSD, Cannabis)" autocomplete="off">
+            <div id="wishlist-substance-dropdown" class="substance-dropdown">
+              <!-- Dropdown will be populated by JavaScript -->
+            </div>
+          </div>
+          <p class="form-hint">Start typing to search through all available substances</p>
+        </div>
+        <div class="form-group">
+          <label for="wishlist-category">Category (Optional)</label>
+          <select id="wishlist-category">
+            <option value="">Select Category</option>
+            <option value="Stimulants">Stimulants</option>
+            <option value="Psychedelics">Psychedelics</option>
+            <option value="Depressants">Depressants</option>
+            <option value="Empathogens">Empathogens</option>
+            <option value="Dissociatives">Dissociatives</option>
+            <option value="Cannabinoids">Cannabinoids</option>
+            <option value="Nootropics">Nootropics</option>
+            <option value="Research Chemicals">Research Chemicals</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="wishlist-priority">Priority Level</label>
+          <select id="wishlist-priority" required>
+            <option value="5">⭐⭐⭐⭐⭐ Highest - Want to try ASAP</option>
+            <option value="4">⭐⭐⭐⭐ High - Very interested</option>
+            <option value="3" selected>⭐⭐⭐ Medium - Moderately curious</option>
+            <option value="2">⭐⭐ Low - Mild interest</option>
+            <option value="1">⭐ Lowest - Just keeping track</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="wishlist-notes">Notes (Optional)</label>
+          <textarea id="wishlist-notes" placeholder="Why are you interested? Any specific research goals or curiosities..." rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="cancel-add-to-wishlist">Cancel</button>
+          <button type="submit" class="btn-primary">Add to Wishlist</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Wishlist Item Modal -->
+<div id="edit-wishlist-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Edit Wishlist Priority</h3>
+      <button class="modal-close" id="close-edit-wishlist-modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="edit-wishlist-form">
+        <div class="form-group">
+          <label for="edit-wishlist-priority">Priority Level</label>
+          <select id="edit-wishlist-priority" required>
+            <option value="5">⭐⭐⭐⭐⭐ Highest - Want to try ASAP</option>
+            <option value="4">⭐⭐⭐⭐ High - Very interested</option>
+            <option value="3">⭐⭐⭐ Medium - Moderately curious</option>
+            <option value="2">⭐⭐ Low - Mild interest</option>
+            <option value="1">⭐ Lowest - Just keeping track</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="edit-wishlist-notes">Notes</label>
+          <textarea id="edit-wishlist-notes" placeholder="Update your notes..." rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="cancel-edit-wishlist">Cancel</button>
+          <button type="submit" class="btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript -->
+<script src="/assets/js/profile.js"></script>
+<script src="/assets/js/friends.js"></script>
+    </main>
+     <div class="footer-divider"></div>
+<footer class="site-footer">
+  
+</footer>
+
+
+
+
+<footer class="site-footer">
+  
+  </svg>
+    <img src="/assets/logo.svg" alt="My Logo" class="logo">
+     <p>© 2025 Uwaniumnya. Highly Illegal.</p>
+  </footer>
+
+  
+
+    <!-- Search Scripts -->
+    <script src="/js/lunr.min.js"></script>
+    <script src="/assets/js/search.js"></script>
+    <script src="/assets/js/substance-integration.js"></script>
+</body>
+</html>

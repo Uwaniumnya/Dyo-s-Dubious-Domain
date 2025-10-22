@@ -1,0 +1,17 @@
+# Ephedrine Image Placeholder
+
+This file represents a placeholder for the Ephedrine substance image showing:
+- Ephedra sinica plants (Ma Huang with characteristic jointed stems)
+- Commercial ephedrine products (Bronkaid, Primatene tablets)
+- Pure ephedrine powder/crystals (white crystalline form)
+- Molecular structure of (-)-Ephedrine
+- Traditional Chinese medicine context (dried herb bundles)
+- Legal warning symbols and precursor restrictions imagery
+- NPLEx system logo and ID requirement symbols
+- Comparison with pseudoephedrine structure
+- Medical applications (bronchodilator, blood pressure treatment)
+
+Dimensions: 400x300px recommended
+Format: JPG or PNG
+Style: Professional medical/pharmaceutical with prominent legal compliance warnings
+Color scheme: Medical blues and greens with warning reds for legal restrictions

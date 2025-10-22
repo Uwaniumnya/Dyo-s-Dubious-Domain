@@ -1,0 +1,15 @@
+# DOM Image Placeholder
+
+This file represents a placeholder for the DOM substance image showing:
+- Historic STP red wedge/pyramid pills (warning imagery)
+- Modern DOM blotter paper (small squares)
+- Molecular structure of 2,5-Dimethoxy-4-methylamphetamine
+- Warning symbols and danger imagery (skull, clock showing 24 hours)
+- Analytical balance showing microgram precision requirement
+- Timeline visualization showing 14-24 hour duration
+- Comparison to other substances showing extreme potency
+
+Dimensions: 400x300px recommended
+Format: JPG or PNG
+Style: Professional with prominent safety warnings due to historical overdose incidents
+Color scheme: Reds and oranges to emphasize danger and long duration

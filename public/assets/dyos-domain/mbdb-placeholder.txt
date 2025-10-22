@@ -1,0 +1,83 @@
+MBDB Image Placeholder Specification
+=====================================
+
+**Main Subject:** MBDB (N-Methyl-1,3-benzodioxolylbutanamine)
+**Category:** Empathogen/Research Chemical
+**Style:** Research chemical/scientific with Shulgin reference
+
+**Visual Elements:**
+
+1. **Chemical Focus (Primary)**
+   - White crystalline powder in small research quantities
+   - Glass vials with research chemical labels
+   - Analytical balance showing precise measurements
+   - White/off-white fine crystals similar to MDMA
+   - Laboratory-grade storage containers
+
+2. **Molecular Structure (Key Element)**
+   - MBDB molecular structure diagram (C₁₂H₁₇NO₂)
+   - Side-by-side comparison with MDMA structure
+   - Highlighting the structural differences (methyl group on alpha carbon)
+   - Chemical formula and molecular weight display
+   - 3D molecular model representation
+
+3. **PiHKAL Reference Context**
+   - PiHKAL book (Entry #109) open to MBDB page
+   - Alexander Shulgin's laboratory notebook aesthetics
+   - Vintage scientific equipment and glassware
+   - 1980s research laboratory atmosphere
+   - Chemical synthesis pathway diagrams
+
+4. **Research Chemical Elements**
+   - "NOT FOR HUMAN CONSUMPTION" labeling
+   - Scientific research context symbols
+   - Quality control/purity testing equipment
+   - Vendor packaging with research chemical disclaimers
+   - Laboratory safety equipment
+
+5. **Gentler Experience Visualization**
+   - Soft, calming colors (blues, gentle purples)
+   - Peaceful, meditative imagery elements
+   - Contrast with MDMA's more intense visual representation
+   - Longer duration timeline graphics
+   - Gentle wave patterns suggesting smoother experience
+
+6. **Safety Warnings**
+   - "LIMITED HUMAN DATA" warning prominently displayed
+   - Unknown long-term effects caution symbols
+   - Research chemical safety protocols
+   - Extended spacing recommendations between uses
+
+**Color Scheme:**
+- Scientific white and blue backgrounds
+- Soft blues and purples for gentler experience
+- Clinical laboratory color palette
+- Vintage sepia tones for PiHKAL/Shulgin context
+- Clear warning red for safety information
+
+**Layout:**
+- Central focus on crystalline powder and molecular structure
+- Left side: PiHKAL reference and Shulgin laboratory context
+- Right side: research chemical warnings and safety protocols
+- Bottom: molecular comparison with MDMA
+- Background: subtle laboratory/scientific equipment
+
+**Typography:**
+- Scientific journal font for main title "MBDB"
+- Chemical nomenclature in standard chemical notation
+- Research warning text in clear, bold font
+- PiHKAL reference in vintage book typography
+- Safety warnings in attention-grabbing format
+
+**Mood/Tone:**
+- Serious scientific research atmosphere
+- Academic/scholarly approach to psychoactive research
+- Respect for Shulgin's scientific legacy
+- Caution about unknown risks
+- Gentle, introspective quality distinguishing from MDMA
+
+**Key Message:**
+"Shulgin's gentler alternative to MDMA - deeper introspection with less stimulation, but with all the unknowns of research chemical territory."
+
+**Usage Context:**
+This image will accompany the comprehensive MBDB profile, emphasizing both its scientific pedigree through Shulgin's research and the caution needed when dealing with substances that lack extensive human safety data.

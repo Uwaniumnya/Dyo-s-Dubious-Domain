@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compendium</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <body class="
+  
+  
+  
+  ">
+    <header class="page-header">
+  <div class="container">
+    <div class="page-header__content">
+      <div class="logo-container">
+        <a href="/" class="site-title">Dyo's Domain</a>
+      </div>
+      
+      <nav>
+        <ul role="list" class="nav-list flex-group">
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/dyos-domain/">Dyo's Domain</a>
+          </li>
+          <li>
+            <a href="/about/">About</a>
+          </li>
+          <li>
+            <a href="/profile/">My Profile</a>
+          </li>
+         
+        </ul>
+      </nav>
+    </div>
+    
+    <!-- Search Bar - Now underneath header -->
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search substances..." class="search-input" />
+      <div id="search-results" class="search-results" style="display: none;"></div>
+    </div>
+  </div>
+</header>
+
+    <main>
+      
+       
+<div class="section container">
+<h1 class="section-title"> <img src="/assets/blog/col.gif" alt="Collective" /></h1>
+
+<div class="sort-controls">
+  <label for="sort-select">Sort by:</label>
+  <select id="sort-select">
+    <option value="title-asc">Title (A-Z)</option>
+    <option value="title-desc">Title (Z-A)</option>
+    <option value="category-asc">Category (A-Z)</option>
+    <option value="category-desc">Category (Z-A)</option>
+    <option value="author-asc">Author (A-Z)</option>
+    <option value="author-desc">Author (Z-A)</option>
+  </select>
+</div>
+ 
+<ul role="list" class="articles__list flow" id="articles-list"> 
+
+</ul>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sortSelect = document.getElementById('sort-select');
+    const articlesList = document.getElementById('articles-list');
+    
+    // Initial sort by title A-Z
+    sortArticles('title-asc');
+    
+    sortSelect.addEventListener('change', function() {
+        sortArticles(this.value);
+    });
+    
+    function sortArticles(sortType) {
+        const articles = Array.from(articlesList.children);
+        
+        articles.sort(function(a, b) {
+            let valueA, valueB;
+            
+            switch(sortType) {
+                case 'title-asc':
+                    valueA = a.dataset.title;
+                    valueB = b.dataset.title;
+                    return valueA.localeCompare(valueB);
+                    
+                case 'title-desc':
+                    valueA = a.dataset.title;
+                    valueB = b.dataset.title;
+                    return valueB.localeCompare(valueA);
+                    
+                case 'category-asc':
+                    valueA = a.dataset.category;
+                    valueB = b.dataset.category;
+                    if (valueA === valueB) {
+                        return a.dataset.title.localeCompare(b.dataset.title);
+                    }
+                    return valueA.localeCompare(valueB);
+                    
+                case 'category-desc':
+                    valueA = a.dataset.category;
+                    valueB = b.dataset.category;
+                    if (valueA === valueB) {
+                        return a.dataset.title.localeCompare(b.dataset.title);
+                    }
+                    return valueB.localeCompare(valueA);
+                    
+                case 'author-asc':
+                    valueA = a.dataset.author;
+                    valueB = b.dataset.author;
+                    if (valueA === valueB) {
+                        return a.dataset.title.localeCompare(b.dataset.title);
+                    }
+                    return valueA.localeCompare(valueB);
+                    
+                case 'author-desc':
+                    valueA = a.dataset.author;
+                    valueB = b.dataset.author;
+                    if (valueA === valueB) {
+                        return a.dataset.title.localeCompare(b.dataset.title);
+                    }
+                    return valueB.localeCompare(valueA);
+                    
+                default:
+                    return 0;
+            }
+        });
+        
+        // Clear and re-append sorted articles
+        articlesList.innerHTML = '';
+        articles.forEach(article => articlesList.appendChild(article));
+    }
+});
+</script>
+
+ 
+
+
+</div>
+    
+   
+
+
+
+    </main>
+     <div class="footer-divider"></div>
+<footer class="site-footer">
+  
+</footer>
+
+
+
+
+<footer class="site-footer">
+  
+  </svg>
+    <img src="/assets/logo.svg" alt="My Logo" class="logo">
+     <p>© 2025 Uwaniumnya. Highly Illegal.</p>
+  </footer>
+
+  
+
+    <!-- Search Scripts -->
+    <script src="/js/lunr.min.js"></script>
+    <script src="/assets/js/search.js"></script>
+    <script src="/assets/js/substance-integration.js"></script>
+</body>
+</html>

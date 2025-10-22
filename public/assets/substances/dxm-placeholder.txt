@@ -1,0 +1,16 @@
+# DXM Image Placeholder
+
+This file represents a placeholder for the DXM substance image showing:
+- Common OTC cough medicine bottles (Robitussin, Delsym)
+- DXM gel capsules (soft gels, typically red or clear)
+- Pure DXM powder (white crystalline)
+- Molecular structure of Dextromethorphan
+- Plateau visualization (1st through 4th plateau levels)
+- Warning symbols about SSRI interactions
+- CYP2D6 metabolism diagram
+- Comparison of HBr vs. Polistirex formulations
+
+Dimensions: 400x300px recommended
+Format: JPG or PNG
+Style: Professional medical/pharmaceutical appearance with clear safety warnings
+Color scheme: Medical blues and whites with warning reds for interactions

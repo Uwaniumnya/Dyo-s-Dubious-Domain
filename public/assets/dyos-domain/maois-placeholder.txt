@@ -1,0 +1,74 @@
+MAOIs Image Placeholder Specification
+=====================================
+
+**Main Subject:** MAOIs (Monoamine Oxidase Inhibitors)
+**Category:** Nootropics/Pharmaceutical Antidepressants
+**Style:** Medical/Pharmaceutical with extreme warning elements
+
+**Visual Elements:**
+
+1. **Pharmaceutical Focus (Primary)**
+   - Nardil (phenelzine) orange tablets - distinctive pharmaceutical branding
+   - Parnate (tranylcypromine) red tablets - recognizable medical packaging
+   - Emsam (selegiline) patch - modern transdermal delivery system
+   - Prescription bottles with clear pharmacy labels
+   - Medical prescription pad with MAOIs written
+
+2. **Dangerous Foods Section (Critical Safety)**
+   - Aged cheeses: blue cheese, aged cheddar with "FORBIDDEN" overlay
+   - Wine bottles with red wine, beer with "NO" symbols
+   - Cured meats: salami, pepperoni with warning crosses
+   - Overripe bananas and avocados with danger signs
+   - Soy sauce, Marmite jars with prohibition symbols
+
+3. **Warning Elements (Extreme Danger)**
+   - Blood pressure monitor showing dangerously high readings
+   - Emergency room/hospital cross symbols
+   - "HYPERTENSIVE CRISIS" warning banners
+   - "SEROTONIN SYNDROME" caution text
+   - Medical emergency phone numbers/911
+
+4. **Medical Context**
+   - Stethoscope and medical equipment
+   - Doctor consultation imagery
+   - Medical chart showing MAO enzyme pathways
+   - Brain neurotransmitter diagram (serotonin, dopamine, norepinephrine)
+   - Prescription monitoring symbols
+
+5. **Natural Sources (Secondary)**
+   - Syrian rue (Peganum harmala) seeds with caution labels
+   - Banisteriopsis caapi vine (ayahuasca) with traditional context
+   - "ALSO DANGEROUS" warnings on natural sources
+
+**Color Scheme:**
+- Medical white/sterile backgrounds
+- Pharmaceutical orange/red for tablets
+- Danger red for warnings and forbidden foods
+- Medical blue for professional context
+- Black text for maximum readability
+
+**Layout:**
+- Central pharmaceutical focus with tablets/bottles
+- Left side: dangerous foods with prohibition symbols
+- Right side: medical monitoring equipment
+- Bottom: warning banners and emergency information
+- Natural sources in small corner with caution
+
+**Typography:**
+- Bold "MAOIs" title in medical font
+- "EXTREME DANGER" in red warning font
+- Pharmaceutical names in prescription-style text
+- Medical terminology in clinical formatting
+
+**Mood/Tone:**
+- Serious medical professional atmosphere
+- Extreme caution and respect for dangers
+- Clinical precision and pharmaceutical legitimacy
+- Life-or-death importance of safety protocols
+- Balance of therapeutic potential with extreme risks
+
+**Key Message:**
+"Life-saving antidepressants that demand absolute dietary discipline and medical supervision - one wrong meal or drug combination can be fatal."
+
+**Usage Context:**
+This image will accompany the comprehensive MAOIs profile, emphasizing both the legitimate pharmaceutical applications and the extreme dangers of food/drug interactions that make these medications among the most dangerous therapeutic substances.
