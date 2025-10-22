@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Debug Test</title>
+</head>
+<body>
+    <h1>Authentication Debug Test</h1>
+    <div id="results"></div>
+
+    <script>
+        async function testAuth() {
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                console.log('Testing auth check...');
+                const response = await fetch('https://vmd175967.contaboserver.net/api/auth/check', {
+                    method: 'GET',
+                    credentials: 'include',
+                    mode: 'cors'
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                console.log('Response headers:', [...response.headers.entries()]);
+                
+                const result = await response.text();
+                console.log('Response text:', result);
+                
+                resultsDiv.innerHTML = `
+                    <h2>Auth Check Results</h2>
+                    <p><strong>Status:</strong> ${response.status}</p>
+                    <p><strong>OK:</strong> ${response.ok}</p>
+                    <p><strong>Response:</strong> ${result}</p>
+                    <h3>Headers:</h3>
+                    <pre>${[...response.headers.entries()].map(([k,v]) => `${k}: ${v}`).join('\n')}</pre>
+                `;
+                
+            } catch (error) {
+                console.error('Auth check error:', error);
+                resultsDiv.innerHTML = `
+                    <h2>Auth Check Error</h2>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p><strong>Type:</strong> ${error.name}</p>
+                `;
+            }
+        }
+        
+        // Run test when page loads
+        testAuth();
+    </script>
+</body>
+</html>
