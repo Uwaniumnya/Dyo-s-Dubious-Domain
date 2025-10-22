@@ -1,0 +1,17 @@
+// Fix for server.js - Add cookie parser middleware
+// Add this line near the top with other middleware imports:
+
+const cookieParser = require('cookie-parser');
+
+// Then add this line with other app.use() statements (BEFORE the CORS middleware):
+
+app.use(cookieParser());
+
+// Make sure it's before this line:
+// app.use(cors(corsOptions));
+
+// The complete middleware order should be:
+// 1. app.use(cookieParser());
+// 2. app.use(cors(corsOptions));
+// 3. app.use(express.json());
+// 4. Other routes and middleware
