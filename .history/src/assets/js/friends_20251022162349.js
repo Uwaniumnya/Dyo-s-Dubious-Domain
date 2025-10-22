@@ -8,8 +8,10 @@ function getBackendUrl() {
     return 'http://127.0.0.1:3000';
   }
   
-  // For GitHub Pages, use your production backend
-  return 'https://62.169.21.243';
+  // For GitHub Pages, use your production backend domain
+  // TODO: Replace with your actual Contabo server domain or IP
+  // Example: return 'https://your-domain.com' or 'http://YOUR_IP:3001'
+  return 'https://your-contabo-domain.com';
 }
 
 class FriendsManager {
