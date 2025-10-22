@@ -20,27 +20,10 @@ document.addEventListener('DOMContentLoaded', async function() {
   console.log('Search elements found, loading data...');
   
   try {
-    // Load search data - handle GitHub Pages path
-    const basePath = window.location.hostname === 'uwaniumnya.github.io' ? '/Dyo-s-Dubious-Domain' : '';
-    const searchUrl = `${basePath}/search.json`;
-    console.log('Loading search data from:', searchUrl);
-    
-    const response = await fetch(searchUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    
-    const responseText = await response.text();
-    console.log('Response text length:', responseText.length);
-    
-    try {
-      searchPosts = JSON.parse(responseText);
-      console.log('Loaded posts:', searchPosts.length);
-    } catch (parseError) {
-      console.error('JSON parse error:', parseError);
-      console.error('First 500 chars of response:', responseText.substring(0, 500));
-      throw new Error('Invalid JSON format in search data');
-    }
+    // Load search data
+    const response = await fetch('/search.json');
+    searchPosts = await response.json();
+    console.log('Loaded posts:', searchPosts.length);
     
     // Build Lunr index
     searchIndex = lunr(function () {

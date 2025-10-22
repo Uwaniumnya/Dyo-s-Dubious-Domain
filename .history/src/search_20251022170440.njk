@@ -13,7 +13,7 @@ permalink: /search.json
     "tags": {{ (post.data.tags | join(" ") or "") | dump | safe }},
     "url": "{{ post.url | url }}",
     "archive": {{ (post.data.archive or "") | dump | safe }},
-    "content": {{ (post.templateContent | striptags | truncate(5000) or "") | dump | safe }},
+    "content": {{ (post.templateContent | striptags or "") | dump | safe }},
     "alternativeNames": []
   },
 {%- endfor -%}
@@ -27,7 +27,7 @@ permalink: /search.json
     "category": {{ (substance.data.category or "Substance") | dump | safe }},
     "legalStatus": {{ (substance.data.legal_status or "") | dump | safe }},
     "url": "{{ substance.url | url }}",
-    "content": {{ (substance.templateContent | striptags | truncate(5000) or "") | dump | safe }},
+    "content": {{ (substance.templateContent | striptags or "") | dump | safe }},
     "alternativeNames": {{ (substance.templateContent | extractAlternativeNames) | dump | safe }}
   }{% if not loop.last %},{% endif %}
 {%- endfor -%}

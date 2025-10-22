@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Test</title>
+</head>
+<body>
+    <h1>Backend Connection Test</h1>
+    <div id="results"></div>
+    
+    <script>
+    async function testBackend() {
+        const results = document.getElementById('results');
+        
+        // Test 1: Backend connectivity
+        try {
+            results.innerHTML += '<p>Testing backend connectivity...</p>';
+            const response = await fetch('https://62.169.21.243/api/auth/check', {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include'
+            });
+            results.innerHTML += `<p>Backend response status: ${response.status}</p>`;
+            const data = await response.text();
+            results.innerHTML += `<p>Backend response: ${data}</p>`;
+        } catch (error) {
+            results.innerHTML += `<p>Backend error: ${error.message}</p>`;
+        }
+        
+        // Test 2: Search JSON loading
+        try {
+            results.innerHTML += '<p>Testing search.json loading...</p>';
+            const response = await fetch('https://uwaniumnya.github.io/Dyo-s-Dubious-Domain/search.json');
+            const data = await response.text();
+            results.innerHTML += `<p>Search JSON length: ${data.length} characters</p>`;
+            
+            // Try to parse it
+            try {
+                const parsed = JSON.parse(data);
+                results.innerHTML += `<p>Search JSON parsed successfully: ${parsed.length} items</p>`;
+            } catch (parseError) {
+                results.innerHTML += `<p>Search JSON parse error: ${parseError.message}</p>`;
+                // Show first part of the data for debugging
+                results.innerHTML += `<p>First 1000 chars: ${data.substring(0, 1000)}</p>`;
+            }
+        } catch (error) {
+            results.innerHTML += `<p>Search JSON fetch error: ${error.message}</p>`;
+        }
+    }
+    
+    testBackend();
+    </script>
+</body>
+</html>
