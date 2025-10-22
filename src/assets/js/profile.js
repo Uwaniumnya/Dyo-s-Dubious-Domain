@@ -384,7 +384,7 @@ class ProfileManager {
     const bioElement = document.getElementById('profile-bio');
 
     if (usernameElement) {
-      usernameElement.textContent = this.profileData.display_name || this.profileData.username || 'Anonymous';
+      usernameElement.textContent = this.profileData.username || this.profileData.display_name || this.currentUser?.username || 'Anonymous';
     }
     
     if (bioElement) {
@@ -1633,6 +1633,7 @@ class ProfileManager {
       
       // Create a targeted update object that only includes the changed image
       const updateData = {
+        username: this.profileData.username || this.currentUser?.username,
         display_name: this.profileData.display_name,
         bio: this.profileData.bio,
         location: this.profileData.location,

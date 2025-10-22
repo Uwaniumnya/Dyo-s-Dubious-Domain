@@ -384,7 +384,7 @@ class ProfileManager {
     const bioElement = document.getElementById('profile-bio');
 
     if (usernameElement) {
-      usernameElement.textContent = this.profileData.username || this.profileData.display_name || this.currentUser?.username || 'Anonymous';
+      usernameElement.textContent = this.profileData.display_name || this.profileData.username || 'Anonymous';
     }
     
     if (bioElement) {
