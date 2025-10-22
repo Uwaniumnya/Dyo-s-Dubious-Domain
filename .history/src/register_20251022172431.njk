@@ -1,5 +1,5 @@
 ---
-title: Login
+title: Create Account
 layout: 'base.njk'
 bodyClass: 'auth-page'
 ---
@@ -7,28 +7,35 @@ bodyClass: 'auth-page'
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
-      <h1>Welcome Back</h1>
-      <p>Sign in to access your profile and experiences</p>
+      <h1>Join the Community</h1>
+      <p>Create your account to start tracking your experiences</p>
     </div>
 
-    <form id="loginForm" class="auth-form">
+    <form id="registerForm" class="auth-form">
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+        <input type="text" id="username" name="username" required minlength="3" maxlength="20">
+        <small>3-20 characters, letters and numbers only</small>
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" name="password" required minlength="6">
+        <small>At least 6 characters</small>
       </div>
 
-      <button type="submit" class="btn-primary">Sign In</button>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+      </div>
+
+      <button type="submit" class="btn-primary">Create Account</button>
 
       <div class="auth-divider">
-        <span>Don't have an account?</span>
+        <span>Already have an account?</span>
       </div>
 
-      <a href="{{ '/register/' | url }}" class="btn-secondary">Create Account</a>
+      <a href="/login/" class="btn-secondary">Sign In</a>
     </form>
 
     <div id="error-message" class="error-message" style="display: none;"></div>
@@ -36,18 +43,28 @@ bodyClass: 'auth-page'
 </div>
 
 <script>
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   
   const formData = new FormData(e.target);
+  const password = formData.get('password');
+  const confirmPassword = formData.get('confirmPassword');
+
+  // Validate passwords match
+  if (password !== confirmPassword) {
+    document.getElementById('error-message').textContent = 'Passwords do not match';
+    document.getElementById('error-message').style.display = 'block';
+    return;
+  }
+
   const data = {
     username: formData.get('username'),
-    password: formData.get('password')
+    password: password
   };
 
   try {
     const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'http://62.169.21.243';
-    const response = await fetch(`${backendUrl}/api/login`, {
+    const response = await fetch(`${backendUrl}/api/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -69,16 +86,28 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       document.getElementById('error-message').style.display = 'block';
     }
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Registration error:', error);
     document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
     document.getElementById('error-message').style.display = 'block';
+  }
+});
+
+// Validate username input
+document.getElementById('username').addEventListener('input', (e) => {
+  const username = e.target.value;
+  const isValid = /^[a-zA-Z0-9_-]+$/.test(username);
+  
+  if (username.length > 0 && !isValid) {
+    e.target.setCustomValidity('Username can only contain letters, numbers, underscores, and hyphens');
+  } else {
+    e.target.setCustomValidity('');
   }
 });
 
 // Check if user is already logged in
 async function checkAuth() {
   try {
-    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'http://62.169.21.243';
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243';
     
     // Add timeout to prevent infinite waiting
     const controller = new AbortController();
@@ -101,7 +130,7 @@ async function checkAuth() {
     // Display a notice that backend features are unavailable
     const errorDiv = document.getElementById('error-message');
     if (error.name === 'AbortError') {
-      errorDiv.textContent = 'Backend server is currently unavailable. Login functionality is temporarily disabled.';
+      errorDiv.textContent = 'Backend server is currently unavailable. Registration functionality is temporarily disabled.';
       errorDiv.style.display = 'block';
       errorDiv.style.backgroundColor = '#fff3cd';
       errorDiv.style.color = '#856404';
@@ -116,7 +145,7 @@ if (window.location.hostname !== 'uwaniumnya.github.io') {
 } else {
   console.log('GitHub Pages deployment - backend features disabled');
   const errorDiv = document.getElementById('error-message');
-  errorDiv.textContent = 'Login feature is not available on this demo deployment. Backend server required for user accounts.';
+  errorDiv.textContent = 'Registration feature is not available on this demo deployment. Backend server required for user accounts.';
   errorDiv.style.display = 'block';
   errorDiv.style.backgroundColor = '#d1ecf1';
   errorDiv.style.color = '#0c5460';
