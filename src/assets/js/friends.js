@@ -16,8 +16,8 @@ function getBackendUrl() {
     return 'http://127.0.0.1:3000';
   }
   
-  // For GitHub Pages, use your production backend (HTTPS with self-signed cert)
-  return 'https://62.169.21.243';
+  // For GitHub Pages, use your production backend (HTTPS with Let's Encrypt cert)
+  return 'https://vmd175967.contaboserver.net';
 }
 
 class FriendsManager {
