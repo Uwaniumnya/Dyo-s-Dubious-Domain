@@ -9,8 +9,8 @@ function getBackendUrl() {
   }
   
   // For GitHub Pages, use your production backend domain
-  // Replace 'yourdomain.com' with your actual domain where the backend is hosted
-  return 'https://yourdomain.com';
+  // TODO: Replace with your actual Contabo server domain
+  return 'https://your-contabo-domain.com';
 }
 
 class ProfileManager {
