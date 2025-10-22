@@ -1,7 +1,7 @@
 # Missing Recreational Substances
 
 Based on analysis of the current substances folder, here are commonly used recreational substances that should be added to the compendium:
-a
+
 ## Stimulants
 - **2C-B-FLY** - Psychedelic phenethylamine with stimulant properties
 - **2C-E** - Psychedelic phenethylamine (longer duration than 2C-B)
