@@ -81,10 +81,9 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   
   console.log('📝 Registration data (password hidden):', { ...data, password: '[HIDDEN]' });
 
-  // Try both HTTPS and HTTP backends
+  // HTTPS backend only (no mixed content)
   const backends = [
     'https://62.169.21.243',
-    'http://62.169.21.243'
   ];
   
   for (const backendUrl of backends) {
@@ -186,7 +185,6 @@ async function checkAuth() {
   // Try both HTTPS and HTTP backends
   const backends = [
     'https://62.169.21.243',
-    'http://62.169.21.243'
   ];
   
   for (const backendUrl of backends) {
