@@ -135,17 +135,10 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   submitButton.disabled = false;
 });
 
-// Check if user is already logged in (with loop prevention)
+// Check if user is already logged in
 async function checkAuth() {
   console.log('🔍 checkAuth() called');
   console.log('Current hostname:', window.location.hostname);
-  console.log('Current pathname:', window.location.pathname);
-  
-  // Prevent infinite loops - don't check auth if we're already on login page
-  if (window.location.pathname.includes('/login/')) {
-    console.log('🛑 Already on login page - skipping auth check to prevent loop');
-    return;
-  }
   
   // Try both HTTPS and HTTP backends
   const backends = [
@@ -177,14 +170,10 @@ async function checkAuth() {
         const userData = await response.text();
         console.log('✅ User authenticated, response:', userData);
         console.log('🔄 Redirecting to profile...');
-        // Only redirect if we're not already on the profile page
-        if (!window.location.pathname.includes('/profile/')) {
-          window.location.href = '{{ "/profile/" | url }}';
-        }
+        window.location.href = '{{ "/profile/" | url }}';
         return; // Exit function after successful redirect
       } else {
         console.log('❌ User not authenticated, status:', response.status);
-        console.log('✅ Staying on login page - this is correct');
         return; // Exit function, user not authenticated but backend is working
       }
     } catch (error) {
@@ -199,23 +188,21 @@ async function checkAuth() {
   // If we get here, all backends failed
   console.log('🚨 All backend URLs failed');
   const errorDiv = document.getElementById('error-message');
-  if (errorDiv) {
-    errorDiv.textContent = 'Cannot connect to authentication server. Please try again later.';
-    errorDiv.style.display = 'block';
-    errorDiv.style.backgroundColor = '#fff3cd';
-    errorDiv.style.color = '#856404';
-    errorDiv.style.border = '1px solid #ffeaa7';
-  }
+  errorDiv.textContent = 'Cannot connect to authentication server. Please try again later.';
+  errorDiv.style.display = 'block';
+  errorDiv.style.backgroundColor = '#f8d7da';
+  errorDiv.style.color = '#721c24';
+  errorDiv.style.border = '1px solid #f5c6cb';
 }
 
-// Only check auth on GitHub Pages and only if not already on login page
-if (window.location.hostname === 'uwaniumnya.github.io' && !window.location.pathname.includes('/login/')) {
+// Check auth if we're on GitHub Pages (which should connect to backend)
+if (window.location.hostname === 'uwaniumnya.github.io') {
   console.log('🔧 GitHub Pages detected - checking authentication...');
   checkAuth();
-} else if (window.location.pathname.includes('/login/')) {
-  console.log('🔧 On login page - auth check disabled to prevent loops');
 } else {
   console.log('Non-GitHub Pages deployment - backend features may not work');
+  // For local development or other deployments, still try but with warning
+  checkAuth();
 }
 
 // Add manual test button for debugging (can be removed later)
