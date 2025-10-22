@@ -1,5 +1,5 @@
 ---
-title: Create Account
+title: Login
 layout: 'base.njk'
 bodyClass: 'auth-page'
 ---
@@ -7,35 +7,28 @@ bodyClass: 'auth-page'
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
-      <h1>Join the Community</h1>
-      <p>Create your account to start tracking your experiences</p>
+      <h1>Welcome Back</h1>
+      <p>Sign in to access your profile and experiences</p>
     </div>
 
-    <form id="registerForm" class="auth-form">
+    <form id="loginForm" class="auth-form">
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" required minlength="3" maxlength="20">
-        <small>3-20 characters, letters and numbers only</small>
+        <input type="text" id="username" name="username" required>
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required minlength="6">
-        <small>At least 6 characters</small>
+        <input type="password" id="password" name="password" required>
       </div>
 
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required>
-      </div>
-
-      <button type="submit" class="btn-primary">Create Account</button>
+      <button type="submit" class="btn-primary">Sign In</button>
 
       <div class="auth-divider">
-        <span>Already have an account?</span>
+        <span>Don't have an account?</span>
       </div>
 
-      <a href="/login/" class="btn-secondary">Sign In</a>
+      <a href="{{ '/register/' | url }}" class="btn-secondary">Create Account</a>
     </form>
 
     <div id="error-message" class="error-message" style="display: none;"></div>
@@ -43,9 +36,9 @@ bodyClass: 'auth-page'
 </div>
 
 <script>
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  console.log('📝 Register form submitted');
+  console.log('🔐 Login form submitted');
   
   const errorDiv = document.getElementById('error-message');
   const submitButton = document.querySelector('button[type="submit"]');
@@ -53,34 +46,17 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   
   // Clear any previous errors and show loading
   errorDiv.style.display = 'none';
-  submitButton.textContent = 'Creating Account...';
+  submitButton.textContent = 'Signing in...';
   submitButton.disabled = true;
   
   const formData = new FormData(e.target);
-  const password = formData.get('password');
-  const confirmPassword = formData.get('confirmPassword');
-
-  // Validate passwords match
-  if (password !== confirmPassword) {
-    errorDiv.textContent = 'Passwords do not match';
-    errorDiv.style.display = 'block';
-    errorDiv.style.backgroundColor = '#f8d7da';
-    errorDiv.style.color = '#721c24';
-    errorDiv.style.border = '1px solid #f5c6cb';
-    
-    // Reset button
-    submitButton.textContent = originalText;
-    submitButton.disabled = false;
-    return;
-  }
-
   const data = {
     username: formData.get('username'),
-    password: password
+    password: formData.get('password')
   };
   
-  console.log('📝 Registration data (password hidden):', { ...data, password: '[HIDDEN]' });
-
+  console.log('📝 Login data (password hidden):', { ...data, password: '[HIDDEN]' });
+  
   // Try both HTTPS and HTTP backends
   const backends = [
     'https://62.169.21.243',
@@ -89,14 +65,14 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   
   for (const backendUrl of backends) {
     try {
-      console.log('🌐 Trying registration with backend:', backendUrl);
+      console.log('🌐 Trying login with backend:', backendUrl);
       
-      // Add timeout for registration request
+      // Add timeout for login request
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout for login
       
-      console.log('📡 Making registration request...');
-      const response = await fetch(`${backendUrl}/api/register`, {
+      console.log('📡 Making login request...');
+      const response = await fetch(`${backendUrl}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,24 +85,24 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
       
       clearTimeout(timeoutId);
       
-      console.log('📨 Registration response status:', response.status);
-      console.log('📨 Registration response ok:', response.ok);
+      console.log('📨 Login response status:', response.status);
+      console.log('📨 Login response ok:', response.ok);
       
       if (response.ok) {
         const result = await response.json();
-        console.log('✅ Registration successful, result:', result);
+        console.log('✅ Login successful, result:', result);
         
         // Store user info in sessionStorage for immediate access
         sessionStorage.setItem('user', JSON.stringify(result.user));
         
         console.log('🔄 Redirecting to profile...');
         window.location.href = '{{ "/profile/" | url }}';
-        return; // Exit function after successful registration
+        return; // Exit function after successful login
       } else {
         const result = await response.json();
-        console.log('❌ Registration failed, error:', result);
+        console.log('❌ Login failed, error:', result);
         
-        errorDiv.textContent = result.error || 'Registration failed. Please try again.';
+        errorDiv.textContent = result.error || 'Login failed. Please check your credentials.';
         errorDiv.style.display = 'block';
         errorDiv.style.backgroundColor = '#f8d7da';
         errorDiv.style.color = '#721c24';
@@ -138,7 +114,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         return; // Exit function after showing error
       }
     } catch (error) {
-      console.log(`🚨 Registration error with ${backendUrl}:`, error.message);
+      console.log(`🚨 Login error with ${backendUrl}:`, error.message);
       console.log('🚨 Error name:', error.name);
       
       // Try next backend URL
@@ -147,7 +123,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   }
   
   // If we get here, all backends failed
-  console.log('🚨 All backend URLs failed for registration');
+  console.log('🚨 All backend URLs failed for login');
   errorDiv.textContent = 'Cannot connect to authentication server. Please try again later.';
   errorDiv.style.display = 'block';
   errorDiv.style.backgroundColor = '#f8d7da';
@@ -159,27 +135,15 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   submitButton.disabled = false;
 });
 
-// Validate username input
-document.getElementById('username').addEventListener('input', (e) => {
-  const username = e.target.value;
-  const isValid = /^[a-zA-Z0-9_-]+$/.test(username);
-  
-  if (username.length > 0 && !isValid) {
-    e.target.setCustomValidity('Username can only contain letters, numbers, underscores, and hyphens');
-  } else {
-    e.target.setCustomValidity('');
-  }
-});
-
 // Check if user is already logged in (with loop prevention)
 async function checkAuth() {
-  console.log('🔍 checkAuth() called in register page');
+  console.log('🔍 checkAuth() called');
   console.log('Current hostname:', window.location.hostname);
   console.log('Current pathname:', window.location.pathname);
   
-  // Prevent infinite loops - don't check auth if we're already on register page
-  if (window.location.pathname.includes('/register/')) {
-    console.log('🛑 Already on register page - skipping auth check to prevent loop');
+  // Prevent infinite loops - don't check auth if we're already on login page
+  if (window.location.pathname.includes('/login/')) {
+    console.log('🛑 Already on login page - skipping auth check to prevent loop');
     return;
   }
   
@@ -211,7 +175,7 @@ async function checkAuth() {
       
       if (response.ok) {
         const userData = await response.text();
-        console.log('✅ User already authenticated, response:', userData);
+        console.log('✅ User authenticated, response:', userData);
         console.log('🔄 Redirecting to profile...');
         // Only redirect if we're not already on the profile page
         if (!window.location.pathname.includes('/profile/')) {
@@ -219,8 +183,8 @@ async function checkAuth() {
         }
         return; // Exit function after successful redirect
       } else {
-        console.log('❌ User not authenticated, registration page can be shown');
-        console.log('✅ Staying on register page - this is correct');
+        console.log('❌ User not authenticated, status:', response.status);
+        console.log('✅ Staying on login page - this is correct');
         return; // Exit function, user not authenticated but backend is working
       }
     } catch (error) {
@@ -235,8 +199,8 @@ async function checkAuth() {
   // If we get here, all backends failed
   console.log('🚨 All backend URLs failed');
   const errorDiv = document.getElementById('error-message');
-  if (errorDiv && error && error.name === 'AbortError') {
-    errorDiv.textContent = 'Backend server is currently unavailable. Registration functionality is temporarily disabled.';
+  if (errorDiv) {
+    errorDiv.textContent = 'Cannot connect to authentication server. Please try again later.';
     errorDiv.style.display = 'block';
     errorDiv.style.backgroundColor = '#fff3cd';
     errorDiv.style.color = '#856404';
@@ -244,13 +208,28 @@ async function checkAuth() {
   }
 }
 
-// Only check auth on GitHub Pages and only if not already on register page
-if (window.location.hostname === 'uwaniumnya.github.io' && !window.location.pathname.includes('/register/')) {
+// Only check auth on GitHub Pages and only if not already on login page
+if (window.location.hostname === 'uwaniumnya.github.io' && !window.location.pathname.includes('/login/')) {
   console.log('🔧 GitHub Pages detected - checking authentication...');
   checkAuth();
-} else if (window.location.pathname.includes('/register/')) {
-  console.log('🔧 On register page - auth check disabled to prevent loops');
+} else if (window.location.pathname.includes('/login/')) {
+  console.log('🔧 On login page - auth check disabled to prevent loops');
 } else {
   console.log('Non-GitHub Pages deployment - backend features may not work');
 }
+
+// Add manual test button for debugging (can be removed later)
+document.addEventListener('DOMContentLoaded', function() {
+  const testButton = document.createElement('button');
+  testButton.textContent = 'Test Backend Connection';
+  testButton.style.marginTop = '10px';
+  testButton.className = 'btn-secondary';
+  testButton.onclick = function() {
+    console.log('🧪 Testing backend connection manually...');
+    checkAuth();
+  };
+  
+  const errorDiv = document.getElementById('error-message');
+  errorDiv.parentNode.insertBefore(testButton, errorDiv.nextSibling);
+});
 </script>

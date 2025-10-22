@@ -244,13 +244,12 @@ async function checkAuth() {
   }
 }
 
-// Only check auth on GitHub Pages and only if not already on register page
-if (window.location.hostname === 'uwaniumnya.github.io' && !window.location.pathname.includes('/register/')) {
-  console.log('🔧 GitHub Pages detected - checking authentication...');
+// Check auth if we're on GitHub Pages (which should connect to backend)
+if (window.location.hostname === 'uwaniumnya.github.io') {
   checkAuth();
-} else if (window.location.pathname.includes('/register/')) {
-  console.log('🔧 On register page - auth check disabled to prevent loops');
 } else {
   console.log('Non-GitHub Pages deployment - backend features may not work');
+  // For local development or other deployments, still try but with warning
+  checkAuth();
 }
 </script>
