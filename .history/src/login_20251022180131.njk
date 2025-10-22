@@ -195,17 +195,11 @@ async function checkAuth() {
   errorDiv.style.border = '1px solid #f5c6cb';
 }
 
-// Check auth if we're on GitHub Pages (which should connect to backend)
-if (window.location.hostname === 'uwaniumnya.github.io') {
-  console.log('🔧 GitHub Pages detected - checking authentication...');
-  checkAuth();
-} else {
-  console.log('Non-GitHub Pages deployment - backend features may not work');
-  // For local development or other deployments, still try but with warning
-  checkAuth();
-}
+// Temporarily disable auto-auth check to prevent infinite reload
+console.log('🔧 Auto-auth check temporarily disabled');
+console.log('Backend connectivity test available - check browser console');
 
-// Add manual test button for debugging (can be removed later)
+// Add manual test button instead
 document.addEventListener('DOMContentLoaded', function() {
   const testButton = document.createElement('button');
   testButton.textContent = 'Test Backend Connection';
