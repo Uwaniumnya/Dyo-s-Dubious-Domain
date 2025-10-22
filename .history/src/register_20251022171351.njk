@@ -63,7 +63,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   };
 
   try {
-    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243:3080';
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243';
     const response = await fetch(`${backendUrl}/api/register`, {
       method: 'POST',
       headers: {
@@ -107,7 +107,7 @@ document.getElementById('username').addEventListener('input', (e) => {
 // Check if user is already logged in
 async function checkAuth() {
   try {
-    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243:3080';
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243';
     
     // Add timeout to prevent infinite waiting
     const controller = new AbortController();
