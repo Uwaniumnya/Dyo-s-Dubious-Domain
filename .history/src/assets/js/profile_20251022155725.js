@@ -342,7 +342,7 @@ class ProfileManager {
 
   async removeSubstance(substanceId) {
     try {
-      const response = await fetch(`${getBackendUrl()}/api/substances/${substanceId}`, {
+      const response = await fetch(`/api/substances/${substanceId}`, {
         method: 'DELETE',
         credentials: 'include'
       });

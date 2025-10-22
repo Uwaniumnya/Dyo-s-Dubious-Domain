@@ -3,14 +3,7 @@ console.log('Profile.js loaded!');
 
 // Helper function to get the correct backend URL
 function getBackendUrl() {
-  // If running locally, use local backend
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return 'http://127.0.0.1:3000';
-  }
-  
-  // For GitHub Pages, use your production backend domain
-  // Replace 'yourdomain.com' with your actual domain where the backend is hosted
-  return 'https://yourdomain.com';
+  return window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : '';
 }
 
 class ProfileManager {
@@ -342,7 +335,7 @@ class ProfileManager {
 
   async removeSubstance(substanceId) {
     try {
-      const response = await fetch(`${getBackendUrl()}/api/substances/${substanceId}`, {
+      const response = await fetch(`/api/substances/${substanceId}`, {
         method: 'DELETE',
         credentials: 'include'
       });
