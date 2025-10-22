@@ -1,0 +1,40 @@
+---
+layout: base.njk
+pagination:
+  data: collections.categories
+  size: 1
+  alias: cat
+permalink: "/categories/{{ cat | slug }}/"
+---
+
+<div class="section container">
+  <h1 class="section-title">{{ cat }}</h1>
+
+  <ul class="articles__list flow">
+    {% for post in collections.post %}
+      {% if post.data.category == cat %}
+        <li>
+          <article class="snippet">
+            <div class="snippet__content">
+              <div class="snippet__text">
+                <h3 class="snippet__title">{{ post.data.title }}</h3>
+                <p class="snippet__meta">{{ post.data.author }}</p>
+                <p class="snippet__body">{{ post.data.description }}</p>
+                <a href="{{ post.data.archive }}" class="btn btn--primary">Open Archive</a>
+              </div>
+              <img src="{{ post.data.image }}" alt="{{ post.data.imageAlt }}" class="snippet__image">
+            </div>
+          </article>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+
+<nav aria-label="breadcrumb">
+  <ul class="breadcrumb">
+    <li><a href="{{ '/' | url }}">Home</a></li>
+    <li><a href="{{ '/categories/' | url }}">Categories</a></li>
+    <li aria-current="page">{{ cat }}</li>
+  </ul>
+</nav>

@@ -26,7 +26,7 @@ permalink: /search.json
     "description": {{ (substance.data.description or "") | dump | safe }},
     "category": {{ (substance.data.category or "Substance") | dump | safe }},
     "legalStatus": {{ (substance.data.legal_status or "") | dump | safe }},
-    "url": "{{ substance.url | url }}",
+    "url": "{{ substance.url }}",
     "content": {{ (substance.templateContent | striptags or "") | dump | safe }},
     "alternativeNames": {{ (substance.templateContent | extractAlternativeNames) | dump | safe }}
   }{% if not loop.last %},{% endif %}

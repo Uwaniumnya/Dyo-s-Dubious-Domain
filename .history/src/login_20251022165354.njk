@@ -46,7 +46,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   };
 
   try {
-    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243';
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : '';
     const response = await fetch(`${backendUrl}/api/login`, {
       method: 'POST',
       headers: {
@@ -78,7 +78,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 // Check if user is already logged in
 async function checkAuth() {
   try {
-    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : 'https://62.169.21.243';
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://127.0.0.1:3000' : '';
     const response = await fetch(`${backendUrl}/api/auth/check`, {
       credentials: 'include'
     });
