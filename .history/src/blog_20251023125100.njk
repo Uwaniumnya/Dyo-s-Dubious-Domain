@@ -1,0 +1,140 @@
+---
+title: Compendium
+layout: "base.njk"
+---
+
+       
+<div class="section container">
+<h1 class="section-title"> <img src="{{ '/assets/blog/col.gif' | url }}" alt="Collective" /></h1>
+
+<div class="sort-controls">
+  <label for="sort-select">Sort by:</label>
+  <select id="sort-select">
+    <option value="title-asc">Title (A-Z)</option>
+    <option value="title-desc">Title (Z-A)</option>
+    <option value="category-asc">Category (A-Z)</option>
+    <option value="category-desc">Category (Z-A)</option>
+    <option value="author-asc">Author (A-Z)</option>
+    <option value="author-desc">Author (Z-A)</option>
+  </select>
+</div>
+ 
+<ul role="list" class="articles__list flow" id="articles-list">
+
+   {%- for post in collections.post -%} 
+        <li data-title="{{ post.data.title | lower }}" data-category="{{ post.data.category | lower }}" data-author="{{ post.data.author | lower }}">
+  <article class="snippet">
+    <div class="snippet__content">
+      <div class="snippet__text">
+        <h3 class="snippet__title">{{ post.data.title }}</h3>
+        <p class="snippet__meta">{{ post.data.author }}</p>
+        {% if post.data.category %}
+          <p class="snippet__category">{{ post.data.category }}</p>
+        {% endif %}
+        
+        {% if post.data.tags and post.data.tags.length > 1 %}
+          <div class="snippet__tags">
+            {% for tag in post.data.tags %}
+              {% if tag != "post" %}
+                <a href="/tags/{{ tag | slug }}/" class="tag-link">{{ tag }}</a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+        
+        <p class="snippet__body">{{ post.data.description }}</p>
+        <a href="{{ post.data.archive }}" class="btn btn--primary">Open Archive</a>
+      </div>
+      <img src="{{ post.data.image }}" alt="{{ post.data.imageAlt }}" class="snippet__image">
+    </div>
+  </article>
+</li>
+
+
+
+
+   {%- endfor %} 
+
+</ul>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sortSelect = document.getElementById('sort-select');
+    const articlesList = document.getElementById('articles-list');
+    
+    // Initial sort by title A-Z
+    sortArticles('title-asc');
+    
+    sortSelect.addEventListener('change', function() {
+        sortArticles(this.value);
+    });
+    
+    function sortArticles(sortType) {
+        const articles = Array.from(articlesList.children);
+        
+        articles.sort(function(a, b) {
+            let valueA, valueB;
+            
+            switch(sortType) {
+                case 'title-asc':
+                    valueA = a.dataset.title;
+                    valueB = b.dataset.title;
+                    return valueA.localeCompare(valueB);
+                    
+                case 'title-desc':
+                    valueA = a.dataset.title;
+                    valueB = b.dataset.title;
+                    return valueB.localeCompare(valueA);
+                    
+                case 'category-asc':
+                    valueA = a.dataset.category;
+                    valueB = b.dataset.category;
+                    if (valueA === valueB) {
+                        return a.dataset.title.localeCompare(b.dataset.title);
+                    }
+                    return valueA.localeCompare(valueB);
+                    
+                case 'category-desc':
+                    valueA = a.dataset.category;
+                    valueB = b.dataset.category;
+                    if (valueA === valueB) {
+                        return a.dataset.title.localeCompare(b.dataset.title);
+                    }
+                    return valueB.localeCompare(valueA);
+                    
+                case 'author-asc':
+                    valueA = a.dataset.author;
+                    valueB = b.dataset.author;
+                    if (valueA === valueB) {
+                        return a.dataset.title.localeCompare(b.dataset.title);
+                    }
+                    return valueA.localeCompare(valueB);
+                    
+                case 'author-desc':
+                    valueA = a.dataset.author;
+                    valueB = b.dataset.author;
+                    if (valueA === valueB) {
+                        return a.dataset.title.localeCompare(b.dataset.title);
+                    }
+                    return valueB.localeCompare(valueA);
+                    
+                default:
+                    return 0;
+            }
+        });
+        
+        // Clear and re-append sorted articles
+        articlesList.innerHTML = '';
+        articles.forEach(article => articlesList.appendChild(article));
+    }
+});
+</script>
+
+ 
+
+
+</div>
+    
+   
+
+
