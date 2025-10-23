@@ -220,27 +220,10 @@ class ProfileManager {
       if (response.ok) {
         const remoteProfile = await response.json();
         
-        console.log('Remote profile loaded:', {
-          hasAvatar: !!remoteProfile.avatar_url,
-          hasBanner: !!remoteProfile.banner_url,
-          avatarLength: remoteProfile.avatar_url ? remoteProfile.avatar_url.length : 0,
-          bannerLength: remoteProfile.banner_url ? remoteProfile.banner_url.length : 0
-        });
-        
-        console.log('Local profile:', {
-          hasAvatar: !!localProfile?.profilePicture || !!localProfile?.avatar_url,
-          hasBanner: !!localProfile?.bannerImage || !!localProfile?.banner_url
-        });
-        
-        // Merge remote data with local data (prioritizing remote/database images)
+        // Merge remote data with local data (prioritizing local images)
         this.profileData = this.mergeProfileData(remoteProfile, localProfile);
         
-        console.log('Merged profile:', {
-          hasAvatar: !!this.profileData.avatar_url || !!this.profileData.profilePicture,
-          hasBanner: !!this.profileData.banner_url || !!this.profileData.bannerImage
-        });
-        
-        // Save the merged profile to localStorage (this ensures mobile gets remote images)
+        // Save the merged profile to localStorage
         this.saveToLocalStorage('profile', this.profileData);
         
         this.displayProfile();

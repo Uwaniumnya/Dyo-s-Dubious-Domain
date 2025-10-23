@@ -108,19 +108,33 @@ class ProfileManager {
     });
   }
 
-  // Merge profile data without overwriting localStorage images
+  // Merge profile data prioritizing remote (database) images over local storage
   mergeProfileData(remoteData, localData) {
     const merged = { ...remoteData };
     
-    // Preserve local images if remote doesn't have them
+    // Use remote images if available, otherwise fall back to local
     if (localData) {
-      if (localData.profilePicture && !merged.profilePicture) {
+      // Only use local images if remote doesn't have them
+      if (!merged.avatar_url && !merged.profilePicture && localData.profilePicture) {
         merged.profilePicture = localData.profilePicture;
         merged.avatar_url = localData.profilePicture;
       }
-      if (localData.bannerImage && !merged.bannerImage) {
+      if (!merged.banner_url && !merged.bannerImage && localData.bannerImage) {
         merged.bannerImage = localData.bannerImage;
         merged.banner_url = localData.bannerImage;
+      }
+      
+      // Ensure consistency between profilePicture/avatar_url and bannerImage/banner_url
+      if (merged.avatar_url && !merged.profilePicture) {
+        merged.profilePicture = merged.avatar_url;
+      } else if (merged.profilePicture && !merged.avatar_url) {
+        merged.avatar_url = merged.profilePicture;
+      }
+      
+      if (merged.banner_url && !merged.bannerImage) {
+        merged.bannerImage = merged.banner_url;
+      } else if (merged.bannerImage && !merged.banner_url) {
+        merged.banner_url = merged.bannerImage;
       }
     }
     
@@ -206,10 +220,27 @@ class ProfileManager {
       if (response.ok) {
         const remoteProfile = await response.json();
         
-        // Merge remote data with local data (prioritizing local images)
+        console.log('Remote profile loaded:', {
+          hasAvatar: !!remoteProfile.avatar_url,
+          hasBanner: !!remoteProfile.banner_url,
+          avatarLength: remoteProfile.avatar_url ? remoteProfile.avatar_url.length : 0,
+          bannerLength: remoteProfile.banner_url ? remoteProfile.banner_url.length : 0
+        });
+        
+        console.log('Local profile:', {
+          hasAvatar: !!localProfile?.profilePicture || !!localProfile?.avatar_url,
+          hasBanner: !!localProfile?.bannerImage || !!localProfile?.banner_url
+        });
+        
+        // Merge remote data with local data (prioritizing remote/database images)
         this.profileData = this.mergeProfileData(remoteProfile, localProfile);
         
-        // Save the merged profile to localStorage
+        console.log('Merged profile:', {
+          hasAvatar: !!this.profileData.avatar_url || !!this.profileData.profilePicture,
+          hasBanner: !!this.profileData.banner_url || !!this.profileData.bannerImage
+        });
+        
+        // Save the merged profile to localStorage (this ensures mobile gets remote images)
         this.saveToLocalStorage('profile', this.profileData);
         
         this.displayProfile();
