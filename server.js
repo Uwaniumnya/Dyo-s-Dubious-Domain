@@ -927,6 +927,71 @@ app.get('/user/:userId', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'profile', 'index.html'));
 });
 
+// Debug endpoint to check user existence (temporary)
+app.get('/debug/user/:username', (req, res) => {
+  const { username } = req.params;
+  db.get(
+    'SELECT id, username, email, created_at FROM users WHERE username = ? OR email = ?',
+    [username, username],
+    (err, user) => {
+      if (err) {
+        return res.status(500).json({ error: 'Database error', details: err.message });
+      }
+      if (!user) {
+        return res.json({ exists: false, message: 'User not found' });
+      }
+      res.json({ 
+        exists: true, 
+        user: { 
+          id: user.id, 
+          username: user.username, 
+          email: user.email, 
+          created_at: user.created_at 
+        } 
+      });
+    }
+  );
+});
+
+// Debug endpoint to test password (temporary)
+app.post('/debug/test-password', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password required' });
+    }
+
+    db.get(
+      'SELECT id, username, password FROM users WHERE username = ? OR email = ?',
+      [username, username],
+      async (err, user) => {
+        if (err) {
+          return res.status(500).json({ error: 'Database error', details: err.message });
+        }
+        
+        if (!user) {
+          return res.json({ 
+            userExists: false, 
+            message: 'User not found in database' 
+          });
+        }
+
+        const validPassword = await bcrypt.compare(password, user.password);
+        res.json({
+          userExists: true,
+          userId: user.id,
+          username: user.username,
+          passwordMatch: validPassword,
+          hashPreview: user.password.substring(0, 20) + '...'
+        });
+      }
+    );
+  } catch (error) {
+    res.status(500).json({ error: 'Server error', details: error.message });
+  }
+});
+
 // Health check endpoint for Nginx
 app.get('/health', (req, res) => {
   res.status(200).json({
