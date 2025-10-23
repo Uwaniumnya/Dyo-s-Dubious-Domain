@@ -53,6 +53,7 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
   } else {
     console.log(`Connected to SQLite database at ${DB_PATH}`);
     initializeDatabase();
+    setupBackupSystem();
   }
 });
 
@@ -161,6 +162,48 @@ function initializeDatabase() {
   });
 }
 
+// Database backup system
+function setupBackupSystem() {
+  const fs = require('fs');
+  const path = require('path');
+  
+  function createBackup() {
+    try {
+      const backupDir = path.join(__dirname, 'backups');
+      if (!fs.existsSync(backupDir)) {
+        fs.mkdirSync(backupDir);
+      }
+      
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const backupPath = path.join(backupDir, `users_backup_${timestamp}.db`);
+      
+      fs.copyFileSync(DB_PATH, backupPath);
+      console.log(`Database backup created: ${backupPath}`);
+      
+      // Keep only last 10 backups
+      const backups = fs.readdirSync(backupDir)
+        .filter(file => file.startsWith('users_backup_'))
+        .sort()
+        .reverse();
+      
+      if (backups.length > 10) {
+        for (let i = 10; i < backups.length; i++) {
+          fs.unlinkSync(path.join(backupDir, backups[i]));
+          console.log(`Deleted old backup: ${backups[i]}`);
+        }
+      }
+    } catch (error) {
+      console.error('Backup creation failed:', error);
+    }
+  }
+  
+  // Create backup on startup
+  createBackup();
+  
+  // Create backup every 6 hours
+  setInterval(createBackup, 6 * 60 * 60 * 1000);
+}
+
 // Authentication middleware
 function authenticateToken(req, res, next) {
   const token = req.cookies.auth_token || req.headers['authorization']?.split(' ')[1];
@@ -189,6 +232,11 @@ app.post('/api/register', async (req, res) => {
 
     if (password.length < 6) {
       return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    }
+
+    // Create backup before important operations (if function exists)
+    if (typeof db.backupBeforeOperation === 'function') {
+      db.backupBeforeOperation();
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -989,6 +1037,54 @@ app.post('/debug/test-password', async (req, res) => {
     );
   } catch (error) {
     res.status(500).json({ error: 'Server error', details: error.message });
+  }
+});
+
+// Database status and integrity check endpoint
+app.get('/debug/database-status', (req, res) => {
+  const fs = require('fs');
+  
+  try {
+    // Check database file info
+    const dbStats = fs.statSync(DB_PATH);
+    
+    // Count users
+    db.get('SELECT COUNT(*) as user_count FROM users', (err, userCount) => {
+      if (err) {
+        return res.status(500).json({ error: 'Database query error', details: err.message });
+      }
+      
+      // Check for backups
+      const backupDir = path.join(__dirname, 'backups');
+      let backupInfo = { exists: false, count: 0, latest: null };
+      
+      if (fs.existsSync(backupDir)) {
+        const backups = fs.readdirSync(backupDir)
+          .filter(file => file.startsWith('users_backup_'))
+          .sort()
+          .reverse();
+        
+        backupInfo = {
+          exists: true,
+          count: backups.length,
+          latest: backups[0] || null
+        };
+      }
+      
+      res.json({
+        database: {
+          path: DB_PATH,
+          size: dbStats.size,
+          modified: dbStats.mtime,
+          user_count: userCount.user_count
+        },
+        backups: backupInfo,
+        server_uptime: process.uptime(),
+        timestamp: new Date().toISOString()
+      });
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Database status check failed', details: error.message });
   }
 });
 
