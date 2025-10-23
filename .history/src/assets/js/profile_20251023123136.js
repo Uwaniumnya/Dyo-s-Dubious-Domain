@@ -571,15 +571,12 @@ class ProfileManager {
       });
       
       if (response.ok) {
-        this.clearLocalStorage();
         sessionStorage.removeItem('user');
         window.location.href = getSitePath('login/');
       }
     } catch (error) {
       console.error('Logout error:', error);
-      // Force redirect anyway and clear storage
-      this.clearLocalStorage();
-      sessionStorage.removeItem('user');
+      // Force redirect anyway
       window.location.href = getSitePath('login/');
     }
   }

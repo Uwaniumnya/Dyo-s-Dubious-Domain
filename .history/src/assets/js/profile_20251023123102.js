@@ -158,29 +158,11 @@ class ProfileManager {
         this.showProfileContent();
         this.setupEventListeners();
       } else {
-        // Clear localStorage on authentication failure
-        this.clearLocalStorage();
         this.redirectToLogin();
       }
     } catch (error) {
       console.error('Authentication check failed:', error);
-      this.clearLocalStorage();
       this.redirectToLogin();
-    }
-  }
-
-  // Clear all localStorage data
-  clearLocalStorage() {
-    try {
-      const keys = Object.keys(localStorage);
-      keys.forEach(key => {
-        if (key.startsWith('dyo_profile_')) {
-          localStorage.removeItem(key);
-        }
-      });
-      console.log('Cleared localStorage profile data');
-    } catch (error) {
-      console.warn('Failed to clear localStorage:', error);
     }
   }
 
@@ -571,15 +553,12 @@ class ProfileManager {
       });
       
       if (response.ok) {
-        this.clearLocalStorage();
         sessionStorage.removeItem('user');
         window.location.href = getSitePath('login/');
       }
     } catch (error) {
       console.error('Logout error:', error);
-      // Force redirect anyway and clear storage
-      this.clearLocalStorage();
-      sessionStorage.removeItem('user');
+      // Force redirect anyway
       window.location.href = getSitePath('login/');
     }
   }
@@ -1760,7 +1739,7 @@ class ProfileManager {
   }
 
   // Image handling
-  async handleImageUpload(event, type) {
+  handleImageUpload(event, type) {
     const file = event.target.files[0];
     if (!file) return;
 
@@ -1770,16 +1749,16 @@ class ProfileManager {
       return;
     }
 
-    // Validate file size (max 10MB before processing)
-    const maxSize = 10 * 1024 * 1024;
+    // Validate file size (max 2MB)
+    const maxSize = 2 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert('Image size must be less than 10MB.');
+      alert('Image size must be less than 2MB.');
       return;
     }
 
-    try {
-      // Resize image to keep it manageable
-      const resizedImage = await this.resizeImage(file);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const imageData = e.target.result;
       
       // Update internal state
       if (!this.profileData) {
@@ -1796,29 +1775,24 @@ class ProfileManager {
       };
       
       if (type === 'avatar') {
-        this.profileData.profilePicture = resizedImage;
-        this.profileData.avatar_url = resizedImage;
-        updateData.profilePicture = resizedImage; // Send as profilePicture for backend compatibility
-        this.updateProfilePicture(resizedImage);
-        console.log('Avatar uploaded and resized, saving profile');
+        this.profileData.profilePicture = imageData;
+        this.profileData.avatar_url = imageData;
+        updateData.profilePicture = imageData; // Send as profilePicture for backend compatibility
+        this.updateProfilePicture(imageData);
+        console.log('Avatar uploaded, saving profile with targeted update');
       } else if (type === 'banner') {
-        this.profileData.bannerImage = resizedImage;
-        this.profileData.banner_url = resizedImage;
-        updateData.bannerImage = resizedImage; // Send as bannerImage for backend compatibility
-        this.updateBanner(resizedImage);
-        console.log('Banner uploaded and resized, saving profile');
+        this.profileData.bannerImage = imageData;
+        this.profileData.banner_url = imageData;
+        updateData.bannerImage = imageData; // Send as bannerImage for backend compatibility
+        this.updateBanner(imageData);
+        console.log('Banner uploaded, saving profile with targeted update');
       }
       
-      // Save to localStorage immediately
-      this.saveToLocalStorage('profile', this.profileData);
-      
-      // Save the targeted update to backend
-      await this.saveProfile(updateData);
-      
-    } catch (error) {
-      console.error('Error processing image:', error);
-      alert('Error processing image. Please try again.');
-    }
+      // Save only the targeted update
+      this.saveProfile(updateData);
+    };
+    
+    reader.readAsDataURL(file);
   }
 
   // Profile editing

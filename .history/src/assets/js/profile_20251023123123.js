@@ -158,29 +158,11 @@ class ProfileManager {
         this.showProfileContent();
         this.setupEventListeners();
       } else {
-        // Clear localStorage on authentication failure
-        this.clearLocalStorage();
         this.redirectToLogin();
       }
     } catch (error) {
       console.error('Authentication check failed:', error);
-      this.clearLocalStorage();
       this.redirectToLogin();
-    }
-  }
-
-  // Clear all localStorage data
-  clearLocalStorage() {
-    try {
-      const keys = Object.keys(localStorage);
-      keys.forEach(key => {
-        if (key.startsWith('dyo_profile_')) {
-          localStorage.removeItem(key);
-        }
-      });
-      console.log('Cleared localStorage profile data');
-    } catch (error) {
-      console.warn('Failed to clear localStorage:', error);
     }
   }
 
@@ -571,15 +553,12 @@ class ProfileManager {
       });
       
       if (response.ok) {
-        this.clearLocalStorage();
         sessionStorage.removeItem('user');
         window.location.href = getSitePath('login/');
       }
     } catch (error) {
       console.error('Logout error:', error);
-      // Force redirect anyway and clear storage
-      this.clearLocalStorage();
-      sessionStorage.removeItem('user');
+      // Force redirect anyway
       window.location.href = getSitePath('login/');
     }
   }

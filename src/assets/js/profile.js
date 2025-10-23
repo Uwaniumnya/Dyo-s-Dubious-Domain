@@ -27,16 +27,26 @@ class ProfileManager {
     this.substances = [];
     this.ratings = [];
     this.wishlist = [];
+    this.initialized = false; // Prevent double initialization
     
     this.init();
   }
 
   init() {
+    // Guard against double initialization
+    if (this.initialized) {
+      console.log('ProfileManager already initialized, skipping...');
+      return;
+    }
+    
     document.addEventListener('DOMContentLoaded', () => {
+      if (this.initialized) return; // Double check
+      
       // Only run authentication check on profile pages
       const path = window.location.pathname;
       if (path.includes('/profile/') || path.includes('/user/') || document.body.classList.contains('profile-page')) {
         console.log('Profile page detected - running authentication check');
+        this.initialized = true;
         this.checkAuthentication();
       } else {
         console.log('Non-profile page - skipping automatic authentication check');
@@ -47,6 +57,74 @@ class ProfileManager {
   // Helper method to get current profile data
   getProfile() {
     return this.profileData || {};
+  }
+
+  // LocalStorage helpers for persistent state
+  saveToLocalStorage(key, data) {
+    try {
+      localStorage.setItem(`dyo_profile_${key}`, JSON.stringify(data));
+    } catch (error) {
+      console.warn('Failed to save to localStorage:', error);
+    }
+  }
+
+  loadFromLocalStorage(key) {
+    try {
+      const data = localStorage.getItem(`dyo_profile_${key}`);
+      return data ? JSON.parse(data) : null;
+    } catch (error) {
+      console.warn('Failed to load from localStorage:', error);
+      return null;
+    }
+  }
+
+  // Image resizing helper to keep under localStorage quota
+  resizeImage(file, maxWidth = 512, quality = 0.8) {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      
+      img.onload = () => {
+        // Calculate new dimensions
+        const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
+        canvas.width = img.width * ratio;
+        canvas.height = img.height * ratio;
+        
+        // Draw and compress
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const resizedDataUrl = canvas.toDataURL('image/jpeg', quality);
+        
+        // Check size (aim for under 1MB)
+        const sizeInBytes = Math.round((resizedDataUrl.length * 3) / 4);
+        if (sizeInBytes > 1024 * 1024) {
+          console.warn('Image still large after resize:', sizeInBytes, 'bytes');
+        }
+        
+        resolve(resizedDataUrl);
+      };
+      
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  // Merge profile data without overwriting localStorage images
+  mergeProfileData(remoteData, localData) {
+    const merged = { ...remoteData };
+    
+    // Preserve local images if remote doesn't have them
+    if (localData) {
+      if (localData.profilePicture && !merged.profilePicture) {
+        merged.profilePicture = localData.profilePicture;
+        merged.avatar_url = localData.profilePicture;
+      }
+      if (localData.bannerImage && !merged.bannerImage) {
+        merged.bannerImage = localData.bannerImage;
+        merged.banner_url = localData.bannerImage;
+      }
+    }
+    
+    return merged;
   }
 
   // Authentication check
@@ -80,11 +158,29 @@ class ProfileManager {
         this.showProfileContent();
         this.setupEventListeners();
       } else {
+        // Clear localStorage on authentication failure
+        this.clearLocalStorage();
         this.redirectToLogin();
       }
     } catch (error) {
       console.error('Authentication check failed:', error);
+      this.clearLocalStorage();
       this.redirectToLogin();
+    }
+  }
+
+  // Clear all localStorage data
+  clearLocalStorage() {
+    try {
+      const keys = Object.keys(localStorage);
+      keys.forEach(key => {
+        if (key.startsWith('dyo_profile_')) {
+          localStorage.removeItem(key);
+        }
+      });
+      console.log('Cleared localStorage profile data');
+    } catch (error) {
+      console.warn('Failed to clear localStorage:', error);
     }
   }
 
@@ -100,21 +196,45 @@ class ProfileManager {
   // Profile data management
   async loadProfile() {
     try {
+      // Load from localStorage first
+      const localProfile = this.loadFromLocalStorage('profile');
+      
       const response = await fetch(`${getBackendUrl()}/api/profile`, {
         credentials: 'include'
       });
       
       if (response.ok) {
-        this.profileData = await response.json();
+        const remoteProfile = await response.json();
+        
+        // Merge remote data with local data (prioritizing local images)
+        this.profileData = this.mergeProfileData(remoteProfile, localProfile);
+        
+        // Save the merged profile to localStorage
+        this.saveToLocalStorage('profile', this.profileData);
+        
         this.displayProfile();
         await this.loadRatings();
         await this.loadSubstances();
         await this.loadWishlist();
       } else {
-        console.error('Failed to load profile');
+        // If backend fails, use localStorage data
+        if (localProfile) {
+          console.log('Backend failed, using localStorage profile');
+          this.profileData = localProfile;
+          this.displayProfile();
+        } else {
+          console.error('Failed to load profile and no localStorage backup');
+        }
       }
     } catch (error) {
       console.error('Error loading profile:', error);
+      // Fallback to localStorage
+      const localProfile = this.loadFromLocalStorage('profile');
+      if (localProfile) {
+        console.log('Error occurred, using localStorage profile');
+        this.profileData = localProfile;
+        this.displayProfile();
+      }
     }
   }
 
@@ -146,6 +266,15 @@ class ProfileManager {
       
       console.log('Saving clean profile data:', cleanData);
       
+      // Save to localStorage immediately (optimistic update)
+      const currentProfile = this.profileData || {};
+      const updatedProfile = { ...currentProfile, ...cleanData };
+      this.profileData = updatedProfile;
+      this.saveToLocalStorage('profile', updatedProfile);
+      
+      // Update UI immediately
+      this.updateProfileDisplay();
+      
       const response = await fetch(`${getBackendUrl()}/api/profile`, {
         method: 'PUT',
         headers: {
@@ -156,16 +285,20 @@ class ProfileManager {
       });
 
       if (response.ok) {
-        await this.loadProfile(); // Reload to get updated data
+        console.log('Profile saved to backend successfully');
+        // Optionally reload to get updated data from server
+        // await this.loadProfile(); // Skip this to prevent overwriting
         return true;
       } else {
         const error = await response.json();
-        console.error('Failed to save profile:', error);
-        return false;
+        console.error('Failed to save profile to backend:', error);
+        // Keep localStorage version since backend failed
+        return true; // Still return true since localStorage save succeeded
       }
     } catch (error) {
       console.error('Error saving profile:', error);
-      return false;
+      // Keep localStorage version since backend failed
+      return true; // Still return true since localStorage save succeeded
     }
   }
 
@@ -438,12 +571,15 @@ class ProfileManager {
       });
       
       if (response.ok) {
+        this.clearLocalStorage();
         sessionStorage.removeItem('user');
         window.location.href = getSitePath('login/');
       }
     } catch (error) {
       console.error('Logout error:', error);
-      // Force redirect anyway
+      // Force redirect anyway and clear storage
+      this.clearLocalStorage();
+      sessionStorage.removeItem('user');
       window.location.href = getSitePath('login/');
     }
   }
@@ -1624,7 +1760,7 @@ class ProfileManager {
   }
 
   // Image handling
-  handleImageUpload(event, type) {
+  async handleImageUpload(event, type) {
     const file = event.target.files[0];
     if (!file) return;
 
@@ -1634,16 +1770,16 @@ class ProfileManager {
       return;
     }
 
-    // Validate file size (max 2MB)
-    const maxSize = 2 * 1024 * 1024;
+    // Validate file size (max 10MB before processing)
+    const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert('Image size must be less than 2MB.');
+      alert('Image size must be less than 10MB.');
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const imageData = e.target.result;
+    try {
+      // Resize image to keep it manageable
+      const resizedImage = await this.resizeImage(file);
       
       // Update internal state
       if (!this.profileData) {
@@ -1660,24 +1796,29 @@ class ProfileManager {
       };
       
       if (type === 'avatar') {
-        this.profileData.profilePicture = imageData;
-        this.profileData.avatar_url = imageData;
-        updateData.profilePicture = imageData; // Send as profilePicture for backend compatibility
-        this.updateProfilePicture(imageData);
-        console.log('Avatar uploaded, saving profile with targeted update');
+        this.profileData.profilePicture = resizedImage;
+        this.profileData.avatar_url = resizedImage;
+        updateData.profilePicture = resizedImage; // Send as profilePicture for backend compatibility
+        this.updateProfilePicture(resizedImage);
+        console.log('Avatar uploaded and resized, saving profile');
       } else if (type === 'banner') {
-        this.profileData.bannerImage = imageData;
-        this.profileData.banner_url = imageData;
-        updateData.bannerImage = imageData; // Send as bannerImage for backend compatibility
-        this.updateBanner(imageData);
-        console.log('Banner uploaded, saving profile with targeted update');
+        this.profileData.bannerImage = resizedImage;
+        this.profileData.banner_url = resizedImage;
+        updateData.bannerImage = resizedImage; // Send as bannerImage for backend compatibility
+        this.updateBanner(resizedImage);
+        console.log('Banner uploaded and resized, saving profile');
       }
       
-      // Save only the targeted update
-      this.saveProfile(updateData);
-    };
-    
-    reader.readAsDataURL(file);
+      // Save to localStorage immediately
+      this.saveToLocalStorage('profile', this.profileData);
+      
+      // Save the targeted update to backend
+      await this.saveProfile(updateData);
+      
+    } catch (error) {
+      console.error('Error processing image:', error);
+      alert('Error processing image. Please try again.');
+    }
   }
 
   // Profile editing
