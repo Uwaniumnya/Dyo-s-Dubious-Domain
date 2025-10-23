@@ -214,8 +214,7 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
-      console.log('🚨 Token verification failed:', err.message);
-      return res.status(403).json({ error: 'Invalid token', details: err.message });
+      return res.status(403).json({ error: 'Invalid token' });
     }
     req.user = user;
     next();
@@ -980,46 +979,6 @@ app.get('/api/auth/check', authenticateToken, (req, res) => {
   res.json({ authenticated: true, user: req.user });
 });
 
-// Mobile-specific auth check with detailed debugging
-app.post('/api/auth/mobile-check', (req, res) => {
-  const token = req.cookies.auth_token || req.body.token || req.headers['authorization']?.split(' ')[1];
-  const userAgent = req.headers['user-agent'] || 'Unknown';
-  const isMobile = /Mobile|Android|iPhone|iPad/.test(userAgent);
-  
-  console.log(`📱 Mobile auth check - Has token: ${!!token}, Mobile: ${isMobile}`);
-  
-  if (!token) {
-    return res.json({ 
-      authenticated: false, 
-      error: 'No token provided',
-      isMobile,
-      cookies: Object.keys(req.cookies),
-      debug: 'No auth token found in cookies or headers'
-    });
-  }
-
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) {
-      console.log('🚨 Mobile token verification failed:', err.message);
-      return res.json({ 
-        authenticated: false, 
-        error: 'Invalid token',
-        tokenError: err.message,
-        isMobile,
-        debug: 'Token verification failed'
-      });
-    }
-    
-    console.log(`✅ Mobile auth successful for user: ${user.username}`);
-    res.json({ 
-      authenticated: true, 
-      user: user,
-      isMobile,
-      debug: 'Authentication successful'
-    });
-  });
-});
-
 // Debug endpoint for mobile auth issues
 app.get('/debug/auth-info', (req, res) => {
   const cookies = req.cookies;
@@ -1027,29 +986,13 @@ app.get('/debug/auth-info', (req, res) => {
   const userAgent = headers['user-agent'] || 'Unknown';
   const isMobile = /Mobile|Android|iPhone|iPad/.test(userAgent);
   
-  // Try to decode the JWT token if present
-  let tokenInfo = null;
-  if (cookies.auth_token) {
-    try {
-      tokenInfo = jwt.verify(cookies.auth_token, JWT_SECRET);
-    } catch (error) {
-      tokenInfo = { error: error.message };
-    }
-  }
-  
   res.json({
     cookies: Object.keys(cookies),
     hasAuthToken: !!cookies.auth_token,
-    authTokenLength: cookies.auth_token ? cookies.auth_token.length : 0,
-    tokenInfo: tokenInfo,
     userAgent: userAgent,
     isMobile: isMobile,
     origin: headers.origin,
     referer: headers.referer,
-    host: headers.host,
-    protocol: req.protocol,
-    secure: req.secure,
-    ip: req.ip,
     timestamp: new Date().toISOString()
   });
 });

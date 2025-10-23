@@ -163,8 +163,19 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         // Store user info in sessionStorage for immediate access
         sessionStorage.setItem('user', JSON.stringify(result.user));
         
-        console.log('🔄 Redirecting to profile...');
-        window.location.href = '/Dyo-s-Dubious-Domain/profile/';
+        // Add mobile debugging for auth cookies
+        console.log('🍪 Checking cookies after login...');
+        console.log('🍪 Document cookies:', document.cookie);
+        console.log('� User agent:', navigator.userAgent);
+        console.log('🌐 Current URL:', window.location.href);
+        
+        // Wait a moment for cookies to be set
+        setTimeout(() => {
+          console.log('🍪 Cookies after timeout:', document.cookie);
+          console.log('�🔄 Redirecting to profile...');
+          window.location.href = '/Dyo-s-Dubious-Domain/profile/';
+        }, 500);
+        
         return; // Exit function after successful login
       } else {
         const result = await response.json();
