@@ -28,21 +28,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
   exposedHeaders: ['Set-Cookie']
 }));
-
-// Force HTTPS in production for mobile browsers
-if (IS_PRODUCTION) {
-  app.use((req, res, next) => {
-    const userAgent = req.headers['user-agent'] || '';
-    const isMobile = /Mobile|Android|iPhone|iPad/.test(userAgent);
-    
-    if (isMobile && req.headers['x-forwarded-proto'] !== 'https' && !req.secure) {
-      console.log('📱 Redirecting mobile HTTP to HTTPS...');
-      return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-    }
-    next();
-  });
-}
-
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());

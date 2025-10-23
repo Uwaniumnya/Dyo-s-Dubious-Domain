@@ -1,78 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200, user-scalable=yes, initial-scale=0.4, minimum-scale=0.1">
-    <title>Login</title>
-    <link rel="stylesheet" href="/Dyo-s-Dubious-Domain/style.css">
-    <link rel="icon" type="image/svg+xml" href="/Dyo-s-Dubious-Domain/assets/logo.svg">
-    <script>
-        // Set base path for JavaScript files to use
-        window.SITE_BASE_PATH = '/Dyo-s-Dubious-Domain/';
-        
-        // Force desktop behavior by overriding mobile detection
-        window.isMobile = false;
-        window.isDesktop = true;
-        
-        // Override any mobile detection functions
-        if (window.matchMedia) {
-            const originalMatchMedia = window.matchMedia;
-            window.matchMedia = function(query) {
-                // Force desktop media queries to always match for min-width
-                // and mobile queries to never match
-                if (query.includes('max-width') && (query.includes('768px') || query.includes('480px'))) {
-                    return { matches: false, addListener: function() {}, removeListener: function() {} };
-                }
-                if (query.includes('min-width')) {
-                    return { matches: true, addListener: function() {}, removeListener: function() {} };
-                }
-                return originalMatchMedia.call(this, query);
-            };
-        }
-    </script>
-</head>
+---
+title: Login
+layout: 'base.njk'
+bodyClass: 'auth-page'
+---
 
-<body class="
-  
-  
-  
-  ">
-    <header class="page-header">
-  <div class="container">
-    <div class="page-header__content">
-      <div class="logo-container">
-        <a href="/Dyo-s-Dubious-Domain/" class="site-title">Dyo's Dubious Domain</a>
-      </div>
-      
-      <nav>
-        <ul role="list" class="nav-list flex-group">
-          <li>
-            <a href="/Dyo-s-Dubious-Domain/">Home</a>
-          </li>
-          <li>
-            <a href="/Dyo-s-Dubious-Domain/dyos-domain/">Dyo's Domain</a>
-          </li>
-          <li>
-            <a href="/Dyo-s-Dubious-Domain/about/">About</a>
-          </li>
-          <li>
-            <a href="/Dyo-s-Dubious-Domain/profile/">My Profile</a>
-          </li>
-         
-        </ul>
-      </nav>
-    </div>
-    
-    <!-- Search Bar - Now underneath header -->
-    <div class="search-container">
-      <input type="text" id="search-input" placeholder="Search substances..." class="search-input" />
-      <div id="search-results" class="search-results" style="display: none;"></div>
-    </div>
-  </div>
-</header>
-
-    <main>
-      
 <div class="auth-container">
   <div class="auth-card">
     <div class="auth-header">
@@ -97,7 +28,7 @@
         <span>Don't have an account?</span>
       </div>
 
-      <a href="/Dyo-s-Dubious-Domain/register/" class="btn-secondary">Create Account</a>
+      <a href="{{ '/register/' | url }}" class="btn-secondary">Create Account</a>
     </form>
 
     <div id="error-message" class="error-message" style="display: none;"></div>
@@ -166,31 +97,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         // Add mobile debugging for auth cookies
         console.log('🍪 Checking cookies after login...');
         console.log('🍪 Document cookies:', document.cookie);
-        console.log('📱 User agent:', navigator.userAgent);
+        console.log('� User agent:', navigator.userAgent);
         console.log('🌐 Current URL:', window.location.href);
-        
-        // Show debug info on mobile screen
-        const isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
-        if (isMobile) {
-          const debugDiv = document.createElement('div');
-          debugDiv.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; background: #000; color: #0f0; font-size: 12px; padding: 10px; z-index: 9999; overflow: auto; max-height: 200px;';
-          debugDiv.innerHTML = `
-            <strong>LOGIN DEBUG INFO:</strong><br>
-            Cookies: ${document.cookie || 'NO COOKIES FOUND'}<br>
-            User Agent: ${navigator.userAgent.substring(0, 50)}...<br>
-            Current URL: ${window.location.href}<br>
-            Login Response: ${JSON.stringify(result)}<br>
-            <button onclick="this.parentElement.remove()">Close Debug</button>
-          `;
-          document.body.appendChild(debugDiv);
-        }
         
         // Wait a moment for cookies to be set
         setTimeout(() => {
           console.log('🍪 Cookies after timeout:', document.cookie);
-          console.log('� Redirecting to profile...');
-          window.location.href = '/Dyo-s-Dubious-Domain/profile/';
-        }, 1000); // Increased timeout to 1 second
+          console.log('�🔄 Redirecting to profile...');
+          window.location.href = '{{ "/profile/" | url }}';
+        }, 500);
         
         return; // Exit function after successful login
       } else {
@@ -273,7 +188,7 @@ async function checkAuth() {
         console.log('🔄 Redirecting to profile...');
         // Only redirect if we're not already on the profile page
         if (!window.location.pathname.includes('/profile/')) {
-          window.location.href = '/Dyo-s-Dubious-Domain/profile/';
+          window.location.href = '{{ "/profile/" | url }}';
         }
         return; // Exit function after successful redirect
       } else {
@@ -327,30 +242,3 @@ document.addEventListener('DOMContentLoaded', function() {
   errorDiv.parentNode.insertBefore(testButton, errorDiv.nextSibling);
 });
 </script>
-    </main>
-     <div class="footer-divider"></div>
-<footer class="site-footer">
-  
-</footer>
-
-
-
-
-<footer class="site-footer">
-  
-  </svg>
-    <img src="/Dyo-s-Dubious-Domain/assets/logo.svg" alt="My Logo" class="logo">
-     <p>© 2025 Uwaniumnya. Highly Illegal.</p>
-  </footer>
-
-  
-
-    <!-- Search Scripts -->
-    <script src="/Dyo-s-Dubious-Domain/js/lunr.min.js"></script>
-    <script src="/Dyo-s-Dubious-Domain/assets/js/search.js"></script>
-    <script src="/Dyo-s-Dubious-Domain/assets/js/substance-integration.js"></script>
-    
-    <!-- Only load profile.js on profile page -->
-    
-</body>
-</html>

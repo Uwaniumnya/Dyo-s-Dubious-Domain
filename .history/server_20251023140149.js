@@ -28,21 +28,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
   exposedHeaders: ['Set-Cookie']
 }));
-
-// Force HTTPS in production for mobile browsers
-if (IS_PRODUCTION) {
-  app.use((req, res, next) => {
-    const userAgent = req.headers['user-agent'] || '';
-    const isMobile = /Mobile|Android|iPhone|iPad/.test(userAgent);
-    
-    if (isMobile && req.headers['x-forwarded-proto'] !== 'https' && !req.secure) {
-      console.log('📱 Redirecting mobile HTTP to HTTPS...');
-      return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
-    }
-    next();
-  });
-}
-
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
@@ -282,23 +267,12 @@ app.post('/api/register', async (req, res) => {
         );
 
         const token = jwt.sign({ userId, username }, JWT_SECRET, { expiresIn: '24h' });
-        const userAgent = req.headers['user-agent'] || 'Unknown';
-        const isMobile = /Mobile|Android|iPhone|iPad/.test(userAgent);
-        
-        const cookieOptions = { 
+        res.cookie('auth_token', token, { 
           httpOnly: true, 
           maxAge: 24 * 60 * 60 * 1000,
-          secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
-          sameSite: IS_PRODUCTION ? 'none' : 'lax',
-          path: '/'
-        };
-        
-        if (isMobile && !cookieOptions.secure) {
-          cookieOptions.secure = false;
-          cookieOptions.sameSite = 'lax';
-        }
-        
-        res.cookie('auth_token', token, cookieOptions);
+          secure: IS_PRODUCTION && process.env.SECURE_COOKIES === 'true',
+          sameSite: IS_PRODUCTION ? 'none' : 'lax'
+        });
         
         res.status(201).json({
           message: 'User created successfully',
@@ -351,17 +325,10 @@ app.post('/api/login', async (req, res) => {
         const cookieOptions = { 
           httpOnly: true, 
           maxAge: 24 * 60 * 60 * 1000,
-          secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // More flexible HTTPS detection
+          secure: IS_PRODUCTION && process.env.SECURE_COOKIES === 'true',
           sameSite: IS_PRODUCTION ? 'none' : 'lax',
           path: '/'  // Ensure cookie is available site-wide
         };
-        
-        // If mobile and not secure, adjust cookie settings
-        if (isMobile && !cookieOptions.secure) {
-          console.log('📱 Mobile HTTP detected, adjusting cookie settings...');
-          cookieOptions.secure = false;
-          cookieOptions.sameSite = 'lax';
-        }
         
         console.log(`✅ Login successful for ${username}, Mobile: ${isMobile}, Cookie options:`, cookieOptions);
         res.cookie('auth_token', token, cookieOptions);
