@@ -39,7 +39,7 @@ app.use(session({
     secure: IS_PRODUCTION && process.env.SECURE_COOKIES === 'true', 
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: IS_PRODUCTION ? 'strict' : 'lax'
+    sameSite: IS_PRODUCTION ? 'none' : 'lax'  // Changed from 'strict' to 'none' for mobile compatibility
   }
 }));
 
@@ -266,7 +266,12 @@ app.post('/api/register', async (req, res) => {
         );
 
         const token = jwt.sign({ userId, username }, JWT_SECRET, { expiresIn: '24h' });
-        res.cookie('auth_token', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('auth_token', token, { 
+          httpOnly: true, 
+          maxAge: 24 * 60 * 60 * 1000,
+          secure: IS_PRODUCTION && process.env.SECURE_COOKIES === 'true',
+          sameSite: IS_PRODUCTION ? 'none' : 'lax'
+        });
         
         res.status(201).json({
           message: 'User created successfully',
@@ -306,7 +311,12 @@ app.post('/api/login', async (req, res) => {
         }
 
         const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '24h' });
-        res.cookie('auth_token', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('auth_token', token, { 
+          httpOnly: true, 
+          maxAge: 24 * 60 * 60 * 1000,
+          secure: IS_PRODUCTION && process.env.SECURE_COOKIES === 'true',
+          sameSite: IS_PRODUCTION ? 'none' : 'lax'
+        });
 
         res.json({
           message: 'Login successful',
@@ -952,6 +962,24 @@ app.delete('/api/friends/:friendId', authenticateToken, (req, res) => {
 // Check authentication status
 app.get('/api/auth/check', authenticateToken, (req, res) => {
   res.json({ authenticated: true, user: req.user });
+});
+
+// Debug endpoint for mobile auth issues
+app.get('/debug/auth-info', (req, res) => {
+  const cookies = req.cookies;
+  const headers = req.headers;
+  const userAgent = headers['user-agent'] || 'Unknown';
+  const isMobile = /Mobile|Android|iPhone|iPad/.test(userAgent);
+  
+  res.json({
+    cookies: Object.keys(cookies),
+    hasAuthToken: !!cookies.auth_token,
+    userAgent: userAgent,
+    isMobile: isMobile,
+    origin: headers.origin,
+    referer: headers.referer,
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Static files and fallback routing
