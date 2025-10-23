@@ -1,0 +1,99 @@
+##
+# Nginx configuration for CCCC project with SSL and API proxy
+##
+
+# Default server configuration
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    
+    # Redirect HTTP to HTTPS
+    return 301 https://$host$request_uri;
+}
+
+# Main server block with SSL
+server {
+    listen [::]:443 ssl ipv6only=on;
+    listen 443 ssl;
+    server_name vmd175967.contaboserver.net;
+
+    # SSL configuration managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/vmd175967.contaboserver.net/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/vmd175967.contaboserver.net/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    # Serve static files from the built site
+    root /var/www/cccc/public;
+    index index.html index.htm;
+
+    # Enable gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml+rss application/json;
+
+    # API proxy to Node.js backend
+    location /api/ {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-SSL on;
+        proxy_set_header X-Forwarded-Port 443;
+        proxy_cache_bypass $http_upgrade;
+        
+        # CORS headers for cross-origin requests
+        add_header 'Access-Control-Allow-Origin' 'https://uwaniumnya.github.io' always;
+        add_header 'Access-Control-Allow-Credentials' 'true' always;
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS' always;
+        add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With' always;
+        
+        # Handle preflight requests
+        if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' 'https://uwaniumnya.github.io';
+            add_header 'Access-Control-Allow-Credentials' 'true';
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With';
+            add_header 'Access-Control-Max-Age' 1728000;
+            add_header 'Content-Type' 'text/plain charset=UTF-8';
+            add_header 'Content-Length' 0;
+            return 204;
+        }
+    }
+
+    # Serve static files
+    location / {
+        try_files $uri $uri/ =404;
+        
+        # Cache static assets
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+    }
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+    add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'" always;
+}
+
+# HTTP redirect block managed by Certbot
+server {
+    if ($host = vmd175967.contaboserver.net) {
+        return 301 https://$host$request_uri;
+    }
+    
+    listen 80;
+    listen [::]:80;
+    server_name vmd175967.contaboserver.net;
+    return 404;
+}

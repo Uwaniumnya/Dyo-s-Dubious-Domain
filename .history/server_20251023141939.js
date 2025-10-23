@@ -362,21 +362,23 @@ app.post('/api/login', async (req, res) => {
 
         const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '24h' });
         
-        // Enhanced cookie settings for mobile with improved HTTPS detection
-        const isSecure = req.secure || 
-                        req.headers['x-forwarded-proto'] === 'https' ||
-                        req.headers['x-forwarded-ssl'] === 'on' ||
-                        req.headers['x-forwarded-port'] === '443';
-                        
+        // Enhanced cookie settings for mobile
         const cookieOptions = { 
           httpOnly: true, 
           maxAge: 24 * 60 * 60 * 1000,
-          secure: isSecure,
-          sameSite: isSecure ? 'none' : 'lax',
+          secure: req.secure || req.headers['x-forwarded-proto'] === 'https', // More flexible HTTPS detection
+          sameSite: IS_PRODUCTION ? 'none' : 'lax',
           path: '/'  // Ensure cookie is available site-wide
         };
         
-        console.log(`✅ Login successful for ${username}, Mobile: ${isMobile}, Secure: ${isSecure}, Cookie options:`, cookieOptions);
+        // If mobile and not secure, adjust cookie settings
+        if (isMobile && !cookieOptions.secure) {
+          console.log('📱 Mobile HTTP detected, adjusting cookie settings...');
+          cookieOptions.secure = false;
+          cookieOptions.sameSite = 'lax';
+        }
+        
+        console.log(`✅ Login successful for ${username}, Mobile: ${isMobile}, Cookie options:`, cookieOptions);
         res.cookie('auth_token', token, cookieOptions);
 
         res.json({
@@ -1073,12 +1075,6 @@ app.get('/debug/auth-info', (req, res) => {
   const userAgent = headers['user-agent'] || 'Unknown';
   const isMobile = /Mobile|Android|iPhone|iPad/.test(userAgent);
   
-  // Enhanced HTTPS detection
-  const isSecure = req.secure || 
-                  req.headers['x-forwarded-proto'] === 'https' ||
-                  req.headers['x-forwarded-ssl'] === 'on' ||
-                  req.headers['x-forwarded-port'] === '443';
-  
   // Try to decode the JWT token if present
   let tokenInfo = null;
   if (cookies.auth_token) {
@@ -1101,10 +1097,6 @@ app.get('/debug/auth-info', (req, res) => {
     host: headers.host,
     protocol: req.protocol,
     secure: req.secure,
-    isSecureDetected: isSecure,
-    forwardedProto: headers['x-forwarded-proto'],
-    forwardedSSL: headers['x-forwarded-ssl'],
-    forwardedPort: headers['x-forwarded-port'],
     ip: req.ip,
     timestamp: new Date().toISOString()
   });

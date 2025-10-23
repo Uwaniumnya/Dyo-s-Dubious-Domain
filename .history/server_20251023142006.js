@@ -1073,12 +1073,6 @@ app.get('/debug/auth-info', (req, res) => {
   const userAgent = headers['user-agent'] || 'Unknown';
   const isMobile = /Mobile|Android|iPhone|iPad/.test(userAgent);
   
-  // Enhanced HTTPS detection
-  const isSecure = req.secure || 
-                  req.headers['x-forwarded-proto'] === 'https' ||
-                  req.headers['x-forwarded-ssl'] === 'on' ||
-                  req.headers['x-forwarded-port'] === '443';
-  
   // Try to decode the JWT token if present
   let tokenInfo = null;
   if (cookies.auth_token) {
@@ -1101,10 +1095,6 @@ app.get('/debug/auth-info', (req, res) => {
     host: headers.host,
     protocol: req.protocol,
     secure: req.secure,
-    isSecureDetected: isSecure,
-    forwardedProto: headers['x-forwarded-proto'],
-    forwardedSSL: headers['x-forwarded-ssl'],
-    forwardedPort: headers['x-forwarded-port'],
     ip: req.ip,
     timestamp: new Date().toISOString()
   });
