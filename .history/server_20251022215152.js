@@ -284,10 +284,6 @@ app.post('/api/logout', (req, res) => {
 
 // Protected Routes
 app.get('/api/profile', authenticateToken, (req, res) => {
-  console.log('Profile GET request for user:', req.user.userId);
-  console.log('Executing SQL:', 'SELECT u.username, u.email, p.* FROM users u LEFT JOIN user_profiles p ON u.id = p.user_id WHERE u.id = ?');
-  console.log('With parameter:', [req.user.userId]);
-  
   db.get(
     `SELECT u.username, u.email, p.* 
      FROM users u 
@@ -296,16 +292,8 @@ app.get('/api/profile', authenticateToken, (req, res) => {
     [req.user.userId],
     (err, profile) => {
       if (err) {
-        console.error('Profile retrieval error:', err);
         return res.status(500).json({ error: 'Database error' });
       }
-      console.log('Profile retrieved for user', req.user.userId, ':', {
-        username: profile?.username,
-        display_name: profile?.display_name,
-        bio: profile?.bio ? profile.bio.substring(0, 50) + '...' : undefined,
-        avatar_url: profile?.avatar_url ? 'Image data present (' + profile.avatar_url.length + ' chars)' : null,
-        banner_url: profile?.banner_url ? 'Image data present (' + profile.banner_url.length + ' chars)' : null
-      });
       res.json(profile || {});
     }
   );
@@ -321,10 +309,7 @@ app.put('/api/profile', authenticateToken, (req, res) => {
     bannerImage: req.body.bannerImage ? 'Image data present (' + req.body.bannerImage.length + ' chars)' : undefined
   });
   
-  const { display_name, bio, location, website, profilePicture, bannerImage, avatar_url, banner_url, username } = req.body;
-  
-  // Use username as display_name if display_name is not provided
-  const finalDisplayName = display_name || username;
+  const { display_name, bio, location, website, profilePicture, bannerImage, avatar_url, banner_url } = req.body;
   
   // First get current profile to preserve existing images
   db.get(
@@ -339,27 +324,15 @@ app.put('/api/profile', authenticateToken, (req, res) => {
       const newAvatarUrl = profilePicture || avatar_url || (currentProfile ? currentProfile.avatar_url : null);
       const newBannerUrl = bannerImage || banner_url || (currentProfile ? currentProfile.banner_url : null);
       
-      console.log('Updating profile with:', {
-        display_name: finalDisplayName,
-        bio: bio,
-        avatar_url: newAvatarUrl ? 'Image data present (' + newAvatarUrl.length + ' chars)' : null,
-        banner_url: newBannerUrl ? 'Image data present (' + newBannerUrl.length + ' chars)' : null
-      });
-      
-      console.log('Executing SQL:', 'INSERT OR REPLACE INTO user_profiles (user_id, display_name, bio, location, website, avatar_url, banner_url, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)');
-      console.log('With parameters:', [req.user.userId, finalDisplayName, bio, location, website, newAvatarUrl ? 'IMAGE_DATA' : null, newBannerUrl ? 'IMAGE_DATA' : null]);
-      
       db.run(
-        `INSERT OR REPLACE INTO user_profiles 
-         (user_id, display_name, bio, location, website, avatar_url, banner_url, updated_at) 
-         VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
-        [req.user.userId, finalDisplayName, bio, location, website, newAvatarUrl, newBannerUrl],
+        `UPDATE user_profiles 
+         SET display_name = ?, bio = ?, location = ?, website = ?, avatar_url = ?, banner_url = ?, updated_at = CURRENT_TIMESTAMP 
+         WHERE user_id = ?`,
+        [display_name, bio, location, website, newAvatarUrl, newBannerUrl, req.user.userId],
         function(err) {
           if (err) {
-            console.error('Database update error:', err);
             return res.status(500).json({ error: 'Failed to update profile' });
           }
-          console.log('Profile updated successfully in database');
           res.json({ message: 'Profile updated successfully' });
         }
       );

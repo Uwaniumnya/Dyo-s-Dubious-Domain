@@ -284,10 +284,6 @@ app.post('/api/logout', (req, res) => {
 
 // Protected Routes
 app.get('/api/profile', authenticateToken, (req, res) => {
-  console.log('Profile GET request for user:', req.user.userId);
-  console.log('Executing SQL:', 'SELECT u.username, u.email, p.* FROM users u LEFT JOIN user_profiles p ON u.id = p.user_id WHERE u.id = ?');
-  console.log('With parameter:', [req.user.userId]);
-  
   db.get(
     `SELECT u.username, u.email, p.* 
      FROM users u 

@@ -284,10 +284,6 @@ app.post('/api/logout', (req, res) => {
 
 // Protected Routes
 app.get('/api/profile', authenticateToken, (req, res) => {
-  console.log('Profile GET request for user:', req.user.userId);
-  console.log('Executing SQL:', 'SELECT u.username, u.email, p.* FROM users u LEFT JOIN user_profiles p ON u.id = p.user_id WHERE u.id = ?');
-  console.log('With parameter:', [req.user.userId]);
-  
   db.get(
     `SELECT u.username, u.email, p.* 
      FROM users u 
@@ -345,9 +341,6 @@ app.put('/api/profile', authenticateToken, (req, res) => {
         avatar_url: newAvatarUrl ? 'Image data present (' + newAvatarUrl.length + ' chars)' : null,
         banner_url: newBannerUrl ? 'Image data present (' + newBannerUrl.length + ' chars)' : null
       });
-      
-      console.log('Executing SQL:', 'INSERT OR REPLACE INTO user_profiles (user_id, display_name, bio, location, website, avatar_url, banner_url, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)');
-      console.log('With parameters:', [req.user.userId, finalDisplayName, bio, location, website, newAvatarUrl ? 'IMAGE_DATA' : null, newBannerUrl ? 'IMAGE_DATA' : null]);
       
       db.run(
         `INSERT OR REPLACE INTO user_profiles 
