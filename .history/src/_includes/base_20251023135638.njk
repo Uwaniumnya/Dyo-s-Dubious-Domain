@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, user-scalable=yes, initial-scale=0.4, minimum-scale=0.1">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ '/style.css' | url }}">
+    <link rel="icon" type="image/svg+xml" href="{{ '/assets/logo.svg' | url }}">
+    <script>
+        // Set base path for JavaScript files to use
+        window.SITE_BASE_PATH = '{{ "/" | url }}';
+    </script>
+</head>
+
+<body class="
+  {% if title == 'All Categories' %}bag-bg{% endif %}
+  {% if title == 'about' %}bre{% endif %}
+  {% if title == 'Dyo\'s Domain - Substance Profiles' %}home{% endif %}
+  ">
+    {% include "header.njk"  %}
+    <main>
+      {{  content | safe }}
+    </main>
+     {% include "footer.njk"  %}
+
+    <!-- Search Scripts -->
+    <script src="{{ '/js/lunr.min.js' | url }}"></script>
+    <script src="{{ '/assets/js/search.js' | url }}"></script>
+    <script src="{{ '/assets/js/substance-integration.js' | url }}"></script>
+    
+    <!-- Only load profile.js on profile page -->
+    {% if title == 'My Profile' or bodyClass == 'profile-page' %}
+    <script src="{{ '/assets/js/profile.js' | url }}"></script>
+    <script src="{{ '/assets/js/friends.js' | url }}"></script>
+    {% endif %}
+</body>
+</html>

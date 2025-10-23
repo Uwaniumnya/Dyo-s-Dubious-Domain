@@ -2,13 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1200, user-scalable=yes, initial-scale=0.4, minimum-scale=0.1">
     <title>6-APB - Complete Profile</title>
     <link rel="stylesheet" href="/Dyo-s-Dubious-Domain/style.css">
     <link rel="icon" type="image/svg+xml" href="/Dyo-s-Dubious-Domain/assets/logo.svg">
     <script>
         // Set base path for JavaScript files to use
         window.SITE_BASE_PATH = '/Dyo-s-Dubious-Domain/';
+        
+        // Force desktop behavior by overriding mobile detection
+        window.isMobile = false;
+        window.isDesktop = true;
+        
+        // Override any mobile detection functions
+        if (window.matchMedia) {
+            const originalMatchMedia = window.matchMedia;
+            window.matchMedia = function(query) {
+                // Force desktop media queries to always match for min-width
+                // and mobile queries to never match
+                if (query.includes('max-width') && (query.includes('768px') || query.includes('480px'))) {
+                    return { matches: false, addListener: function() {}, removeListener: function() {} };
+                }
+                if (query.includes('min-width')) {
+                    return { matches: true, addListener: function() {}, removeListener: function() {} };
+                }
+                return originalMatchMedia.call(this, query);
+            };
+        }
     </script>
 </head>
 
