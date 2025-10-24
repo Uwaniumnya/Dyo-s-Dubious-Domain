@@ -55,7 +55,7 @@
     {% endif %}
     
     <!-- Only load interaction-checker.js on interaction checker page -->
-    {% if title.includes('Drug Interaction Checker') %}
+    {% if title == 'Drug Interaction Checker - Dyo's Domain' %}
     <script src="{{ '/assets/js/interaction-checker.js' | url }}"></script>
     {% endif %}
 </body>
