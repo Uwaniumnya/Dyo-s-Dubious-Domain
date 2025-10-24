@@ -1,0 +1,405 @@
+---
+title: "Drug Interaction Checker - Dyo's Domain"
+description: "Check potential interactions between psychoactive substances to stay safe and informed"
+permalink: "/dyos-domain/interaction-checker/"
+---
+
+<div class="hero-section interaction-hero">
+  <div class="container">
+    <h1 class="hero-title">⚠️ Drug Interaction Checker</h1>
+    <p class="hero-subtitle">Know before you mix - your safety depends on it</p>
+    <p class="hero-description">This tool provides information about potential interactions between psychoactive substances. Always consult healthcare professionals and never mix substances without understanding the risks.</p>
+  </div>
+</div>
+
+<div class="container">
+  
+  <!-- Interaction Checker Tool -->
+  <div class="interaction-checker-tool">
+    <div class="checker-header">
+      <h2>🔍 Select Substances to Check</h2>
+      <p>Choose two substances to check for potential interactions, contraindications, and safety warnings.</p>
+    </div>
+    
+    <div class="substance-selectors">
+      <div class="selector-group">
+        <label for="substance1">First Substance:</label>
+        <select id="substance1" class="substance-select">
+          <option value="">Select a substance...</option>
+          <optgroup label="🌙 Depressants">
+            <option value="absinthe">Absinthe</option>
+            <option value="alcohol">Alcohol (Ethanol)</option>
+            <option value="alprazolam">Alprazolam (Xanax)</option>
+            <option value="barbiturates">Barbiturates</option>
+            <option value="bromazepam">Bromazepam (Lexotan)</option>
+            <option value="buprenorphine">Buprenorphine (Suboxone)</option>
+            <option value="chloral-hydrate">Chloral Hydrate</option>
+            <option value="clonazepam">Clonazepam (Klonopin)</option>
+            <option value="codeine">Codeine</option>
+            <option value="desomorphine">Desomorphine (Krokodil)</option>
+            <option value="diazepam">Diazepam (Valium)</option>
+            <option value="dihydrocodeine">Dihydrocodeine</option>
+            <option value="dimenhydrinate">Dimenhydrinate (Dramamine)</option>
+            <option value="diphenhydramine">Diphenhydramine (Benadryl)</option>
+            <option value="ether">Ether</option>
+            <option value="fentanyl">Fentanyl</option>
+            <option value="gabapentin">Gabapentin (Neurontin)</option>
+            <option value="ghb">GHB</option>
+            <option value="heroin">Heroin</option>
+            <option value="black-tar-heroin">Black Tar Heroin</option>
+            <option value="hydrocodone">Hydrocodone (Vicodin)</option>
+            <option value="vicodin">Vicodin (Hydrocodone/APAP)</option>
+            <option value="hydromorphone">Hydromorphone (Dilaudid)</option>
+            <option value="lorazepam">Lorazepam (Ativan)</option>
+            <option value="melatonin">Melatonin</option>
+            <option value="methadone">Methadone</option>
+            <option value="methaqualone">Methaqualone (Quaaludes)</option>
+            <option value="morphine">Morphine</option>
+            <option value="opium">Opium</option>
+            <option value="oxycodone">Oxycodone (OxyContin)</option>
+            <option value="oxymorphone">Oxymorphone (Opana)</option>
+            <option value="pregabalin">Pregabalin (Lyrica)</option>
+            <option value="scopolamine">Scopolamine (Devil's Breath)</option>
+            <option value="tilidin">Tilidin</option>
+            <option value="tramadol">Tramadol</option>
+            <option value="zolpidem">Zolpidem (Ambien)</option>
+          </optgroup>
+          <optgroup label="⚡ Stimulants">
+            <option value="4-fluoroamphetamine">4-Fluoroamphetamine (4-FA)</option>
+            <option value="alpha-pvp">Alpha-PVP (Flakka)</option>
+            <option value="amphetamine">Amphetamine (Adderall)</option>
+            <option value="caffeine">Caffeine</option>
+            <option value="cathinone">Cathinone (Khat)</option>
+            <option value="cocaine">Cocaine</option>
+            <option value="ephedrine">Ephedrine</option>
+            <option value="ethylphenidate">Ethylphenidate</option>
+            <option value="mdpv">MDPV (Bath Salts)</option>
+            <option value="methamphetamine">Methamphetamine</option>
+            <option value="methylphenidate">Methylphenidate (Ritalin)</option>
+            <option value="nicotine">Nicotine</option>
+          </optgroup>
+          <optgroup label="🌈 Psychedelics">
+            <option value="2c-b">2C-B</option>
+            <option value="5-meo-amt">5-MeO-AMT</option>
+            <option value="5-meo-dipt">5-MeO-DiPT (Foxy)</option>
+            <option value="5-meo-dmt">5-MeO-DMT (Toad)</option>
+            <option value="aet">AET</option>
+            <option value="amt">AMT</option>
+            <option value="ayahuasca">Ayahuasca</option>
+            <option value="bufotenin">Bufotenin</option>
+            <option value="dmt">DMT</option>
+            <option value="dom">DOM</option>
+            <option value="ibogaine">Ibogaine</option>
+            <option value="lsa">LSA (Morning Glory)</option>
+            <option value="lsd">LSD</option>
+            <option value="mescaline">Mescaline</option>
+            <option value="nbome">NBOMe (N-Bomb)</option>
+            <option value="psilocybin-psilocin">Psilocybin/Psilocin (Mushrooms)</option>
+            <option value="toad-venom">Toad Venom (5-MeO-DMT)</option>
+          </optgroup>
+          <optgroup label="🕳️ Dissociatives">
+            <option value="3-meo-pcp">3-MeO-PCP</option>
+            <option value="dxm">DXM (Dextromethorphan)</option>
+            <option value="ketamine">Ketamine</option>
+            <option value="methoxetamine">Methoxetamine (MXE)</option>
+            <option value="methoxphenidine">Methoxphenidine (MXP)</option>
+            <option value="nitrous">Nitrous Oxide</option>
+            <option value="pcp">PCP (Angel Dust)</option>
+          </optgroup>
+          <optgroup label="💖 Empathogens">
+            <option value="6-apb">6-APB (Benzofury)</option>
+            <option value="mbdb">MBDB</option>
+            <option value="mcpp">mCPP</option>
+            <option value="mda">MDA (Sally)</option>
+            <option value="mdma">MDMA (Ecstasy/Molly)</option>
+          </optgroup>
+          <optgroup label="🌿 Cannabinoids">
+            <option value="cannabis-concentrates">Cannabis Concentrates (Dabs)</option>
+            <option value="cbd">CBD (Cannabidiol)</option>
+            <option value="cbn">CBN</option>
+            <option value="delta-8-thc">Delta-8-THC</option>
+            <option value="dronabinol">Dronabinol (Marinol)</option>
+            <option value="hhc">HHC</option>
+            <option value="jwh-018">JWH-018</option>
+            <option value="spice-k2">Spice/K2 (Synthetic)</option>
+            <option value="thc">THC (Cannabis)</option>
+          </optgroup>
+          <optgroup label="🧠 Nootropics & Psychiatric">
+            <option value="amitriptyline">Amitriptyline</option>
+            <option value="maois">MAOIs</option>
+            <option value="ssris">SSRIs</option>
+          </optgroup>
+          <optgroup label="💊 Over-the-Counter & Prescription">
+            <option value="acetaminophen">Acetaminophen (Tylenol)</option>
+            <option value="acetylfentanyl">Acetylfentanyl</option>
+            <option value="naloxone">Naloxone (Narcan)</option>
+            <option value="sildenafil">Sildenafil (Viagra)</option>
+          </optgroup>
+          <optgroup label="🧪 Research Chemicals & Others">
+            <option value="adrenochrome">Adrenochrome</option>
+            <option value="bzp">BZP</option>
+            <option value="carbogen">Carbogen</option>
+            <option value="chloroform">Chloroform</option>
+            <option value="piperazines">Piperazines</option>
+          </optgroup>
+        </select>
+      </div>
+      
+      <div class="vs-indicator">
+        <span class="vs-text">VS</span>
+      </div>
+      
+      <div class="selector-group">
+        <label for="substance2">Second Substance:</label>
+        <select id="substance2" class="substance-select">
+          <option value="">Select a substance...</option>
+          <optgroup label="🌙 Depressants">
+            <option value="absinthe">Absinthe</option>
+            <option value="alcohol">Alcohol (Ethanol)</option>
+            <option value="alprazolam">Alprazolam (Xanax)</option>
+            <option value="barbiturates">Barbiturates</option>
+            <option value="bromazepam">Bromazepam (Lexotan)</option>
+            <option value="buprenorphine">Buprenorphine (Suboxone)</option>
+            <option value="chloral-hydrate">Chloral Hydrate</option>
+            <option value="clonazepam">Clonazepam (Klonopin)</option>
+            <option value="codeine">Codeine</option>
+            <option value="desomorphine">Desomorphine (Krokodil)</option>
+            <option value="diazepam">Diazepam (Valium)</option>
+            <option value="dihydrocodeine">Dihydrocodeine</option>
+            <option value="dimenhydrinate">Dimenhydrinate (Dramamine)</option>
+            <option value="diphenhydramine">Diphenhydramine (Benadryl)</option>
+            <option value="ether">Ether</option>
+            <option value="fentanyl">Fentanyl</option>
+            <option value="gabapentin">Gabapentin (Neurontin)</option>
+            <option value="ghb">GHB</option>
+            <option value="heroin">Heroin</option>
+            <option value="black-tar-heroin">Black Tar Heroin</option>
+            <option value="hydrocodone">Hydrocodone (Vicodin)</option>
+            <option value="vicodin">Vicodin (Hydrocodone/APAP)</option>
+            <option value="hydromorphone">Hydromorphone (Dilaudid)</option>
+            <option value="lorazepam">Lorazepam (Ativan)</option>
+            <option value="melatonin">Melatonin</option>
+            <option value="methadone">Methadone</option>
+            <option value="methaqualone">Methaqualone (Quaaludes)</option>
+            <option value="morphine">Morphine</option>
+            <option value="opium">Opium</option>
+            <option value="oxycodone">Oxycodone (OxyContin)</option>
+            <option value="oxymorphone">Oxymorphone (Opana)</option>
+            <option value="pregabalin">Pregabalin (Lyrica)</option>
+            <option value="scopolamine">Scopolamine (Devil's Breath)</option>
+            <option value="tilidin">Tilidin</option>
+            <option value="tramadol">Tramadol</option>
+            <option value="zolpidem">Zolpidem (Ambien)</option>
+          </optgroup>
+          <optgroup label="⚡ Stimulants">
+            <option value="4-fluoroamphetamine">4-Fluoroamphetamine (4-FA)</option>
+            <option value="alpha-pvp">Alpha-PVP (Flakka)</option>
+            <option value="amphetamine">Amphetamine (Adderall)</option>
+            <option value="caffeine">Caffeine</option>
+            <option value="cathinone">Cathinone (Khat)</option>
+            <option value="cocaine">Cocaine</option>
+            <option value="ephedrine">Ephedrine</option>
+            <option value="ethylphenidate">Ethylphenidate</option>
+            <option value="mdpv">MDPV (Bath Salts)</option>
+            <option value="methamphetamine">Methamphetamine</option>
+            <option value="methylphenidate">Methylphenidate (Ritalin)</option>
+            <option value="nicotine">Nicotine</option>
+          </optgroup>
+          <optgroup label="🌈 Psychedelics">
+            <option value="2c-b">2C-B</option>
+            <option value="5-meo-amt">5-MeO-AMT</option>
+            <option value="5-meo-dipt">5-MeO-DiPT (Foxy)</option>
+            <option value="5-meo-dmt">5-MeO-DMT (Toad)</option>
+            <option value="aet">AET</option>
+            <option value="amt">AMT</option>
+            <option value="ayahuasca">Ayahuasca</option>
+            <option value="bufotenin">Bufotenin</option>
+            <option value="dmt">DMT</option>
+            <option value="dom">DOM</option>
+            <option value="ibogaine">Ibogaine</option>
+            <option value="lsa">LSA (Morning Glory)</option>
+            <option value="lsd">LSD</option>
+            <option value="mescaline">Mescaline</option>
+            <option value="nbome">NBOMe (N-Bomb)</option>
+            <option value="psilocybin-psilocin">Psilocybin/Psilocin (Mushrooms)</option>
+            <option value="toad-venom">Toad Venom (5-MeO-DMT)</option>
+          </optgroup>
+          <optgroup label="🕳️ Dissociatives">
+            <option value="3-meo-pcp">3-MeO-PCP</option>
+            <option value="dxm">DXM (Dextromethorphan)</option>
+            <option value="ketamine">Ketamine</option>
+            <option value="methoxetamine">Methoxetamine (MXE)</option>
+            <option value="methoxphenidine">Methoxphenidine (MXP)</option>
+            <option value="nitrous">Nitrous Oxide</option>
+            <option value="pcp">PCP (Angel Dust)</option>
+          </optgroup>
+          <optgroup label="💖 Empathogens">
+            <option value="6-apb">6-APB (Benzofury)</option>
+            <option value="mbdb">MBDB</option>
+            <option value="mcpp">mCPP</option>
+            <option value="mda">MDA (Sally)</option>
+            <option value="mdma">MDMA (Ecstasy/Molly)</option>
+          </optgroup>
+          <optgroup label="🌿 Cannabinoids">
+            <option value="cannabis-concentrates">Cannabis Concentrates (Dabs)</option>
+            <option value="cbd">CBD (Cannabidiol)</option>
+            <option value="cbn">CBN</option>
+            <option value="delta-8-thc">Delta-8-THC</option>
+            <option value="dronabinol">Dronabinol (Marinol)</option>
+            <option value="hhc">HHC</option>
+            <option value="jwh-018">JWH-018</option>
+            <option value="spice-k2">Spice/K2 (Synthetic)</option>
+            <option value="thc">THC (Cannabis)</option>
+          </optgroup>
+          <optgroup label="🧠 Nootropics & Psychiatric">
+            <option value="amitriptyline">Amitriptyline</option>
+            <option value="maois">MAOIs</option>
+            <option value="ssris">SSRIs</option>
+          </optgroup>
+          <optgroup label="💊 Over-the-Counter & Prescription">
+            <option value="acetaminophen">Acetaminophen (Tylenol)</option>
+            <option value="acetylfentanyl">Acetylfentanyl</option>
+            <option value="naloxone">Naloxone (Narcan)</option>
+            <option value="sildenafil">Sildenafil (Viagra)</option>
+          </optgroup>
+          <optgroup label="🧪 Research Chemicals & Others">
+            <option value="adrenochrome">Adrenochrome</option>
+            <option value="bzp">BZP</option>
+            <option value="carbogen">Carbogen</option>
+            <option value="chloroform">Chloroform</option>
+            <option value="piperazines">Piperazines</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+    
+    <button id="checkInteraction" class="btn btn-primary" disabled>
+      🔍 Check Interaction
+    </button>
+  </div>
+
+  <!-- Results Section -->
+  <div id="interactionResults" class="interaction-results" style="display: none;">
+    <div class="results-header">
+      <h2>⚠️ Interaction Analysis</h2>
+      <div class="combination-display">
+        <span id="substance1Name" class="substance-name"></span>
+        <span class="plus-icon">+</span>
+        <span id="substance2Name" class="substance-name"></span>
+      </div>
+    </div>
+    
+    <div class="risk-assessment">
+      <div id="riskLevel" class="risk-indicator">
+        <span class="risk-emoji"></span>
+        <span class="risk-text"></span>
+      </div>
+      
+      <div id="riskDescription" class="risk-description"></div>
+    </div>
+    
+    <div class="interaction-details">
+      <div class="detail-section">
+        <h3>🧬 Mechanism of Interaction</h3>
+        <p id="mechanismText"></p>
+      </div>
+      
+      <div class="detail-section">
+        <h3>⚠️ Potential Effects</h3>
+        <ul id="effectsList"></ul>
+      </div>
+      
+      <div class="detail-section">
+        <h3>💡 Harm Reduction Advice</h3>
+        <ul id="adviceList"></ul>
+      </div>
+    </div>
+    
+    <div class="interaction-footer">
+      <div class="source-note">
+        <p><strong>Sources:</strong> PsychonautWiki, TripSit, Erowid, clinical pharmacology literature</p>
+      </div>
+      
+      <div class="disclaimer-box">
+        <h4>⚠️ Critical Disclaimer</h4>
+        <p>This tool is for educational purposes only and should not replace professional medical advice. Drug interactions can be unpredictable and potentially fatal. Always consult healthcare professionals before combining substances.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Reference Chart -->
+  <div class="quick-reference-section">
+    <h2>📊 Quick Reference: Common Dangerous Combinations</h2>
+    
+    <div class="danger-matrix">
+      <div class="danger-item">
+        <div class="combo-names">
+          <span class="substance">Alcohol</span> + <span class="substance">Benzodiazepines</span>
+        </div>
+        <div class="risk-badge deadly">💀 DEADLY</div>
+        <p>Respiratory depression, coma, death</p>
+      </div>
+      
+      <div class="danger-item">
+        <div class="combo-names">
+          <span class="substance">Alcohol</span> + <span class="substance">Opioids</span>
+        </div>
+        <div class="risk-badge deadly">💀 DEADLY</div>
+        <p>Respiratory depression, overdose</p>
+      </div>
+      
+      <div class="danger-item">
+        <div class="combo-names">
+          <span class="substance">MAOIs</span> + <span class="substance">SSRIs</span>
+        </div>
+        <div class="risk-badge deadly">💀 DEADLY</div>
+        <p>Serotonin syndrome, hyperthermia</p>
+      </div>
+      
+      <div class="danger-item">
+        <div class="combo-names">
+          <span class="substance">MAOIs</span> + <span class="substance">MDMA</span>
+        </div>
+        <div class="risk-badge deadly">💀 DEADLY</div>
+        <p>Serotonin syndrome, cardiovascular crisis</p>
+      </div>
+      
+      <div class="danger-item">
+        <div class="combo-names">
+          <span class="substance">Stimulants</span> + <span class="substance">Depressants</span>
+        </div>
+        <div class="risk-badge dangerous">🔴 DANGEROUS</div>
+        <p>Masked effects, overdose risk</p>
+      </div>
+      
+      <div class="danger-item">
+        <div class="combo-names">
+          <span class="substance">NBOMe</span> + <span class="substance">Stimulants</span>
+        </div>
+        <div class="risk-badge deadly">💀 DEADLY</div>
+        <p>Seizures, heart failure</p>
+      </div>
+      
+      <div class="danger-item">
+        <div class="combo-names">
+          <span class="substance">Acetaminophen</span> + <span class="substance">Alcohol</span>
+        </div>
+        <div class="risk-badge dangerous">🔴 DANGEROUS</div>
+        <p>Liver damage, hepatotoxicity</p>
+      </div>
+      
+      <div class="danger-item">
+        <div class="combo-names">
+          <span class="substance">PCP</span> + <span class="substance">Any Depressant</span>
+        </div>
+        <div class="risk-badge dangerous">🔴 DANGEROUS</div>
+        <p>Respiratory depression, violence</p>
+      </div>
+    </div>
+  </div>
+
+  
+
+
+
+<script src="/assets/js/interaction-checker.js"></script>

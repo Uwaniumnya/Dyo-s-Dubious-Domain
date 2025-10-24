@@ -401,6 +401,36 @@
         </div>
       </div>
 
+      <div class="substance-selector-card" data-category="depressants" data-substance="black-tar-heroin">
+        <div class="substance-icon">🖤</div>
+        <h3>Black Tar Heroin</h3>
+        <p>Crude Mexican heroin, fentanyl contaminated</p>
+        <div class="quick-stats">
+          <span class="price-preview">€20-60/g</span>
+          <span class="trend-preview trend-rising">↑ Fentanyl crisis</span>
+        </div>
+      </div>
+
+      <div class="substance-selector-card" data-category="depressants" data-substance="amyl-nitrate">
+        <div class="substance-icon">💨</div>
+        <h3>Amyl Nitrate (Poppers)</h3>
+        <p>Legal gray area, widespread availability</p>
+        <div class="quick-stats">
+          <span class="price-preview">€8-25/bottle</span>
+          <span class="trend-preview trend-stable">→ Quality concerns</span>
+        </div>
+      </div>
+
+      <div class="substance-selector-card" data-category="depressants" data-substance="isobutyl-nitrate">
+        <div class="substance-icon">💨</div>
+        <h3>Isobutyl Nitrate</h3>
+        <p>Most common poppers substitute</p>
+        <div class="quick-stats">
+          <span class="price-preview">€6-20/bottle</span>
+          <span class="trend-preview trend-rising">↑ Dominating market</span>
+        </div>
+      </div>
+
       <div class="substance-selector-card" data-category="depressants" data-substance="benzodiazepines">
         <div class="substance-icon">💊</div>
         <h3>Benzodiazepines</h3>
@@ -432,6 +462,16 @@
         </div>
       </div>
 
+      <div class="substance-selector-card" data-category="depressants" data-substance="vicodin">
+        <div class="substance-icon">💊</div>
+        <h3>Vicodin/Hydrocodone</h3>
+        <p>Prescription combination painkiller</p>
+        <div class="quick-stats">
+          <span class="price-preview">€8-25/pill</span>
+          <span class="trend-preview trend-declining">↓ Declining</span>
+        </div>
+      </div>
+
       <div class="substance-selector-card" data-category="depressants" data-substance="morphine">
         <div class="substance-icon">💉</div>
         <h3>Morphine</h3>
@@ -439,6 +479,16 @@
         <div class="quick-stats">
           <span class="price-preview">€20-80/g</span>
           <span class="trend-preview trend-stable">→ Stable</span>
+        </div>
+      </div>
+
+      <div class="substance-selector-card" data-category="depressants" data-substance="meperidine">
+        <div class="substance-icon">⚠️</div>
+        <h3>Meperidine (Pethidine)</h3>
+        <p>Neurotoxic synthetic opioid, largely discontinued</p>
+        <div class="quick-stats">
+          <span class="price-preview">€15-50/ampule</span>
+          <span class="trend-preview trend-declining">↓ Declining</span>
         </div>
       </div>
 
@@ -738,6 +788,16 @@
         </div>
       </div>
 
+      <div class="substance-selector-card" data-category="depressants" data-substance="propoxyphene">
+        <div class="substance-icon">⚠️</div>
+        <h3>Propoxyphene</h3>
+        <p>Withdrawn synthetic opioid - cardiac toxicity</p>
+        <div class="quick-stats">
+          <span class="price-preview">WITHDRAWN</span>
+          <span class="trend-preview trend-danger">❌ Banned</span>
+        </div>
+      </div>
+
       <div class="substance-selector-card" data-category="depressants" data-substance="buprenorphine">
         <div class="substance-icon">💊</div>
         <h3>Buprenorphine</h3>
@@ -969,6 +1029,16 @@
         <div class="quick-stats">
           <span class="price-preview">€15-25/pill</span>
           <span class="trend-preview trend-stable">💀 Potent</span>
+        </div>
+      </div>
+
+      <div class="substance-selector-card" data-category="depressants" data-substance="propoxyphene">
+        <div class="substance-icon">⚠️</div>
+        <h3>Propoxyphene</h3>
+        <p>Withdrawn for cardiac toxicity</p>
+        <div class="quick-stats">
+          <span class="price-preview">WITHDRAWN</span>
+          <span class="trend-preview trend-danger">❌ Banned</span>
         </div>
       </div>
 
@@ -1680,6 +1750,16 @@
         <div class="quick-stats">
           <span class="price-preview">€25-65/g</span>
           <span class="trend-preview trend-decreasing">📉 Obsolete</span>
+        </div>
+      </div>
+
+      <div class="substance-selector-card" data-category="stimulants" data-substance="pseudoephedrine">
+        <div class="substance-icon">💊</div>
+        <h3>Pseudoephedrine</h3>
+        <p>OTC decongestant and meth precursor</p>
+        <div class="quick-stats">
+          <span class="price-preview">RESTRICTED</span>
+          <span class="trend-preview trend-danger">⚠️ Tracked</span>
         </div>
       </div>
 
@@ -2684,6 +2764,99 @@ document.addEventListener('DOMContentLoaded', function() {
           'Street scenes: Traditional open markets declining'
         ]
       },
+      'black-tar-heroin': {
+        price: {
+          low: '€20-40/g',
+          avg: '€35/g avg',
+          high: '€50-60/g',
+          trend: '↑ Increasing fentanyl contamination crisis',
+          notes: [
+            '<strong>Purity:</strong> Extremely variable 20-80%',
+            '<strong>Fentanyl contamination:</strong> High risk in all samples',
+            '<strong>Mexican origin:</strong> Crude synthesis with impurities',
+            '<strong>Fatal overdoses:</strong> Leading cause of opioid deaths'
+          ]
+        },
+        purity: {
+          avg: '40% purity',
+          range: '20-80%',
+          adulterants: [
+            'Manufacturing residues: Acetic acid, chloroform',
+            'Fentanyl contamination: Often unintentional, deadly',
+            'Cutting agents: Lactose, mannitol, cornstarch',
+            'Bacterial contamination: Clostridium, various pathogens'
+          ]
+        },
+        availability: 'High availability, extremely dangerous due to unknown purity and fentanyl contamination',
+        regions: [
+          'Western regions: Primary black tar market traditionally',
+          'Urban centers: Concentrated user populations',
+          'Border areas: Mexican trafficking routes',
+          'All regions: Fentanyl contamination makes all supplies dangerous'
+        ]
+      },
+      'amyl-nitrate': {
+        price: {
+          low: '€8-15/bottle (10-15ml)',
+          avg: '€12/bottle avg',
+          high: '€20-25/bottle premium',
+          trend: '→ Stable pricing, quality concerns increase',
+          notes: [
+            '<strong>Legal status:</strong> Gray area - sold as "room odorizer"',
+            '<strong>Bottle size:</strong> Usually 10-15ml bottles',
+            '<strong>Brands:</strong> Rush, Jungle Juice, Amsterdam Special',
+            '<strong>Quality variance:</strong> Significant differences between products'
+          ]
+        },
+        purity: {
+          avg: 'Variable composition',
+          range: 'True amyl nitrite rare - mostly substitutes',
+          adulterants: [
+            'Isobutyl nitrite: Most common substitute',
+            'Isopropyl nitrite: Another legal alternative',
+            'Industrial solvents: Quality control issues',
+            'Methemoglobin inducers: Dangerous blood oxygen displacement'
+          ]
+        },
+        availability: 'Widespread availability through head shops, sex shops, and online retailers',
+        regions: [
+          'Urban centers: Head shops and sex shops',
+          'Online: Primary distribution method',
+          'Gay districts: Traditional availability zones',
+          'Festival areas: Temporary vendors common'
+        ]
+      },
+      'isobutyl-nitrate': {
+        price: {
+          low: '€6-12/bottle (10-15ml)',
+          avg: '€10/bottle avg',
+          high: '€18-20/bottle premium',
+          trend: '↑ Market dominance increasing, price competition',
+          notes: [
+            '<strong>Market share:</strong> 80%+ of poppers market',
+            '<strong>Legal advantage:</strong> Uncontrolled in most jurisdictions',
+            '<strong>Bulk availability:</strong> Wholesale prices €3-5/bottle',
+            '<strong>Brand proliferation:</strong> Hundreds of brand names'
+          ]
+        },
+        purity: {
+          avg: 'Highly variable quality',
+          range: 'Industrial grade to premium formulations',
+          adulterants: [
+            'Manufacturing impurities: Alcohols, nitrates',
+            'Degradation products: Formed during storage',
+            'Industrial additives: Stabilizers, colorants',
+            'Cross-contamination: Other nitrite compounds'
+          ]
+        },
+        availability: 'Extremely widespread - most accessible inhalant nitrite',
+        regions: [
+          'Online retailers: Primary distribution channel',
+          'Head shops: Ubiquitous availability',
+          'Sex shops: Traditional retail locations',
+          'Music festivals: Widespread temporary sales'
+        ]
+      },
       'dmt': {
         price: {
           low: '€150-200/g',
@@ -3025,6 +3198,37 @@ document.addEventListener('DOMContentLoaded', function() {
           'Online: Counterfeit risk high'
         ]
       },
+      'vicodin': {
+        price: {
+          low: '€8-15/pill',
+          avg: '€12/pill avg',
+          high: '€20-25/pill ER',
+          trend: '↓ Declining availability due to prescription monitoring',
+          notes: [
+            '<strong>Formulations:</strong> 5/325, 7.5/325, 10/325mg versions',
+            '<strong>Cold-water extraction:</strong> Removes acetaminophen',
+            '<strong>Monitoring:</strong> DEA tracking reducing diversion',
+            '<strong>Fentanyl:</strong> Counterfeit pills major concern'
+          ]
+        },
+        purity: {
+          avg: '95-99% purity',
+          range: '90-99%',
+          adulterants: [
+            'Pharmaceutical excipients and APAP',
+            'Counterfeit pills with fentanyl (deadly)',
+            'Press tablets with unknown fillers',
+            'Genuine pills rarely adulterated'
+          ]
+        },
+        availability: 'Prescription diversion declining, counterfeit pills increasing danger',
+        regions: [
+          'Medical districts: Legitimate prescription access',
+          'Suburban areas: Prescription diversion',
+          'Pain clinics: Historical over-prescribing',
+          'Dark web: High counterfeit risk'
+        ]
+      },
       'morphine': {
         price: {
           low: '€20-40/g',
@@ -3054,6 +3258,68 @@ document.addEventListener('DOMContentLoaded', function() {
           'Veterinary clinics: Animal medications',
           'Pharmacy theft: Rare but occurs',
           'Palliative care: Medical access'
+        ]
+      },
+      'meperidine': {
+        price: {
+          low: '€15-25/ampule',
+          avg: '€30/ampule avg',
+          high: '€45-50/ampule rare',
+          trend: '↓ Declining availability, largely discontinued',
+          notes: [
+            '<strong>Discontinued:</strong> Most hospitals no longer stock',
+            '<strong>Historical:</strong> Legacy supplies from medical transition',
+            '<strong>Veterinary:</strong> Limited veterinary use remaining',
+            '<strong>Seizures:</strong> Very rare law enforcement seizures'
+          ]
+        },
+        purity: {
+          avg: '95-99% purity',
+          range: '85-99%',
+          adulterants: [
+            'Pharmaceutical grade when available',
+            'Expired medications potential concern',
+            'Norpethidine accumulation over time',
+            'Medical excipients standard'
+          ]
+        },
+        availability: 'Extremely limited - largely phased out due to safety concerns',
+        regions: [
+          'Veterinary clinics: Last remaining stocks',
+          'Hospital storage: Legacy supplies being disposed',
+          'Historical collections: Outdated medical supplies',
+          'Research facilities: Limited research quantities'
+        ]
+      },
+      'propoxyphene': {
+        price: {
+          low: 'WITHDRAWN',
+          avg: 'WITHDRAWN',
+          high: 'WITHDRAWN',
+          trend: '❌ Globally withdrawn 2009-2010 due to cardiac toxicity',
+          notes: [
+            '<strong>Withdrawn:</strong> Removed globally due to fatal cardiac arrhythmias',
+            '<strong>Historical:</strong> Was popular analgesic (Darvon/Darvocet)',
+            '<strong>Cardiac Risk:</strong> QT prolongation and sudden death',
+            '<strong>Legacy:</strong> Old stocks may occasionally surface'
+          ]
+        },
+        purity: {
+          avg: 'HISTORICAL DATA',
+          range: 'N/A - Withdrawn',
+          adulterants: [
+            'Historical pharmaceutical preparations',
+            'May contain acetaminophen (Darvocet)',
+            'Expired medications degraded',
+            'Norpropoxyphene toxic metabolite accumulates'
+          ]
+        },
+        availability: 'WITHDRAWN GLOBALLY - No legitimate medical use',
+        regions: [
+          'Historical supplies: Expired medication disposals',
+          'Medical waste: Improper disposal concerns',
+          'Collectors: Medical history interest only',
+          'Research: Toxicology studies only'
         ]
       },
       'ghb': {
@@ -4079,6 +4345,37 @@ document.addEventListener('DOMContentLoaded', function() {
           'Dark web: High-risk counterfeit concern'
         ]
       },
+      'propoxyphene': {
+        price: {
+          low: 'WITHDRAWN',
+          avg: 'WITHDRAWN',
+          high: 'WITHDRAWN',
+          trend: '❌ Globally withdrawn 2009-2010 due to cardiac toxicity',
+          notes: [
+            '<strong>Withdrawn:</strong> Removed globally due to fatal cardiac arrhythmias',
+            '<strong>Historical:</strong> Was popular analgesic (Darvon/Darvocet)',
+            '<strong>Cardiac Risk:</strong> QT prolongation and sudden death',
+            '<strong>Legacy:</strong> Old stocks may occasionally surface'
+          ]
+        },
+        purity: {
+          avg: 'HISTORICAL DATA',
+          range: 'N/A - Withdrawn',
+          adulterants: [
+            'Historical pharmaceutical preparations',
+            'May contain acetaminophen (Darvocet)',
+            'Expired medications degraded',
+            'Norpropoxyphene toxic metabolite accumulates'
+          ]
+        },
+        availability: 'WITHDRAWN GLOBALLY - No legitimate medical use',
+        regions: [
+          'Historical supplies: Expired medication disposals',
+          'Medical waste: Improper disposal concerns',
+          'Collectors: Medical history interest only',
+          'Research: Toxicology studies only'
+        ]
+      },
       'buprenorphine': {
         price: {
           low: '€5-10/strip',
@@ -4790,6 +5087,37 @@ document.addEventListener('DOMContentLoaded', function() {
           'Diversion: Rare pharmaceutical theft',
           'Dark web: High-value target',
           'International: Extremely limited'
+        ]
+      },
+      'propoxyphene': {
+        price: {
+          low: 'WITHDRAWN',
+          avg: 'WITHDRAWN',
+          high: 'WITHDRAWN',
+          trend: '❌ Globally withdrawn 2009-2010 due to cardiac toxicity',
+          notes: [
+            '<strong>Withdrawn:</strong> Removed globally due to fatal cardiac arrhythmias',
+            '<strong>Historical:</strong> Was popular analgesic (Darvon/Darvocet)',
+            '<strong>Cardiac Risk:</strong> QT prolongation and sudden death',
+            '<strong>Legacy:</strong> Old stocks may occasionally surface'
+          ]
+        },
+        purity: {
+          avg: 'HISTORICAL DATA',
+          range: 'N/A - Withdrawn',
+          adulterants: [
+            'Historical pharmaceutical preparations',
+            'May contain acetaminophen (Darvocet)',
+            'Expired medications degraded',
+            'Norpropoxyphene toxic metabolite accumulates'
+          ]
+        },
+        availability: 'WITHDRAWN GLOBALLY - No legitimate medical use',
+        regions: [
+          'Historical supplies: Expired medication disposals',
+          'Medical waste: Improper disposal concerns',
+          'Collectors: Medical history interest only',
+          'Research: Toxicology studies only'
         ]
       },
       'dihydrocodeine': {
@@ -6960,6 +7288,37 @@ document.addEventListener('DOMContentLoaded', function() {
           'Research: Academic interest only',
           'Underground: Rare availability',
           'Legal: Mostly controlled'
+        ]
+      },
+      'pseudoephedrine': {
+        price: {
+          low: 'RESTRICTED',
+          avg: 'TRACKED',
+          high: 'MONITORED',
+          trend: '⚠️ Heavily regulated precursor chemical',
+          notes: [
+            '<strong>Prescription only:</strong> Germany requires doctor prescription',
+            '<strong>Precursor chemical:</strong> Methamphetamine production',
+            '<strong>Pharmacy tracking:</strong> Electronic monitoring systems',
+            '<strong>Legal consequences:</strong> Bulk purchases investigated'
+          ]
+        },
+        purity: {
+          avg: '95-99% pharmaceutical grade',
+          range: '90-99%',
+          adulterants: [
+            'Combination products with acetaminophen',
+            'Abuse-deterrent formulations',
+            'Time-release coatings',
+            'Pharmaceutical excipients'
+          ]
+        },
+        availability: 'Prescription only in Germany - strict medical control',
+        regions: [
+          'Pharmacies: Prescription required, tracked sales',
+          'Medical: Legitimate decongestant use only',
+          'International: Varies by country restrictions',
+          'Illegal: Precursor diversion investigations'
         ]
       },
       'psychoactive-amanitas': {

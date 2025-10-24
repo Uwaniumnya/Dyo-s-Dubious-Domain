@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, user-scalable=yes, initial-scale=0.4, minimum-scale=0.1">
+    <title>Pseudoephedrine - Complete Profile</title>
+    <link rel="stylesheet" href="/Dyo-s-Dubious-Domain/style.css">
+    <link rel="icon" type="image/svg+xml" href="/Dyo-s-Dubious-Domain/assets/logo.svg">
+    <script>
+        // Set base path for JavaScript files to use
+        window.SITE_BASE_PATH = '/Dyo-s-Dubious-Domain/';
+        
+        // Force desktop behavior by overriding mobile detection
+        window.isMobile = false;
+        window.isDesktop = true;
+        
+        // Override any mobile detection functions
+        if (window.matchMedia) {
+            const originalMatchMedia = window.matchMedia;
+            window.matchMedia = function(query) {
+                // Force desktop media queries to always match for min-width
+                // and mobile queries to never match
+                if (query.includes('max-width') && (query.includes('768px') || query.includes('480px'))) {
+                    return { matches: false, addListener: function() {}, removeListener: function() {} };
+                }
+                if (query.includes('min-width')) {
+                    return { matches: true, addListener: function() {}, removeListener: function() {} };
+                }
+                return originalMatchMedia.call(this, query);
+            };
+        }
+    </script>
+</head>
+
+<body class="
+  
+  
+  
+  ">
+    <header class="page-header">
+  <div class="container">
+    <div class="page-header__content">
+      <div class="logo-container">
+        <a href="/Dyo-s-Dubious-Domain/" class="site-title">Dyo's Dubious Domain</a>
+      </div>
+      
+      <nav>
+        <ul role="list" class="nav-list flex-group">
+          <li>
+            <a href="/Dyo-s-Dubious-Domain/">Home</a>
+          </li>
+          <li>
+            <a href="/Dyo-s-Dubious-Domain/dyos-domain/">Dyo's Domain</a>
+          </li>
+          <li>
+            <a href="/Dyo-s-Dubious-Domain/about/">About</a>
+          </li>
+          <li>
+            <a href="/Dyo-s-Dubious-Domain/profile/">My Profile</a>
+          </li>
+         
+        </ul>
+      </nav>
+    </div>
+    
+    <!-- Search Bar - Now underneath header -->
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search substances..." class="search-input" />
+      <div id="search-results" class="search-results" style="display: none;"></div>
+    </div>
+  </div>
+</header>
+
+    <main>
+      
+<div class="substance-profile-header">
+  <div class="container">
+    <nav class="breadcrumb">
+      <a href="/dyos-domain/">Dyo's Domain</a> ⟵ <a href="/dyos-domain/stimulants/">Stimulants</a> ⟵ <span>Pseudoephedrine</span>
+    </nav>
+    
+    <div class="substance-hero">
+      <div class="substance-info">
+        <h1>💊 Pseudoephedrine</h1>
+        <h2 class="chemical-name">(1S,2S)-2-(methylamino)-1-phenylpropan-1-ol</h2>
+        
+        <!-- Add to Profile Button -->
+        <button id="add-to-profile-btn" class="add-to-profile-btn not-in-profile" 
+                data-substance="Pseudoephedrine" 
+                data-category="Stimulants" 
+                data-chemical="(1S,2S)-2-(methylamino)-1-phenylpropan-1-ol">
+          + Add to My Profile
+        </button>
+        
+        <div class="alternative-names">
+          <h3>Alternative Names & Brand Names</h3>
+          <div class="names-grid">
+            <span class="name-tag brand">Sudafed</span>
+            <span class="name-tag brand">Advil Cold & Sinus</span>
+            <span class="name-tag brand">Tylenol Sinus</span>
+            <span class="name-tag brand">Actifed</span>
+            <span class="name-tag brand">Zyrtec-D</span>
+            <span class="name-tag brand">Allegra-D</span>
+            <span class="name-tag brand">Mucinex-D</span>
+            <span class="name-tag chemical">PSE</span>
+            <span class="name-tag chemical">d-Pseudoephedrine</span>
+            <span class="name-tag chemical">Ephedrine isomer</span>
+            <span class="name-tag street">Smurf dope</span>
+            <span class="name-tag street">Pseudo</span>
+            <span class="name-tag street">Red devils</span>
+            <span class="name-tag street">Cold pills</span>
+            <span class="name-tag danger">Meth precursor</span>
+            <span class="name-tag danger">Cook ingredient</span>
+          </div>
+        </div>
+        
+        <div class="substance-meta-large">
+          <span class="category stimulant">Stimulant</span>
+          <span class="legal-status restricted">OTC (Restricted)</span>
+          <span class="duration medium">4-6 hours</span>
+        </div>
+      </div>
+      
+      <div class="substance-visual">
+        <div class="substance-image">
+          <img src="/Dyo-s-Dubious-Domain/assets/substances/pseudoephedrine.jpg" alt="Pseudoephedrine tablets and packaging" class="substance-photo">
+        </div>
+        <div class="molecule-structure">
+          <div class="structure-placeholder">
+            <p>🧬 Phenylpropanolamine structure</p>
+            <p>Stereoisomer of ephedrine</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  
+  <div class="profile-grid">
+    
+    <div class="profile-section identification">
+      <h3>🔍 Physical Identification</h3>
+      <div class="identification-info">
+        <div class="pure-form">
+          <h4>Pharmaceutical Forms</h4>
+          <ul>
+            <li><strong>Tablets:</strong> Red or white 30mg, 60mg, 120mg extended-release</li>
+            <li><strong>Capsules:</strong> Extended-release formulations with beads</li>
+            <li><strong>Liquid:</strong> Clear or colored syrup (15mg/5ml typically)</li>
+            <li><strong>Combination:</strong> Often combined with acetaminophen, ibuprofen</li>
+            <li><strong>Pure powder:</strong> White crystalline powder (rare, bulk only)</li>
+          </ul>
+        </div>
+        
+        <div class="street-forms">
+          <h4>Illicit Acquisition</h4>
+          <ul>
+            <li><strong>"Smurfing":</strong> Multiple pharmacy purchases to avoid limits</li>
+            <li><strong>Bulk pills:</strong> Large quantities from pharmacy burglary</li>
+            <li><strong>Combination products:</strong> Cold/sinus medications containing PSE</li>
+            <li><strong>International import:</strong> Countries with less regulation</li>
+          </ul>
+        </div>
+        
+        <div class="adulterants-warning">
+          <h4>⚠️ Combination Ingredients</h4>
+          <p><strong>Common combinations:</strong> Acetaminophen (liver toxic), ibuprofen, antihistamines</p>
+          <p><strong>Dangerous:</strong> Acetaminophen toxicity from high-dose abuse</p>
+          <p><strong>Extended-release:</strong> Abuse-deterrent formulations with time-release coating</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="profile-section dosage">
+      <h3>💊 Dosage Guidelines</h3>
+      <div class="dosage-chart">
+        <div class="dose-range threshold">
+          <span class="range-label">Therapeutic</span>
+          <span class="dose-amount">30-60mg</span>
+          <div class="dose-bar"></div>
+        </div>
+        <div class="dose-range light">
+          <span class="range-label">Light Stimulation</span>
+          <span class="dose-amount">90-120mg</span>
+          <div class="dose-bar"></div>
+        </div>
+        <div class="dose-range common">
+          <span class="range-label">Moderate</span>
+          <span class="dose-amount">120-180mg</span>
+          <div class="dose-bar"></div>
+        </div>
+        <div class="dose-range strong">
+          <span class="range-label">Strong</span>
+          <span class="dose-amount">180-240mg</span>
+          <div class="dose-bar"></div>
+        </div>
+        <div class="dose-range heavy">
+          <span class="range-label">Heavy/Toxic</span>
+          <span class="dose-amount">240mg+</span>
+          <div class="dose-bar"></div>
+        </div>
+      </div>
+      
+      <div class="dosage-details">
+        <h4>Medical vs Recreational Dosing</h4>
+        <ul>
+          <li><strong>Medical decongestant:</strong> 30-60mg every 4-6 hours (max 240mg/day)</li>
+          <li><strong>Recreational threshold:</strong> 90-120mg for mild stimulation</li>
+          <li><strong>Cardiovascular limit:</strong> >180mg increases hypertension risk significantly</li>
+          <li><strong>Tolerance:</strong> Develops rapidly with daily use</li>
+          <li><strong>Extraction risks:</strong> Combination products contain dangerous additives</li>
+        </ul>
+      </div>
+      
+      <p class="dosage-note"><strong>Critical Warning:</strong> Most pseudoephedrine products contain acetaminophen or other drugs - high-dose recreational use can cause liver failure and death.</p>
+    </div>
+
+    <div class="profile-section effects">
+      <h3>✨ Effects Profile</h3>
+      
+      <div class="effects-timeline">
+        <h4>Timeline</h4>
+        <div class="timeline-item">
+          <span class="time">T+0:30-1:00</span>
+          <span class="effect">Onset - nasal decongesttion, mild alertness</span>
+        </div>
+        <div class="timeline-item">
+          <span class="time">T+1:00-4:00</span>
+          <span class="effect">Peak - stimulation, focus, appetite suppression</span>
+        </div>
+        <div class="timeline-item">
+          <span class="time">T+4:00-6:00</span>
+          <span class="effect">Comedown - gradual return, possible fatigue</span>
+        </div>
+        <div class="timeline-item">
+          <span class="time">T+6:00-12:00</span>
+          <span class="effect">After effects - rebound congestion possible</span>
+        </div>
+      </div>
+
+      <div class="effects-categories">
+        <div class="effect-category positive">
+          <h4>🟢 Therapeutic Effects</h4>
+          <ul>
+            <li>Nasal decongesttion (primary medical use)</li>
+            <li>Mild mental stimulation and focus</li>
+            <li>Increased alertness and wakefulness</li>
+            <li>Appetite suppression</li>
+            <li>Slight mood elevation</li>
+            <li>Reduced fatigue</li>
+          </ul>
+        </div>
+        
+        <div class="effect-category negative">
+          <h4>🔴 Negative Effects</h4>
+          <ul>
+            <li>Increased blood pressure and heart rate</li>
+            <li>Jitteriness and anxiety at higher doses</li>
+            <li>Insomnia and sleep disruption</li>
+            <li>Rebound nasal congestion with overuse</li>
+            <li>Urinary retention</li>
+            <li>Headache and dizziness</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-section pharmacology">
+      <h3>🧠 Pharmacology & Neuroscience</h3>
+      <div class="pharma-details">
+        <h4>Primary Mechanism of Action</h4>
+        <p>Pseudoephedrine is a sympathomimetic amine that acts as a selective α1-adrenergic receptor agonist and weak norepinephrine reuptake inhibitor. Its primary therapeutic effect (nasal decongesttion) occurs through α1-receptor activation in nasal blood vessels, causing vasoconstriction. The stimulant effects result from indirect noradrenergic activity and weak dopaminergic effects.</p>
+        
+        <h4>Detailed Receptor Pharmacology</h4>
+        <div class="receptor-table">
+          <div class="receptor-row">
+            <span class="receptor">α1-Adrenergic</span>
+            <span class="affinity">High agonist activity</span>
+            <span class="effect">Vasoconstriction, decongesttion</span>
+          </div>
+          <div class="receptor-row">
+            <span class="receptor">β2-Adrenergic</span>
+            <span class="affinity">Moderate agonist</span>
+            <span class="effect">Bronchodilation, mild stimulation</span>
+          </div>
+          <div class="receptor-row">
+            <span class="receptor">NET (Norepinephrine)</span>
+            <span class="affinity">Weak inhibition</span>
+            <span class="effect">Increased alertness, focus</span>
+          </div>
+          <div class="receptor-row">
+            <span class="receptor">DAT (Dopamine)</span>
+            <span class="affinity">Very weak activity</span>
+            <span class="effect">Minimal mood effects</span>
+          </div>
+          <div class="receptor-row">
+            <span class="receptor">SERT (Serotonin)</span>
+            <span class="affinity">No significant activity</span>
+            <span class="effect">No serotonergic effects</span>
+          </div>
+        </div>
+
+        <h4>Metabolism & Pharmacokinetics</h4>
+        <div class="metabolism-details">
+          <p><strong>Absorption:</strong> Well absorbed orally, 90%+ bioavailability</p>
+          <p><strong>Peak plasma:</strong> 1-3 hours (immediate release), 4-6 hours (extended)</p>
+          <p><strong>Half-life:</strong> 4-6 hours (varies with urine pH)</p>
+          <p><strong>Metabolism:</strong> Minimal hepatic metabolism (~70% excreted unchanged)</p>
+          <p><strong>Elimination:</strong> Primarily renal, pH-dependent (acidic urine increases clearance)</p>
+          <p><strong>Duration:</strong> 4-6 hours therapeutic, up to 12 hours for extended-release</p>
+        </div>
+
+        <h4>Stereochemistry & Activity</h4>
+        <div class="stereochemistry-info">
+          <p><strong>Chirality:</strong> (1S,2S)-pseudoephedrine is the active pharmaceutical isomer</p>
+          <p><strong>vs Ephedrine:</strong> Pseudoephedrine is the (1S,2S) stereoisomer, while ephedrine is (1R,2S)</p>
+          <p><strong>Activity difference:</strong> Less CNS stimulation than ephedrine, more peripheral α1 activity</p>
+          <p><strong>Precursor chemistry:</strong> Readily converted to methamphetamine via reduction reactions</p>
+        </div>
+
+        <h4>Unique Pharmacological Properties</h4>
+        <ul>
+          <li><strong>Peripheral selectivity:</strong> Less blood-brain barrier penetration than ephedrine</li>
+          <li><strong>Long duration:</strong> Sustained sympathomimetic effects</li>
+          <li><strong>pH sensitivity:</strong> Urinary pH affects elimination half-life significantly</li>
+          <li><strong>Tachyphylaxis:</strong> Rapid tolerance development with repeated dosing</li>
+          <li><strong>Precursor potential:</strong> Chemical structure allows easy conversion to methamphetamine</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="profile-section safety">
+      <h3>⚠️ Safety & Harm Reduction</h3>
+      
+      <div class="safety-grid">
+        <div class="safety-item critical">
+          <h4>🚨 Critical Warnings</h4>
+          <ul>
+            <li><strong>Combination products:</strong> Often contains acetaminophen - liver toxicity risk</li>
+            <li><strong>Cardiovascular risk:</strong> Hypertension, arrhythmia, stroke risk at high doses</li>
+            <li><strong>Legal consequences:</strong> Large purchases tracked, precursor laws apply</li>
+            <li><strong>Rebound effects:</strong> Worse congestion after discontinuation</li>
+          </ul>
+        </div>
+        
+        <div class="safety-item precautions">
+          <h4>🛡️ Precautions</h4>
+          <ul>
+            <li>Check all ingredients - avoid acetaminophen combinations for recreational use</li>
+            <li>Monitor blood pressure - contraindicated with hypertension</li>
+            <li>Limit duration - maximum 7 days continuous use</li>
+            <li>Stay hydrated - sympathomimetic effects increase dehydration</li>
+            <li>Avoid evening doses - significant insomnia risk</li>
+            <li>Purchase limits - respect legal restrictions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="contraindications">
+        <h4>🚫 Contraindications</h4>
+        <p><strong>Do not use if you have:</strong> High blood pressure, heart disease, diabetes, hyperthyroidism, enlarged prostate, glaucoma, or are taking MAOIs.</p>
+      </div>
+    </div>
+
+    <div class="profile-section interactions">
+      <h3>⚗️ Drug Interactions</h3>
+      
+      <div class="interaction-levels">
+        <div class="interaction dangerous">
+          <h4>💀 Dangerous Combinations</h4>
+          <ul>
+            <li><strong>MAOIs:</strong> Hypertensive crisis, potentially fatal</li>
+            <li><strong>Stimulants:</strong> Additive cardiovascular stress, arrhythmia risk</li>
+            <li><strong>Blood pressure medications:</strong> Counteracts antihypertensive effects</li>
+            <li><strong>Tricyclic antidepressants:</strong> Enhanced sympathomimetic effects</li>
+          </ul>
+        </div>
+        
+        <div class="interaction risky">
+          <h4>⚠️ Risky Combinations</h4>
+          <ul>
+            <li><strong>Caffeine:</strong> Increased jitteriness, cardiovascular strain</li>
+            <li><strong>Decongestant sprays:</strong> Rebound congestion amplified</li>
+            <li><strong>Acetaminophen products:</strong> Liver toxicity from combination pills</li>
+            <li><strong>Antihistamines:</strong> May mask overstimulation symptoms</li>
+          </ul>
+        </div>
+        
+        <div class="interaction caution">
+          <h4>⚡ Use Caution</h4>
+          <ul>
+            <li><strong>Alcohol:</strong> May mask depressant effects of alcohol</li>
+            <li><strong>Diabetes medications:</strong> May affect blood glucose levels</li>
+            <li><strong>Asthma medications:</strong> Potential for overstimulation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-section legal">
+      <h3>⚖️ Legal Status</h3>
+      <div class="legal-info">
+        <div class="legal-jurisdictions">
+          <div class="jurisdiction">
+            <h4>🇺🇸 United States</h4>
+            <p><strong>Status:</strong> OTC with restrictions (Combat Methamphetamine Epidemic Act)</p>
+            <p><strong>Limits:</strong> 3.6g/day, 9g/month purchase limit, ID required</p>
+            <p><strong>Tracking:</strong> Electronic sales tracking, pharmacy database</p>
+          </div>
+          <div class="jurisdiction">
+            <h4>🇩🇪 Germany</h4>
+            <p><strong>Status:</strong> Prescription only (verschreibungspflichtig)</p>
+            <p><strong>Restrictions:</strong> No OTC availability, doctor prescription required</p>
+          </div>
+          <div class="jurisdiction">
+            <h4>🇬🇧 United Kingdom</h4>
+            <p><strong>Status:</strong> Pharmacy medicine, behind-the-counter</p>
+            <p><strong>Limits:</strong> Purchase limits, pharmacist consultation required</p>
+          </div>
+          <div class="jurisdiction">
+            <h4>🇦🇺 Australia</h4>
+            <p><strong>Status:</strong> Schedule 3 (Pharmacist Only Medicine)</p>
+            <p><strong>Project STOP:</strong> Real-time monitoring system</p>
+          </div>
+        </div>
+        
+        <div class="therapeutic-status">
+          <p><strong>Precursor Status:</strong> Listed as methamphetamine precursor chemical worldwide. Large purchases or suspicious patterns trigger law enforcement investigation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-section history">
+      <h3>📚 History & Culture</h3>
+      
+      <div class="history-timeline">
+        <div class="history-event">
+          <span class="year">1920s</span>
+          <p>First synthesized as part of ephedrine research by pharmaceutical companies</p>
+        </div>
+        <div class="history-event">
+          <span class="year">1950s</span>
+          <p>Introduced as OTC nasal decongestant, marketed as safer than ephedrine</p>
+        </div>
+        <div class="history-event">
+          <span class="year">1980s</span>
+          <p>Sudafed becomes household name, widespread availability</p>
+        </div>
+        <div class="history-event">
+          <span class="year">1990s</span>
+          <p>Discovery of easy methamphetamine conversion methods ("shake and bake")</p>
+        </div>
+        <div class="history-event">
+          <span class="year">2005</span>
+          <p>Combat Meth Epidemic Act - US restricts sales, requires ID and tracking</p>
+        </div>
+        <div class="history-event">
+          <span class="year">2010s</span>
+          <p>Abuse-deterrent formulations introduced to prevent extraction</p>
+        </div>
+        <div class="history-event">
+          <span class="year">Present</span>
+          <p>Global precursor controls, prescription-only in many countries</p>
+        </div>
+      </div>
+
+      <div class="cultural-impact">
+        <h4>Cultural Impact</h4>
+        <p>Pseudoephedrine represents the collision between legitimate medicine and illicit drug manufacturing. The "meth epidemic" transformed this common cold remedy into one of the most regulated OTC medications, creating a new category of "precursor awareness" in pharmacy practice and law enforcement.</p>
+      </div>
+    </div>
+
+    <div class="profile-section research">
+      <h3>🔬 Current Research</h3>
+      
+      <div class="research-areas">
+        <div class="research-item">
+          <h4>Abuse-Deterrent Formulations</h4>
+          <p>Development of tamper-resistant tablets that prevent pseudoephedrine extraction while maintaining therapeutic efficacy.</p>
+        </div>
+        
+        <div class="research-item">
+          <h4>Alternative Decongestants</h4>
+          <p>Research into phenylephrine and other decongestants that cannot be converted to methamphetamine.</p>
+        </div>
+        
+        <div class="research-item">
+          <h4>Precursor Monitoring</h4>
+          <p>Advanced tracking systems and predictive analytics to identify suspicious purchasing patterns.</p>
+        </div>
+        
+        <div class="research-item">
+          <h4>Pharmacokinetic Studies</h4>
+          <p>Investigation of extended-release formulations and improved therapeutic windows.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="substance-resources">
+    <h3>📖 Additional Resources</h3>
+    <div class="resources-grid">
+      <div class="resource-item">
+        <h4>Medical Information</h4>
+        <ul>
+          <li><a href="https://www.drugs.com/pseudoephedrine.html">Drugs.com - Pseudoephedrine</a></li>
+          <li><a href="https://reference.medscape.com/drug/sudafed-pseudoephedrine-343465">Medscape Reference</a></li>
+          <li><a href="https://www.rxlist.com/sudafed-drug.htm">RxList - Sudafed</a></li>
+        </ul>
+      </div>
+      
+      <div class="resource-item">
+        <h4>Legal & Regulatory</h4>
+        <ul>
+          <li><a href="https://www.deadiversion.usdoj.gov/meth/">DEA - Methamphetamine Precursors</a></li>
+          <li><a href="https://www.incb.org/incb/en/precursors.html">INCB - Precursor Control</a></li>
+          <li><a href="https://www.fda.gov/drugs/drug-safety-and-availability">FDA Drug Safety Information</a></li>
+        </ul>
+      </div>
+      
+      <div class="resource-item">
+        <h4>Harm Reduction</h4>
+        <ul>
+          <li><a href="https://www.erowid.org/chemicals/pseudoephedrine/">Erowid - Pseudoephedrine</a></li>
+          <li><a href="https://psychonautwiki.org/wiki/Pseudoephedrine">PsychonautWiki</a></li>
+          <li><a href="https://www.bluelight.org/">Bluelight Forum</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+    </main>
+     <div class="footer-divider"></div>
+<footer class="site-footer">
+  
+</footer>
+
+
+
+
+<footer class="site-footer">
+  
+  </svg>
+    <img src="/Dyo-s-Dubious-Domain/assets/logo.svg" alt="My Logo" class="logo">
+     <p>© 2025 Uwaniumnya. Highly Illegal.</p>
+  </footer>
+
+  
+
+    <!-- Search Scripts -->
+    <script src="/Dyo-s-Dubious-Domain/js/lunr.min.js"></script>
+    <script src="/Dyo-s-Dubious-Domain/assets/js/search.js"></script>
+    <script src="/Dyo-s-Dubious-Domain/assets/js/substance-integration.js"></script>
+    
+    <!-- Only load profile.js on profile page -->
+    
+</body>
+</html>

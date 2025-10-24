@@ -1,10 +1,206 @@
-// Drug Interaction Checker JavaScript
-// Comprehensive interaction database and checker functionality
+// Enhanced Drug Interaction Checker JavaScript
+// Comprehensive interaction database with detailed information
 
-class DrugInteractionChecker {
+class EnhancedDrugInteractionChecker {
   constructor() {
     this.interactions = this.initializeInteractionDatabase();
     this.initializeEventListeners();
+    this.initializeTabs();
+  }
+
+  initializeEventListeners() {
+    const substance1 = document.getElementById('substance1');
+    const substance2 = document.getElementById('substance2');
+    const checkButton = document.getElementById('checkInteraction');
+
+    // Enable/disable check button based on selections
+    const updateButtonState = () => {
+      checkButton.disabled = !substance1.value || !substance2.value;
+    };
+
+    substance1.addEventListener('change', updateButtonState);
+    substance2.addEventListener('change', updateButtonState);
+
+    checkButton.addEventListener('click', () => {
+      if (substance1.value && substance2.value) {
+        this.checkInteraction(substance1.value, substance2.value);
+      }
+    });
+
+    updateButtonState();
+  }
+
+  initializeTabs() {
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('tab-button')) {
+        const tabName = e.target.getAttribute('data-tab');
+        this.switchTab(tabName);
+      }
+    });
+  }
+
+  switchTab(tabName) {
+    // Remove active class from all tabs and panels
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+
+    // Add active class to selected tab and panel
+    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+    document.getElementById(`${tabName}Tab`).classList.add('active');
+  }
+
+  checkInteraction(substance1, substance2) {
+    // Create a canonical key for the interaction
+    const key1 = `${substance1}+${substance2}`;
+    const key2 = `${substance2}+${substance1}`;
+    
+    let interaction = this.interactions[key1] || this.interactions[key2];
+    
+    if (!interaction) {
+      interaction = this.generateGenericInteraction(substance1, substance2);
+    }
+
+    // Enhance interaction with additional data
+    interaction = this.enhanceInteractionData(substance1, substance2, interaction);
+
+    this.displayResults(substance1, substance2, interaction);
+  }
+
+  enhanceInteractionData(substance1, substance2, interaction) {
+    // Add timing information
+    interaction.timing = this.getTimingInfo(substance1, substance2, interaction.risk);
+    
+    // Add dosage recommendations
+    interaction.dosage = this.getDosageInfo(substance1, substance2, interaction.risk);
+    
+    // Add monitoring parameters
+    interaction.monitoring = this.getMonitoringInfo(substance1, substance2, interaction.risk);
+    
+    // Add research data
+    interaction.research = this.getResearchData(substance1, substance2);
+    
+    // Add alternatives
+    interaction.alternatives = this.getAlternatives(substance1, substance2, interaction.risk);
+
+    return interaction;
+  }
+
+  getTimingInfo(substance1, substance2, riskLevel) {
+    const timing = {
+      onset: 'Monitor for interactions within 30-60 minutes',
+      duration: 'Interaction effects may persist for several hours',
+      spacing: 'Consider spacing usage by 4-8 hours minimum'
+    };
+
+    if (riskLevel === 'deadly') {
+      timing.onset = 'Dangerous effects may occur immediately';
+      timing.duration = 'Life-threatening effects can persist for hours';
+      timing.spacing = 'NEVER combine - wait weeks between usage';
+    } else if (riskLevel === 'dangerous') {
+      timing.onset = 'Dangerous effects may occur within minutes';
+      timing.duration = 'Serious effects may last 6-12+ hours';
+      timing.spacing = 'Wait 12-24+ hours between substances';
+    }
+
+    return timing;
+  }
+
+  getDosageInfo(substance1, substance2, riskLevel) {
+    const dosage = {
+      warning: 'Combination affects dosing - adjust accordingly',
+      recommendations: []
+    };
+
+    if (riskLevel === 'deadly') {
+      dosage.warning = '⚠️ NO SAFE DOSE - Do not combine under any circumstances';
+      dosage.recommendations = [
+        'There is no safe dosage for this combination',
+        'Even small amounts can be fatal',
+        'Seek immediate medical attention if already combined'
+      ];
+    } else if (riskLevel === 'dangerous') {
+      dosage.warning = '⚠️ Extremely dangerous - avoid combination';
+      dosage.recommendations = [
+        'If combination cannot be avoided, use minimal doses',
+        'Start with 1/4 normal dose of each substance',
+        'Have medical supervision available',
+        'Never redose'
+      ];
+    } else if (riskLevel === 'moderate') {
+      dosage.recommendations = [
+        'Reduce doses by 25-50% when combining',
+        'Start with lower doses and assess effects',
+        'Allow extra time between doses',
+        'Have trip sitter present'
+      ];
+    } else {
+      dosage.recommendations = [
+        'Use normal dosing with caution',
+        'Monitor effects carefully',
+        'Consider slight dose reduction',
+        'Stay hydrated and safe'
+      ];
+    }
+
+    return dosage;
+  }
+
+  getMonitoringInfo(substance1, substance2, riskLevel) {
+    const monitoring = {
+      cardiovascular: [],
+      neurological: [],
+      respiratory: [],
+      other: []
+    };
+
+    // Base monitoring for all combinations
+    monitoring.cardiovascular = ['Heart rate', 'Blood pressure', 'Chest pain'];
+    monitoring.neurological = ['Consciousness level', 'Confusion', 'Seizure activity'];
+    monitoring.respiratory = ['Breathing rate', 'Oxygen saturation', 'Shortness of breath'];
+    monitoring.other = ['Body temperature', 'Skin color', 'Hydration status'];
+
+    // Enhanced monitoring for higher risk combinations
+    if (riskLevel === 'deadly' || riskLevel === 'dangerous') {
+      monitoring.cardiovascular.push('Cardiac arrhythmias', 'Signs of heart attack');
+      monitoring.neurological.push('Severe confusion', 'Loss of consciousness');
+      monitoring.respiratory.push('Respiratory depression', 'Blue lips/fingertips');
+      monitoring.other.push('Hyperthermia', 'Severe dehydration', 'Organ failure signs');
+    }
+
+    return monitoring;
+  }
+
+  getResearchData(substance1, substance2) {
+    return {
+      clinical: 'Limited clinical data available for this specific combination',
+      cases: 'Case reports may exist in medical literature',
+      pharmacological: 'Based on known pharmacological mechanisms and receptor interactions'
+    };
+  }
+
+  getAlternatives(substance1, substance2, riskLevel) {
+    const alternatives = {
+      safer: [],
+      sequential: 'Space usage by appropriate intervals based on half-lives',
+      substitutes: []
+    };
+
+    if (riskLevel === 'deadly') {
+      alternatives.safer = [
+        'Use only one substance at a time',
+        'Choose substances with completely different mechanisms',
+        'Consult healthcare provider for safer options'
+      ];
+      alternatives.sequential = 'Wait weeks to months between usage';
+    } else {
+      alternatives.safer = [
+        'Use one substance at a time for full experience',
+        'Consider substances with better safety profiles',
+        'Use lower doses if combination is necessary'
+      ];
+    }
+
+    return alternatives;
   }
 
   initializeInteractionDatabase() {
@@ -4283,6 +4479,11 @@ class DrugInteractionChecker {
         riskText.textContent = 'DANGEROUS - High Risk';
         riskDescription.innerHTML = '<strong>This combination carries significant risks.</strong> Should generally be avoided or used only with extreme caution and medical supervision.';
         break;
+      case 'risky':
+        riskEmoji.textContent = '🟠';
+        riskText.textContent = 'RISKY - Proceed with Caution';
+        riskDescription.innerHTML = '<strong>This combination has notable risks.</strong> Requires careful consideration and harm reduction measures.';
+        break;
       case 'moderate':
         riskEmoji.textContent = '🟡';
         riskText.textContent = 'MODERATE RISK - Use Caution';
@@ -4292,6 +4493,16 @@ class DrugInteractionChecker {
         riskEmoji.textContent = '🟢';
         riskText.textContent = 'LOW RISK - Generally Safe';
         riskDescription.innerHTML = '<strong>This combination is generally considered safer.</strong> Still requires caution and proper dosing.';
+        break;
+      case 'caution':
+        riskEmoji.textContent = '🟡';
+        riskText.textContent = 'CAUTION - Limited Data';
+        riskDescription.innerHTML = '<strong>Limited safety data available.</strong> Exercise caution and monitor for unexpected effects.';
+        break;
+      case 'required':
+        riskEmoji.textContent = '🔵';
+        riskText.textContent = 'REQUIRED - Traditional Combination';
+        riskDescription.innerHTML = '<strong>This combination is traditionally used together.</strong> Follow proper preparation and safety guidelines.';
         break;
       case 'unknown':
         riskEmoji.textContent = '⚪';
@@ -4319,13 +4530,245 @@ class DrugInteractionChecker {
       adviceList.appendChild(li);
     });
 
-    // Show results
+    // Update timing information
+    if (interaction.timing) {
+      document.getElementById('onsetTiming').textContent = interaction.timing.onset;
+      document.getElementById('durationTiming').textContent = interaction.timing.duration;
+      document.getElementById('spacingTiming').textContent = interaction.timing.spacing;
+    }
+
+    // Update dosage information
+    if (interaction.dosage) {
+      document.getElementById('dosageWarning').innerHTML = `<p>${interaction.dosage.warning}</p>`;
+      const recommendationsDiv = document.getElementById('dosageRecommendations');
+      recommendationsDiv.innerHTML = '';
+      
+      if (interaction.dosage.recommendations.length > 0) {
+        const ul = document.createElement('ul');
+        interaction.dosage.recommendations.forEach(rec => {
+          const li = document.createElement('li');
+          li.textContent = rec;
+          ul.appendChild(li);
+        });
+        recommendationsDiv.appendChild(ul);
+      }
+    }
+
+    // Update monitoring information
+    if (interaction.monitoring) {
+      const updateMonitoringList = (listId, items) => {
+        const list = document.getElementById(listId);
+        list.innerHTML = '';
+        items.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          list.appendChild(li);
+        });
+      };
+
+      updateMonitoringList('cardiovascularMonitoring', interaction.monitoring.cardiovascular);
+      updateMonitoringList('neurologicalMonitoring', interaction.monitoring.neurological);
+      updateMonitoringList('respiratoryMonitoring', interaction.monitoring.respiratory);
+      updateMonitoringList('otherMonitoring', interaction.monitoring.other);
+    }
+
+    // Update tab content
+    this.updateTabContent(interaction);
+
+    // Show results and scroll to them
     resultsDiv.style.display = 'block';
     resultsDiv.scrollIntoView({ behavior: 'smooth' });
   }
+
+  updateTabContent(interaction) {
+    // Overview tab
+    const overviewSummary = document.getElementById('overviewSummary');
+    overviewSummary.innerHTML = `
+      <div class="overview-grid">
+        <div class="overview-item">
+          <strong>Risk Level:</strong> ${interaction.risk.toUpperCase()}
+        </div>
+        <div class="overview-item">
+          <strong>Primary Concern:</strong> ${this.getPrimaryConcern(interaction.risk)}
+        </div>
+        <div class="overview-item">
+          <strong>Recommendation:</strong> ${this.getRecommendation(interaction.risk)}
+        </div>
+      </div>
+    `;
+
+    // Research tab
+    if (interaction.research) {
+      document.getElementById('clinicalStudies').textContent = interaction.research.clinical;
+      document.getElementById('caseReports').textContent = interaction.research.cases;
+      document.getElementById('pharmacologicalEvidence').textContent = interaction.research.pharmacological;
+    }
+
+    // Alternatives tab
+    if (interaction.alternatives) {
+      const alternativesList = document.getElementById('alternativesList');
+      alternativesList.innerHTML = '';
+      interaction.alternatives.safer.forEach(alt => {
+        const li = document.createElement('li');
+        li.textContent = alt;
+        alternativesList.appendChild(li);
+      });
+
+      document.getElementById('sequentialTiming').innerHTML = `<p>${interaction.alternatives.sequential}</p>`;
+    }
+
+    // Add emergency information for high-risk combinations
+    const emergencyInfo = document.getElementById('emergencyInfo');
+    const emergencyText = document.getElementById('emergencyText');
+    
+    if (interaction.risk === 'deadly' || interaction.risk === 'dangerous') {
+      emergencyInfo.style.display = 'block';
+      emergencyText.innerHTML = this.getEmergencyProtocol(interaction.risk);
+    } else {
+      emergencyInfo.style.display = 'none';
+    }
+  }
+
+  getPrimaryConcern(risk) {
+    switch (risk) {
+      case 'deadly': return 'Fatal respiratory depression or cardiovascular collapse';
+      case 'dangerous': return 'Severe adverse reactions requiring medical intervention';
+      case 'risky': return 'Significant health risks with potential complications';
+      case 'moderate': return 'Moderate health risks manageable with precautions';
+      case 'low': return 'Minor risks with proper harm reduction';
+      case 'caution': return 'Unknown risks due to limited data';
+      case 'required': return 'Traditional combination requiring proper preparation';
+      default: return 'Unknown risk profile';
+    }
+  }
+
+  getRecommendation(risk) {
+    switch (risk) {
+      case 'deadly': return 'NEVER combine - seek emergency care if already combined';
+      case 'dangerous': return 'Avoid combination - use only with medical supervision';
+      case 'risky': return 'Use extreme caution with comprehensive harm reduction';
+      case 'moderate': return 'Manageable with proper precautions and monitoring';
+      case 'low': return 'Generally safe with basic harm reduction measures';
+      case 'caution': return 'Proceed cautiously with careful monitoring';
+      case 'required': return 'Follow traditional preparation and safety guidelines';
+      default: return 'Exercise extreme caution due to unknown risks';
+    }
+  }
+
+  getEmergencyProtocol(risk) {
+    if (risk === 'deadly') {
+      return `
+        <div class="emergency-protocol">
+          <h5>🚨 IMMEDIATE ACTIONS:</h5>
+          <ul>
+            <li><strong>Call 911 immediately</strong></li>
+            <li>Check breathing and pulse continuously</li>
+            <li>Administer naloxone if opioids are involved</li>
+            <li>Keep person awake and responsive</li>
+            <li>Recovery position if unconscious</li>
+            <li>Do NOT induce vomiting</li>
+            <li>Stay with person until help arrives</li>
+          </ul>
+          <div class="warning-box">
+            <p><strong>⚠️ This combination can be fatal within minutes</strong></p>
+          </div>
+        </div>
+      `;
+    } else if (risk === 'dangerous') {
+      return `
+        <div class="emergency-protocol">
+          <h5>⚠️ EMERGENCY ACTIONS:</h5>
+          <ul>
+            <li>Monitor vital signs closely</li>
+            <li>Call 911 if symptoms worsen</li>
+            <li>Keep person calm and sitting upright</li>
+            <li>Monitor for signs of overdose</li>
+            <li>Have emergency contacts ready</li>
+            <li>Do not leave person alone</li>
+          </ul>
+          <div class="warning-box">
+            <p><strong>⚠️ Seek medical attention for any concerning symptoms</strong></p>
+          </div>
+        </div>
+      `;
+    }
+    return '';
+  }
+
+  initializeTabs() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const tabId = e.target.dataset.tab;
+        
+        // Remove active class from all buttons and contents
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // Add active class to clicked button and corresponding content
+        e.target.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+  }
+
+  getUnknownInteraction(substance1, substance2) {
+    return {
+      risk: 'unknown',
+      mechanism: 'Interaction mechanism not well studied or documented.',
+      effects: [
+        'Unknown interaction profile',
+        'Potential for unexpected effects',
+        'Limited safety data available'
+      ],
+      advice: [
+        'Exercise extreme caution',
+        'Start with minimal doses if proceeding',
+        'Have a sober trip sitter present',
+        'Monitor for unexpected reactions',
+        'Consider spacing substances significantly',
+        'Research individual substances thoroughly first'
+      ],
+      timing: {
+        onset: 'Unknown - may vary significantly',
+        duration: 'Unknown - potentially prolonged',
+        spacing: 'Recommend 24+ hours between substances'
+      },
+      dosage: {
+        warning: 'No established safe dosing guidelines exist for this combination.',
+        recommendations: [
+          'If proceeding, use significantly reduced doses',
+          'Start with 1/4 normal dose of each substance',
+          'Allow full effects before redosing',
+          'Have naloxone available if opioids involved'
+        ]
+      },
+      monitoring: {
+        cardiovascular: ['Heart rate', 'Blood pressure', 'Chest pain'],
+        neurological: ['Consciousness level', 'Coordination', 'Speech'],
+        respiratory: ['Breathing rate', 'Oxygen saturation'],
+        other: ['Temperature', 'Hydration', 'Unusual symptoms']
+      },
+      research: {
+        clinical: 'No clinical studies available for this combination.',
+        cases: 'Limited case reports available in literature.',
+        pharmacological: 'Theoretical interactions based on individual substance mechanisms.'
+      },
+      alternatives: {
+        safer: [
+          'Use substances individually on separate occasions',
+          'Research each substance thoroughly before combining',
+          'Consult with healthcare provider familiar with these substances'
+        ],
+        sequential: 'Consider using substances sequentially with appropriate spacing rather than simultaneously.'
+      }
+    };
+  }
 }
 
-// Initialize the interaction checker when the DOM is loaded
+// Initialize the enhanced interaction checker when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  new DrugInteractionChecker();
+  new EnhancedDrugInteractionChecker();
 });
