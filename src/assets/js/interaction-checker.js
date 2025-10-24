@@ -1,206 +1,10 @@
-// Enhanced Drug Interaction Checker JavaScript
-// Comprehensive interaction database with detailed information
+// Drug Interaction Checker JavaScript
+// Comprehensive interaction database and checker functionality
 
-class EnhancedDrugInteractionChecker {
+class DrugInteractionChecker {
   constructor() {
     this.interactions = this.initializeInteractionDatabase();
     this.initializeEventListeners();
-    this.initializeTabs();
-  }
-
-  initializeEventListeners() {
-    const substance1 = document.getElementById('substance1');
-    const substance2 = document.getElementById('substance2');
-    const checkButton = document.getElementById('checkInteraction');
-
-    // Enable/disable check button based on selections
-    const updateButtonState = () => {
-      checkButton.disabled = !substance1.value || !substance2.value;
-    };
-
-    substance1.addEventListener('change', updateButtonState);
-    substance2.addEventListener('change', updateButtonState);
-
-    checkButton.addEventListener('click', () => {
-      if (substance1.value && substance2.value) {
-        this.checkInteraction(substance1.value, substance2.value);
-      }
-    });
-
-    updateButtonState();
-  }
-
-  initializeTabs() {
-    document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('tab-button')) {
-        const tabName = e.target.getAttribute('data-tab');
-        this.switchTab(tabName);
-      }
-    });
-  }
-
-  switchTab(tabName) {
-    // Remove active class from all tabs and panels
-    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
-
-    // Add active class to selected tab and panel
-    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-    document.getElementById(`${tabName}Tab`).classList.add('active');
-  }
-
-  checkInteraction(substance1, substance2) {
-    // Create a canonical key for the interaction
-    const key1 = `${substance1}+${substance2}`;
-    const key2 = `${substance2}+${substance1}`;
-    
-    let interaction = this.interactions[key1] || this.interactions[key2];
-    
-    if (!interaction) {
-      interaction = this.generateGenericInteraction(substance1, substance2);
-    }
-
-    // Enhance interaction with additional data
-    interaction = this.enhanceInteractionData(substance1, substance2, interaction);
-
-    this.displayResults(substance1, substance2, interaction);
-  }
-
-  enhanceInteractionData(substance1, substance2, interaction) {
-    // Add timing information
-    interaction.timing = this.getTimingInfo(substance1, substance2, interaction.risk);
-    
-    // Add dosage recommendations
-    interaction.dosage = this.getDosageInfo(substance1, substance2, interaction.risk);
-    
-    // Add monitoring parameters
-    interaction.monitoring = this.getMonitoringInfo(substance1, substance2, interaction.risk);
-    
-    // Add research data
-    interaction.research = this.getResearchData(substance1, substance2);
-    
-    // Add alternatives
-    interaction.alternatives = this.getAlternatives(substance1, substance2, interaction.risk);
-
-    return interaction;
-  }
-
-  getTimingInfo(substance1, substance2, riskLevel) {
-    const timing = {
-      onset: 'Monitor for interactions within 30-60 minutes',
-      duration: 'Interaction effects may persist for several hours',
-      spacing: 'Consider spacing usage by 4-8 hours minimum'
-    };
-
-    if (riskLevel === 'deadly') {
-      timing.onset = 'Dangerous effects may occur immediately';
-      timing.duration = 'Life-threatening effects can persist for hours';
-      timing.spacing = 'NEVER combine - wait weeks between usage';
-    } else if (riskLevel === 'dangerous') {
-      timing.onset = 'Dangerous effects may occur within minutes';
-      timing.duration = 'Serious effects may last 6-12+ hours';
-      timing.spacing = 'Wait 12-24+ hours between substances';
-    }
-
-    return timing;
-  }
-
-  getDosageInfo(substance1, substance2, riskLevel) {
-    const dosage = {
-      warning: 'Combination affects dosing - adjust accordingly',
-      recommendations: []
-    };
-
-    if (riskLevel === 'deadly') {
-      dosage.warning = '⚠️ NO SAFE DOSE - Do not combine under any circumstances';
-      dosage.recommendations = [
-        'There is no safe dosage for this combination',
-        'Even small amounts can be fatal',
-        'Seek immediate medical attention if already combined'
-      ];
-    } else if (riskLevel === 'dangerous') {
-      dosage.warning = '⚠️ Extremely dangerous - avoid combination';
-      dosage.recommendations = [
-        'If combination cannot be avoided, use minimal doses',
-        'Start with 1/4 normal dose of each substance',
-        'Have medical supervision available',
-        'Never redose'
-      ];
-    } else if (riskLevel === 'moderate') {
-      dosage.recommendations = [
-        'Reduce doses by 25-50% when combining',
-        'Start with lower doses and assess effects',
-        'Allow extra time between doses',
-        'Have trip sitter present'
-      ];
-    } else {
-      dosage.recommendations = [
-        'Use normal dosing with caution',
-        'Monitor effects carefully',
-        'Consider slight dose reduction',
-        'Stay hydrated and safe'
-      ];
-    }
-
-    return dosage;
-  }
-
-  getMonitoringInfo(substance1, substance2, riskLevel) {
-    const monitoring = {
-      cardiovascular: [],
-      neurological: [],
-      respiratory: [],
-      other: []
-    };
-
-    // Base monitoring for all combinations
-    monitoring.cardiovascular = ['Heart rate', 'Blood pressure', 'Chest pain'];
-    monitoring.neurological = ['Consciousness level', 'Confusion', 'Seizure activity'];
-    monitoring.respiratory = ['Breathing rate', 'Oxygen saturation', 'Shortness of breath'];
-    monitoring.other = ['Body temperature', 'Skin color', 'Hydration status'];
-
-    // Enhanced monitoring for higher risk combinations
-    if (riskLevel === 'deadly' || riskLevel === 'dangerous') {
-      monitoring.cardiovascular.push('Cardiac arrhythmias', 'Signs of heart attack');
-      monitoring.neurological.push('Severe confusion', 'Loss of consciousness');
-      monitoring.respiratory.push('Respiratory depression', 'Blue lips/fingertips');
-      monitoring.other.push('Hyperthermia', 'Severe dehydration', 'Organ failure signs');
-    }
-
-    return monitoring;
-  }
-
-  getResearchData(substance1, substance2) {
-    return {
-      clinical: 'Limited clinical data available for this specific combination',
-      cases: 'Case reports may exist in medical literature',
-      pharmacological: 'Based on known pharmacological mechanisms and receptor interactions'
-    };
-  }
-
-  getAlternatives(substance1, substance2, riskLevel) {
-    const alternatives = {
-      safer: [],
-      sequential: 'Space usage by appropriate intervals based on half-lives',
-      substitutes: []
-    };
-
-    if (riskLevel === 'deadly') {
-      alternatives.safer = [
-        'Use only one substance at a time',
-        'Choose substances with completely different mechanisms',
-        'Consult healthcare provider for safer options'
-      ];
-      alternatives.sequential = 'Wait weeks to months between usage';
-    } else {
-      alternatives.safer = [
-        'Use one substance at a time for full experience',
-        'Consider substances with better safety profiles',
-        'Use lower doses if combination is necessary'
-      ];
-    }
-
-    return alternatives;
   }
 
   initializeInteractionDatabase() {
@@ -3793,6 +3597,590 @@ class EnhancedDrugInteractionChecker {
         mechanism: 'Hexen and 4-CEC create extreme cathinone toxicity with additive cardiovascular effects. Both research chemical cathinones with completely unknown safety profiles.',
         effects: ['Extreme cathinone toxicity', 'Fatal cardiovascular stress', 'Unknown organ toxicity', 'Death'],
         advice: ['NEVER combine cathinones', 'Fatal toxicity guaranteed', 'Unknown interaction effects', 'Emergency medical care essential']
+      },
+
+      // COMPREHENSIVE PRESCRIPTION MEDICATION INTERACTIONS
+
+      // Antibiotics and Substance Interactions
+      'metronidazole+alcohol': {
+        risk: 'dangerous',
+        mechanism: 'Metronidazole (Flagyl) blocks alcohol metabolism, causing severe disulfiram-like reaction with potentially fatal outcomes.',
+        effects: ['Severe nausea and vomiting', 'Facial flushing', 'Rapid heart rate', 'Breathing difficulties', 'Hypotension'],
+        advice: ['Never drink alcohol during treatment', 'Reaction can be life-threatening', 'Wait 3 days after stopping metronidazole', 'Emergency care if alcohol consumed']
+      },
+      'ciprofloxacin+caffeine': {
+        risk: 'risky',
+        mechanism: 'Ciprofloxacin blocks caffeine metabolism, leading to dangerous caffeine accumulation and toxicity.',
+        effects: ['Severe caffeine toxicity', 'Anxiety and panic', 'Rapid heart rate', 'Tremors', 'Insomnia'],
+        advice: ['Limit caffeine drastically', 'Monitor for caffeine toxicity', 'Consider switching antibiotics', 'Reduce coffee/energy drinks']
+      },
+      'clarithromycin+psychedelics': {
+        risk: 'risky',
+        mechanism: 'Clarithromycin inhibits enzymes that metabolize many substances, potentially causing dangerous accumulation.',
+        effects: ['Enhanced psychedelic effects', 'Prolonged duration', 'Increased toxicity risk', 'Unpredictable potentiation'],
+        advice: ['Avoid psychedelics during treatment', 'Enzyme inhibition lasts days', 'Unpredictable potentiation', 'Medical consultation required']
+      },
+      'doxycycline+alcohol': {
+        risk: 'risky',
+        mechanism: 'Doxycycline with alcohol reduces antibiotic effectiveness and increases side effects.',
+        effects: ['Reduced antibiotic effectiveness', 'Increased nausea', 'Liver stress', 'Treatment failure risk'],
+        advice: ['Limit alcohol consumption', 'May require longer treatment', 'Monitor for side effects', 'Complete full antibiotic course']
+      },
+
+      // Blood Thinners and Substance Interactions
+      'warfarin+alcohol': {
+        risk: 'dangerous',
+        mechanism: 'Alcohol dramatically affects warfarin metabolism, causing dangerous fluctuations in blood clotting.',
+        effects: ['Dangerous bleeding', 'Stroke from bleeding', 'INR fluctuations', 'Internal hemorrhage'],
+        advice: ['Strictly limit alcohol', 'Frequent INR monitoring', 'Emergency care for bleeding', 'Consistent alcohol intake if any']
+      },
+      'heparin+nsaids': {
+        risk: 'dangerous',
+        mechanism: 'NSAIDs with heparin dramatically increase bleeding risk through multiple mechanisms.',
+        effects: ['Severe bleeding risk', 'Internal hemorrhage', 'Surgical complications', 'Stroke risk'],
+        advice: ['Avoid all NSAIDs', 'Use acetaminophen instead', 'Monitor for bleeding signs', 'Emergency care for bleeding']
+      },
+      'rivaroxaban+st-johns-wort': {
+        risk: 'dangerous',
+        mechanism: 'St. John\'s Wort reduces rivaroxaban effectiveness, dramatically increasing stroke and clot risk.',
+        effects: ['Reduced anticoagulation', 'Stroke risk', 'Blood clot formation', 'Treatment failure'],
+        advice: ['Never combine', 'Stop St. John\'s Wort immediately', 'Monitor for clot symptoms', 'Medical supervision required']
+      },
+      'apixaban+ginkgo': {
+        risk: 'risky',
+        mechanism: 'Ginkgo may enhance apixaban\'s anticoagulant effects, increasing bleeding risk.',
+        effects: ['Increased bleeding risk', 'Bruising', 'Internal bleeding', 'Surgical complications'],
+        advice: ['Avoid ginkgo supplements', 'Monitor for bleeding', 'Stop before surgery', 'Medical consultation needed']
+      },
+
+      // Cholesterol Medications
+      'atorvastatin+grapefruit': {
+        risk: 'dangerous',
+        mechanism: 'Grapefruit juice blocks atorvastatin metabolism, causing dangerous drug accumulation and muscle toxicity.',
+        effects: ['Severe muscle toxicity', 'Rhabdomyolysis', 'Kidney damage', 'Liver toxicity'],
+        advice: ['Never consume grapefruit', 'Monitor for muscle pain', 'Regular liver function tests', 'Emergency care for muscle symptoms']
+      },
+      'simvastatin+alcohol': {
+        risk: 'risky',
+        mechanism: 'Alcohol with statins increases liver stress and risk of serious liver damage.',
+        effects: ['Liver damage', 'Enhanced side effects', 'Muscle toxicity', 'Liver function abnormalities'],
+        advice: ['Limit alcohol consumption', 'Regular liver monitoring', 'Watch for muscle pain', 'Report symptoms immediately']
+      },
+      'lovastatin+niacin': {
+        risk: 'dangerous',
+        mechanism: 'High-dose niacin with statins dramatically increases risk of severe muscle breakdown.',
+        effects: ['Severe rhabdomyolysis', 'Kidney failure', 'Muscle destruction', 'Life-threatening complications'],
+        advice: ['Avoid high-dose niacin', 'Monitor muscle symptoms', 'Regular kidney function tests', 'Emergency care for muscle pain']
+      },
+
+      // Immunosuppressants
+      'cyclosporine+st-johns-wort': {
+        risk: 'deadly',
+        mechanism: 'St. John\'s Wort dramatically reduces cyclosporine levels, causing organ rejection in transplant patients.',
+        effects: ['Organ rejection', 'Transplant failure', 'Life-threatening complications', 'Treatment failure'],
+        advice: ['NEVER combine', 'Immediate medical attention', 'Transplant emergency', 'Stop St. John\'s Wort immediately']
+      },
+      'tacrolimus+grapefruit': {
+        risk: 'dangerous',
+        mechanism: 'Grapefruit dramatically increases tacrolimus levels, causing severe toxicity and organ damage.',
+        effects: ['Severe tacrolimus toxicity', 'Kidney damage', 'Neurological toxicity', 'Dangerous side effects'],
+        advice: ['Never consume grapefruit', 'Monitor drug levels closely', 'Watch for toxicity signs', 'Medical supervision essential']
+      },
+      'methotrexate+alcohol': {
+        risk: 'deadly',
+        mechanism: 'Methotrexate with alcohol causes severe liver toxicity that can be fatal.',
+        effects: ['Severe liver toxicity', 'Liver failure', 'Death', 'Bone marrow suppression'],
+        advice: ['NEVER drink alcohol', 'Regular liver monitoring', 'Fatal liver damage possible', 'Emergency care for symptoms']
+      },
+      'azathioprine+allopurinol': {
+        risk: 'deadly',
+        mechanism: 'Allopurinol blocks azathioprine metabolism, causing life-threatening bone marrow toxicity.',
+        effects: ['Severe bone marrow suppression', 'Life-threatening infections', 'Bleeding complications', 'Death'],
+        advice: ['NEVER combine', 'Dose reduction required if must combine', 'Frequent blood monitoring', 'Medical emergency potential']
+      },
+
+      // Migraine Medications
+      'sumatriptan+ssris': {
+        risk: 'dangerous',
+        mechanism: 'Triptans with SSRIs can cause life-threatening serotonin syndrome.',
+        effects: ['Serotonin syndrome', 'Hyperthermia', 'Cardiovascular complications', 'Neurological toxicity'],
+        advice: ['Monitor for serotonin syndrome', 'Never exceed recommended doses', 'Emergency care for symptoms', 'Medical supervision required']
+      },
+      'ergotamine+macrolide-antibiotics': {
+        risk: 'deadly',
+        mechanism: 'Macrolide antibiotics block ergotamine metabolism, causing fatal ergotism.',
+        effects: ['Severe vasoconstriction', 'Gangrene', 'Stroke', 'Death', 'Ergotism'],
+        advice: ['NEVER combine', 'Fatal vasoconstriction', 'Emergency medical care', 'Life-threatening interaction']
+      },
+      'rizatriptan+maois': {
+        risk: 'deadly',
+        mechanism: 'MAOIs with triptans cause dangerous accumulation and severe hypertensive crisis.',
+        effects: ['Hypertensive crisis', 'Stroke', 'Brain hemorrhage', 'Death', 'Cardiovascular collapse'],
+        advice: ['NEVER combine', 'Wait 2+ weeks after MAOI', 'Fatal blood pressure crisis', 'Emergency care required']
+      },
+
+      // Seizure Medications
+      'phenytoin+alcohol': {
+        risk: 'dangerous',
+        mechanism: 'Alcohol reduces phenytoin effectiveness and increases seizure risk while causing dangerous interactions.',
+        effects: ['Breakthrough seizures', 'Enhanced alcohol effects', 'Coordination problems', 'Liver toxicity'],
+        advice: ['Limit alcohol strictly', 'Monitor seizure control', 'Regular drug level monitoring', 'Avoid binge drinking']
+      },
+      'lamotrigine+birth-control': {
+        risk: 'risky',
+        mechanism: 'Birth control pills reduce lamotrigine levels, potentially causing breakthrough seizures.',
+        effects: ['Reduced seizure control', 'Breakthrough seizures', 'Mood instability', 'Treatment failure'],
+        advice: ['Monitor seizure frequency', 'May need dose adjustment', 'Alternative contraception', 'Neurologist consultation']
+      },
+      'levetiracetam+alcohol': {
+        risk: 'risky',
+        mechanism: 'Alcohol with levetiracetam increases sedation and reduces seizure control.',
+        effects: ['Increased sedation', 'Reduced seizure control', 'Coordination problems', 'Mood effects'],
+        advice: ['Limit alcohol consumption', 'Monitor seizure frequency', 'Watch for excessive sedation', 'Medical guidance needed']
+      },
+
+      // DETAILED PSYCHEDELIC INTERACTIONS
+
+      // LSD Specific Interactions
+      'lsd+stimulants': {
+        risk: 'dangerous',
+        mechanism: 'Stimulants with LSD create dangerous cardiovascular stress and increase risk of psychotic episodes.',
+        effects: ['Severe cardiovascular stress', 'Psychotic episodes', 'Extreme anxiety', 'Paranoia', 'Cardiac complications'],
+        advice: ['Avoid all stimulants', 'High risk of bad trip', 'Cardiovascular monitoring', 'Emergency care for cardiac symptoms']
+      },
+      'lsd+cannabis': {
+        risk: 'moderate',
+        mechanism: 'Cannabis significantly intensifies LSD effects and can trigger overwhelming experiences or anxiety.',
+        effects: ['Greatly intensified visuals', 'Increased anxiety potential', 'Thought loops', 'Overwhelming experiences'],
+        advice: ['Use very small amounts of cannabis', 'May dramatically increase intensity', 'Have CBD available', 'Experienced users only']
+      },
+      'lsd+alcohol': {
+        risk: 'risky',
+        mechanism: 'Alcohol can blunt LSD effects while impairing judgment during a psychedelic experience.',
+        effects: ['Blunted LSD effects', 'Impaired judgment', 'Nausea', 'Poor decision making'],
+        advice: ['Avoid alcohol during trips', 'Impairs harm reduction', 'May waste LSD', 'Stay sober for safety']
+      },
+      'lsd+dextromethorphan': {
+        risk: 'dangerous',
+        mechanism: 'DXM with LSD creates dangerous serotonin syndrome risk and unpredictable dissociative-psychedelic interactions.',
+        effects: ['Serotonin syndrome', 'Extreme confusion', 'Cardiovascular complications', 'Unpredictable effects'],
+        advice: ['NEVER combine', 'Serotonin syndrome risk', 'Emergency care potential', 'Dangerous interaction']
+      },
+      'lsd+ketamine': {
+        risk: 'dangerous',
+        mechanism: 'Combining LSD with ketamine creates overwhelming reality dissociation with high risk of psychological trauma.',
+        effects: ['Complete reality loss', 'Extreme dissociation', 'High trauma risk', 'Dangerous coordination loss'],
+        advice: ['Never combine', 'Extremely overwhelming', 'High psychological trauma risk', 'Physical safety danger']
+      },
+
+      // Psilocybin Specific Interactions
+      'psilocybin+dextromethorphan': {
+        risk: 'dangerous',
+        mechanism: 'DXM with psilocybin creates serotonin syndrome risk and dangerous dissociative-psychedelic interactions.',
+        effects: ['Serotonin syndrome', 'Extreme confusion', 'Cardiovascular stress', 'Unpredictable psychedelic effects'],
+        advice: ['NEVER combine', 'High serotonin syndrome risk', 'Emergency medical care', 'Dangerous interaction']
+      },
+      'psilocybin+alcohol': {
+        risk: 'risky',
+        mechanism: 'Alcohol significantly reduces psilocybin effects while impairing judgment and increasing nausea.',
+        effects: ['Greatly reduced effects', 'Increased nausea', 'Impaired judgment', 'Wasted experience'],
+        advice: ['Avoid alcohol completely', 'Significantly blunts effects', 'Increases nausea', 'Stay sober for safety']
+      },
+      'psilocybin+stimulants': {
+        risk: 'dangerous',
+        mechanism: 'Stimulants with psilocybin create cardiovascular stress and increase anxiety/paranoia significantly.',
+        effects: ['Severe cardiovascular stress', 'Extreme anxiety', 'Paranoid thoughts', 'Heart rate elevation'],
+        advice: ['Avoid all stimulants', 'High anxiety risk', 'Cardiovascular monitoring', 'May trigger panic attacks']
+      },
+      'psilocybin+ketamine': {
+        risk: 'dangerous',
+        mechanism: 'Psilocybin with ketamine creates extremely overwhelming dissociative-psychedelic combinations.',
+        effects: ['Overwhelming experiences', 'Complete reality loss', 'High trauma potential', 'Dangerous dissociation'],
+        advice: ['Never combine', 'Extremely overwhelming', 'High psychological risk', 'Physical safety danger']
+      },
+
+      // DMT Specific Interactions
+      'dmt+maois': {
+        risk: 'deadly',
+        mechanism: 'DMT with pharmaceutical MAOIs creates extreme and potentially fatal potentiation and serotonin syndrome.',
+        effects: ['Extreme potentiation', 'Fatal serotonin syndrome', 'Cardiovascular collapse', 'Death', 'Hyperthermia'],
+        advice: ['NEVER combine with pharmaceutical MAOIs', 'Fatal interaction', 'Emergency medical care', 'Traditional ayahuasca only uses plant MAOIs']
+      },
+      'dmt+ssris': {
+        risk: 'risky',
+        mechanism: 'SSRIs may significantly reduce DMT effects and create unpredictable serotonin interactions.',
+        effects: ['Greatly reduced effects', 'Unpredictable interactions', 'Possible serotonin effects', 'Wasted substance'],
+        advice: ['Taper SSRIs before use', 'Significantly reduced effects likely', 'Consult physician', 'May be completely ineffective']
+      },
+      'dmt+stimulants': {
+        risk: 'dangerous',
+        mechanism: 'Stimulants with DMT create dangerous cardiovascular stress during intense psychedelic experiences.',
+        effects: ['Severe cardiovascular stress', 'Extreme anxiety', 'Panic reactions', 'Heart complications'],
+        advice: ['Avoid all stimulants', 'High cardiovascular risk', 'May trigger panic', 'Emergency care for cardiac symptoms']
+      },
+
+      // Mescaline Specific Interactions
+      'mescaline+maois': {
+        risk: 'deadly',
+        mechanism: 'MAOIs with mescaline create potentially fatal potentiation and serotonin syndrome.',
+        effects: ['Extreme potentiation', 'Serotonin syndrome', 'Hyperthermia', 'Cardiovascular collapse'],
+        advice: ['NEVER combine', 'Fatal interaction potential', 'Emergency medical care', 'Life-threatening combination']
+      },
+      'mescaline+stimulants': {
+        risk: 'dangerous',
+        mechanism: 'Stimulants with mescaline create dangerous cardiovascular stress and worsen body load.',
+        effects: ['Severe cardiovascular stress', 'Worsened body load', 'Extreme discomfort', 'Cardiac complications'],
+        advice: ['Avoid all stimulants', 'Body load becomes unbearable', 'Cardiovascular monitoring', 'High discomfort risk']
+      },
+      'mescaline+alcohol': {
+        risk: 'risky',
+        mechanism: 'Alcohol reduces mescaline effects while increasing nausea and dehydration during long experiences.',
+        effects: ['Reduced mescaline effects', 'Increased nausea', 'Dehydration', 'Longer come-up'],
+        advice: ['Avoid alcohol', 'Increases nausea significantly', 'Dehydration risk', 'May prolong uncomfortable come-up']
+      },
+
+      // Ayahuasca Specific Interactions
+      'ayahuasca+ssris': {
+        risk: 'deadly',
+        mechanism: 'Ayahuasca contains MAOIs that create fatal serotonin syndrome with SSRIs.',
+        effects: ['Fatal serotonin syndrome', 'Hyperthermia', 'Cardiovascular collapse', 'Death'],
+        advice: ['NEVER combine', 'Taper SSRIs weeks before', 'Fatal interaction', 'Medical supervision for tapering']
+      },
+      'ayahuasca+stimulants': {
+        risk: 'deadly',
+        mechanism: 'Ayahuasca MAOIs with stimulants create fatal hypertensive crisis and cardiovascular collapse.',
+        effects: ['Hypertensive crisis', 'Stroke', 'Brain hemorrhage', 'Death', 'Cardiovascular collapse'],
+        advice: ['NEVER combine', 'Fatal blood pressure crisis', 'Emergency medical care', 'Life-threatening interaction']
+      },
+      'ayahuasca+tramadol': {
+        risk: 'deadly',
+        mechanism: 'Ayahuasca MAOIs with tramadol create fatal serotonin syndrome and seizure risk.',
+        effects: ['Fatal serotonin syndrome', 'Seizures', 'Hyperthermia', 'Death'],
+        advice: ['NEVER combine', 'Fatal interaction', 'Emergency medical care', 'Stop tramadol weeks before']
+      },
+      'ayahuasca+dextromethorphan': {
+        risk: 'deadly',
+        mechanism: 'Ayahuasca MAOIs with DXM create fatal serotonin syndrome and extreme toxicity.',
+        effects: ['Fatal serotonin syndrome', 'Extreme toxicity', 'Hyperthermia', 'Death'],
+        advice: ['NEVER combine', 'Fatal interaction', 'Emergency medical care', 'Check all cough medicines']
+      },
+
+      // KETAMINE AND DISSOCIATIVE INTERACTIONS
+
+      // Ketamine Specific Interactions
+      'ketamine+opioids': {
+        risk: 'deadly',
+        mechanism: 'Ketamine with opioids creates dangerous respiratory depression and cardiovascular complications.',
+        effects: ['Severe respiratory depression', 'Cardiovascular complications', 'Loss of consciousness', 'Death'],
+        advice: ['NEVER combine', 'Fatal respiratory depression', 'Emergency medical care', 'High death risk']
+      },
+      'ketamine+gabapentin': {
+        risk: 'dangerous',
+        mechanism: 'Gabapentin enhances ketamine\'s dissociative effects and increases risk of dangerous sedation.',
+        effects: ['Enhanced dissociation', 'Dangerous sedation', 'Respiratory depression', 'Loss of consciousness'],
+        advice: ['Dangerous combination', 'Enhanced dissociative effects', 'Respiratory monitoring', 'High injury risk']
+      },
+      'ketamine+pregabalin': {
+        risk: 'dangerous',
+        mechanism: 'Pregabalin significantly enhances ketamine effects, creating dangerous levels of sedation.',
+        effects: ['Extreme sedation', 'Enhanced dissociation', 'Respiratory depression', 'High injury risk'],
+        advice: ['Very dangerous combination', 'Extreme sedation risk', 'Respiratory monitoring', 'Avoid combination']
+      },
+      'ketamine+muscle-relaxants': {
+        risk: 'deadly',
+        mechanism: 'Muscle relaxants with ketamine create severe CNS depression and respiratory failure.',
+        effects: ['Severe CNS depression', 'Respiratory failure', 'Muscle weakness', 'Death'],
+        advice: ['NEVER combine', 'Fatal respiratory depression', 'Emergency medical care', 'High death risk']
+      },
+
+      // DXM Specific Interactions
+      'dxm+ssris': {
+        risk: 'deadly',
+        mechanism: 'DXM with SSRIs creates severe serotonin syndrome that can be fatal.',
+        effects: ['Severe serotonin syndrome', 'Hyperthermia', 'Cardiovascular collapse', 'Death'],
+        advice: ['NEVER combine', 'Fatal serotonin syndrome', 'Emergency medical care', 'Life-threatening interaction']
+      },
+      'dxm+alcohol': {
+        risk: 'deadly',
+        mechanism: 'DXM with alcohol creates dangerous respiratory depression and liver toxicity.',
+        effects: ['Severe respiratory depression', 'Liver toxicity', 'Loss of consciousness', 'Death'],
+        advice: ['NEVER combine', 'Fatal respiratory depression', 'Emergency medical care', 'High death risk']
+      },
+      'dxm+opioids': {
+        risk: 'deadly',
+        mechanism: 'DXM with opioids creates severe respiratory depression through multiple mechanisms.',
+        effects: ['Severe respiratory depression', 'CNS depression', 'Coma', 'Death'],
+        advice: ['NEVER combine', 'Fatal respiratory failure', 'Emergency medical care', 'Multiple depression pathways']
+      },
+      'dxm+gabapentin': {
+        risk: 'dangerous',
+        mechanism: 'Gabapentin enhances DXM\'s dissociative effects and increases sedation risk.',
+        effects: ['Enhanced dissociation', 'Dangerous sedation', 'Respiratory effects', 'Loss of coordination'],
+        advice: ['Dangerous combination', 'Enhanced effects', 'Monitor breathing', 'High injury risk']
+      },
+
+      // PCP Specific Interactions
+      'pcp+alcohol': {
+        risk: 'deadly',
+        mechanism: 'PCP with alcohol creates extreme impairment, respiratory depression, and violence risk.',
+        effects: ['Extreme impairment', 'Respiratory depression', 'Violence risk', 'Death', 'Complete loss of control'],
+        advice: ['NEVER combine', 'Extreme danger to self and others', 'Fatal respiratory depression', 'Emergency care required']
+      },
+      'pcp+stimulants': {
+        risk: 'deadly',
+        mechanism: 'PCP with stimulants creates extreme agitation, hyperthermia, and cardiovascular crisis.',
+        effects: ['Extreme agitation', 'Fatal hyperthermia', 'Cardiovascular crisis', 'Violence', 'Death'],
+        advice: ['NEVER combine', 'Extreme danger', 'Fatal hyperthermia', 'Law enforcement/medical emergency']
+      },
+      'pcp+depressants': {
+        risk: 'deadly',
+        mechanism: 'PCP with depressants creates unpredictable and often fatal CNS depression.',
+        effects: ['Unpredictable CNS depression', 'Respiratory failure', 'Coma', 'Death'],
+        advice: ['NEVER combine', 'Unpredictable fatal effects', 'Emergency medical care', 'High death risk']
+      },
+
+      // MDMA AND EMPATHOGEN INTERACTIONS
+
+      // MDMA Specific Interactions
+      'mdma+phenelzine': {
+        risk: 'deadly',
+        mechanism: 'MDMA with phenelzine (MAOI) creates fatal serotonin syndrome and hypertensive crisis.',
+        effects: ['Fatal serotonin syndrome', 'Hypertensive crisis', 'Hyperthermia', 'Death'],
+        advice: ['NEVER combine', 'Fatal interaction', 'Emergency medical care', 'Wait 2+ weeks after MAOI']
+      },
+      'mdma+venlafaxine': {
+        risk: 'dangerous',
+        mechanism: 'MDMA with venlafaxine (SNRI) blocks MDMA effects and creates serotonin syndrome risk.',
+        effects: ['Blocked MDMA effects', 'Serotonin syndrome risk', 'Wasted substance', 'Dangerous interaction'],
+        advice: ['MDMA will not work', 'Dangerous serotonin risk', 'Taper medication first', 'Medical supervision']
+      },
+      'mdma+duloxetine': {
+        risk: 'dangerous',
+        mechanism: 'MDMA with duloxetine blocks effects and creates serotonin syndrome risk.',
+        effects: ['Completely blocked effects', 'Serotonin syndrome risk', 'Wasted MDMA', 'Dangerous interaction'],
+        advice: ['MDMA will be ineffective', 'Serotonin syndrome danger', 'Taper medication weeks before', 'Psychiatric consultation']
+      },
+      'mdma+ritonavir': {
+        risk: 'deadly',
+        mechanism: 'Ritonavir blocks MDMA metabolism, causing dangerous accumulation and toxicity.',
+        effects: ['Dangerous MDMA accumulation', 'Extreme toxicity', 'Hyperthermia', 'Death'],
+        advice: ['NEVER combine', 'Dangerous drug accumulation', 'Fatal toxicity risk', 'Emergency medical care']
+      },
+      'mdma+hypertension-medications': {
+        risk: 'dangerous',
+        mechanism: 'MDMA\'s cardiovascular effects conflict with blood pressure medications, creating dangerous fluctuations.',
+        effects: ['Dangerous blood pressure changes', 'Cardiovascular stress', 'Medication ineffectiveness', 'Cardiac complications'],
+        advice: ['Avoid MDMA with heart medications', 'Dangerous cardiovascular effects', 'Medical supervision required', 'Monitor blood pressure']
+      },
+
+      // MDA Specific Interactions
+      'mda+ssris': {
+        risk: 'dangerous',
+        mechanism: 'MDA with SSRIs creates serotonin syndrome risk and blocks empathogenic effects.',
+        effects: ['Serotonin syndrome risk', 'Blocked empathogenic effects', 'Wasted substance', 'Dangerous interaction'],
+        advice: ['Dangerous serotonin interaction', 'Effects will be blocked', 'Taper SSRIs first', 'Medical supervision']
+      },
+      'mda+stimulants': {
+        risk: 'dangerous',
+        mechanism: 'MDA with other stimulants creates extreme cardiovascular stress and hyperthermia.',
+        effects: ['Extreme cardiovascular stress', 'Fatal hyperthermia', 'Cardiac complications', 'Death risk'],
+        advice: ['NEVER combine stimulants', 'Fatal cardiovascular risk', 'Emergency medical care', 'Extreme hyperthermia danger']
+      },
+
+      // COMPREHENSIVE CANNABIS INTERACTIONS
+
+      // THC with Prescription Medications
+      'thc+warfarin': {
+        risk: 'risky',
+        mechanism: 'THC may affect warfarin metabolism and increase bleeding risk.',
+        effects: ['Possible increased bleeding', 'INR fluctuations', 'Anticoagulation changes'],
+        advice: ['Monitor INR closely', 'Inform prescriber of cannabis use', 'Watch for bleeding signs', 'Consistent use patterns']
+      },
+      'thc+seizure-medications': {
+        risk: 'moderate',
+        mechanism: 'THC may interact with seizure medications and affect seizure control.',
+        effects: ['Possible seizure threshold changes', 'Medication interactions', 'Altered seizure control'],
+        advice: ['Monitor seizure frequency', 'Inform neurologist', 'Medical supervision advised', 'Track usage patterns']
+      },
+      'thc+blood-pressure-medications': {
+        risk: 'risky',
+        mechanism: 'THC can cause blood pressure changes that interact with hypertension medications.',
+        effects: ['Blood pressure fluctuations', 'Medication effectiveness changes', 'Cardiovascular effects'],
+        advice: ['Monitor blood pressure regularly', 'Inform cardiologist', 'Watch for dizziness', 'Medical supervision']
+      },
+      'thc+diabetes-medications': {
+        risk: 'moderate',
+        mechanism: 'THC may affect blood sugar levels and interact with diabetes medications.',
+        effects: ['Blood sugar changes', 'Increased appetite effects', 'Medication timing issues'],
+        advice: ['Monitor blood sugar closely', 'Account for increased appetite', 'Inform endocrinologist', 'Timing considerations']
+      },
+
+      // CBD Specific Interactions
+      'cbd+epilepsy-medications': {
+        risk: 'moderate',
+        mechanism: 'CBD can increase levels of some epilepsy medications, requiring dose adjustments.',
+        effects: ['Increased medication levels', 'Enhanced side effects', 'Possible toxicity'],
+        advice: ['Medical supervision required', 'Drug level monitoring', 'Dose adjustments needed', 'Neurologist consultation']
+      },
+      'cbd+blood-thinners': {
+        risk: 'risky',
+        mechanism: 'CBD may enhance anticoagulant effects, increasing bleeding risk.',
+        effects: ['Increased bleeding risk', 'Enhanced anticoagulation', 'Bruising'],
+        advice: ['Monitor for bleeding', 'INR monitoring', 'Medical supervision', 'Report bleeding signs']
+      },
+      'cbd+liver-medications': {
+        risk: 'risky',
+        mechanism: 'CBD is metabolized by liver enzymes and may interact with other liver-processed medications.',
+        effects: ['Altered medication levels', 'Liver enzyme effects', 'Drug interactions'],
+        advice: ['Liver function monitoring', 'Medical supervision', 'Drug level monitoring', 'Hepatologist consultation']
+      },
+
+      // STIMULANT MEDICATION INTERACTIONS
+
+      // Methylphenidate (Ritalin) Interactions
+      'methylphenidate+antidepressants': {
+        risk: 'risky',
+        mechanism: 'Methylphenidate with certain antidepressants may cause dangerous cardiovascular effects.',
+        effects: ['Increased blood pressure', 'Cardiovascular stress', 'Enhanced side effects'],
+        advice: ['Medical supervision required', 'Monitor blood pressure', 'Cardiovascular assessment', 'Dose adjustments needed']
+      },
+      'methylphenidate+cold-medications': {
+        risk: 'dangerous',
+        mechanism: 'Methylphenidate with decongestants creates dangerous cardiovascular overstimulation.',
+        effects: ['Severe hypertension', 'Cardiovascular crisis', 'Stroke risk', 'Heart attack risk'],
+        advice: ['Avoid all decongestants', 'Check all cold medicines', 'Cardiovascular emergency risk', 'Medical supervision']
+      },
+
+      // Amphetamine (Adderall) Interactions
+      'amphetamine+antacids': {
+        risk: 'risky',
+        mechanism: 'Antacids increase amphetamine absorption, leading to enhanced effects and toxicity.',
+        effects: ['Enhanced amphetamine effects', 'Increased toxicity', 'Prolonged duration'],
+        advice: ['Avoid antacids near dose time', 'Space doses apart', 'Monitor for increased effects', 'Medical guidance']
+      },
+      'amphetamine+vitamin-c': {
+        risk: 'moderate',
+        mechanism: 'Vitamin C reduces amphetamine absorption and effectiveness.',
+        effects: ['Reduced medication effectiveness', 'Shorter duration', 'Treatment failure'],
+        advice: ['Avoid vitamin C near dose time', 'Space supplements apart', 'Monitor effectiveness', 'Timing considerations']
+      },
+
+      // OPIOID INTERACTION COMBINATIONS
+
+      // Morphine Interactions
+      'morphine+cimetidine': {
+        risk: 'dangerous',
+        mechanism: 'Cimetidine blocks morphine metabolism, causing dangerous accumulation.',
+        effects: ['Dangerous morphine accumulation', 'Enhanced respiratory depression', 'Prolonged effects', 'Overdose risk'],
+        advice: ['Avoid cimetidine', 'Use alternative H2 blocker', 'Monitor breathing', 'Dose reduction needed']
+      },
+      'morphine+muscle-relaxants': {
+        risk: 'deadly',
+        mechanism: 'Morphine with muscle relaxants creates severe CNS depression and respiratory failure.',
+        effects: ['Severe respiratory depression', 'CNS depression', 'Coma', 'Death'],
+        advice: ['NEVER combine', 'Fatal respiratory failure', 'Emergency medical care', 'High death risk']
+      },
+
+      // Oxycodone Interactions
+      'oxycodone+grapefruit': {
+        risk: 'dangerous',
+        mechanism: 'Grapefruit juice blocks oxycodone metabolism, causing dangerous accumulation.',
+        effects: ['Dangerous oxycodone accumulation', 'Enhanced respiratory depression', 'Overdose risk'],
+        advice: ['Never consume grapefruit', 'Dangerous accumulation', 'Monitor breathing', 'Overdose risk increased']
+      },
+      'oxycodone+antihistamines': {
+        risk: 'dangerous',
+        mechanism: 'Antihistamines enhance oxycodone\'s sedative and respiratory depressant effects.',
+        effects: ['Enhanced respiratory depression', 'Severe sedation', 'Loss of consciousness', 'Overdose risk'],
+        advice: ['Avoid all antihistamines', 'Including Benadryl', 'High overdose risk', 'Monitor breathing']
+      },
+
+      // NOVEL PSYCHOACTIVE SUBSTANCES (NPS)
+
+      // NBOMe Series Interactions
+      'nbome+stimulants': {
+        risk: 'deadly',
+        mechanism: 'NBOMe compounds are already deadly alone; stimulants create fatal cardiovascular crisis.',
+        effects: ['Fatal cardiovascular crisis', 'Extreme hypertension', 'Stroke', 'Death', 'Cardiac arrest'],
+        advice: ['NEVER combine - often fatal', 'NBOMe alone is deadly', 'Emergency medical care', 'Avoid NBOMe entirely']
+      },
+      'nbome+depressants': {
+        risk: 'deadly',
+        mechanism: 'NBOMe\'s cardiovascular toxicity with depressants creates unpredictable fatal complications.',
+        effects: ['Unpredictable fatal effects', 'Cardiovascular collapse', 'Respiratory depression', 'Death'],
+        advice: ['NEVER combine', 'Unpredictable fatal reactions', 'Emergency medical care', 'Avoid NBOMe compounds']
+      },
+      'nbome+cannabis': {
+        risk: 'deadly',
+        mechanism: 'Even cannabis with NBOMe can trigger fatal seizures and cardiovascular complications.',
+        effects: ['Fatal seizures', 'Cardiovascular crisis', 'Death', 'Unpredictable toxicity'],
+        advice: ['NO safe combinations with NBOMe', 'Fatal even with cannabis', 'Avoid NBOMe entirely', 'Emergency care essential']
+      },
+
+      // Synthetic Cannabinoid Interactions
+      'spice+alcohol': {
+        risk: 'deadly',
+        mechanism: 'Synthetic cannabinoids with alcohol create unpredictable and often fatal reactions.',
+        effects: ['Unpredictable fatal reactions', 'Severe psychosis', 'Respiratory depression', 'Death'],
+        advice: ['NEVER combine', 'Unpredictable toxicity', 'Emergency medical care', 'Avoid synthetic cannabinoids']
+      },
+      'k2+stimulants': {
+        risk: 'deadly',
+        mechanism: 'K2/Spice with stimulants creates fatal seizures and cardiovascular complications.',
+        effects: ['Fatal seizures', 'Cardiovascular crisis', 'Extreme agitation', 'Death'],
+        advice: ['NEVER combine', 'Fatal seizure risk', 'Emergency medical care', 'Avoid synthetic cannabinoids']
+      },
+
+      // COMPREHENSIVE HERB AND SUPPLEMENT INTERACTIONS
+
+      // St. John's Wort Interactions
+      'st-johns-wort+ssris': {
+        risk: 'dangerous',
+        mechanism: 'St. John\'s Wort with SSRIs creates dangerous serotonin syndrome.',
+        effects: ['Serotonin syndrome', 'Hyperthermia', 'Cardiovascular complications', 'Neurological effects'],
+        advice: ['NEVER combine', 'Serotonin syndrome risk', 'Medical supervision required', 'Taper one before starting other']
+      },
+      'st-johns-wort+heart-medications': {
+        risk: 'dangerous',
+        mechanism: 'St. John\'s Wort reduces effectiveness of many heart medications.',
+        effects: ['Reduced medication effectiveness', 'Cardiovascular complications', 'Treatment failure'],
+        advice: ['Avoid combination', 'Inform cardiologist', 'Monitor heart function', 'Alternative treatments needed']
+      },
+
+      // Kava Interactions
+      'kava+hepatotoxic-medications': {
+        risk: 'dangerous',
+        mechanism: 'Kava with liver-toxic medications creates severe liver damage risk.',
+        effects: ['Severe liver damage', 'Liver failure', 'Hepatotoxicity', 'Jaundice'],
+        advice: ['Avoid combination', 'Liver function monitoring', 'Medical supervision', 'Alternative treatments']
+      },
+      'kava+acetaminophen': {
+        risk: 'dangerous',
+        mechanism: 'Kava with acetaminophen creates enhanced liver toxicity risk.',
+        effects: ['Enhanced liver toxicity', 'Liver damage', 'Hepatic complications'],
+        advice: ['Avoid combination', 'Use alternative pain relief', 'Liver monitoring', 'Medical consultation']
+      },
+
+      // FOOD AND SUBSTANCE INTERACTIONS
+
+      // Tyramine-Rich Foods with MAOIs
+      'aged-cheese+maois': {
+        risk: 'deadly',
+        mechanism: 'Tyramine in aged cheese with MAOIs causes fatal hypertensive crisis.',
+        effects: ['Hypertensive crisis', 'Stroke', 'Brain hemorrhage', 'Death'],
+        advice: ['NEVER consume aged cheese', 'Fatal blood pressure crisis', 'Emergency medical care', 'Strict dietary restrictions']
+      },
+      'cured-meats+maois': {
+        risk: 'deadly',
+        mechanism: 'Tyramine in cured meats with MAOIs creates life-threatening blood pressure spikes.',
+        effects: ['Fatal hypertensive crisis', 'Stroke', 'Brain hemorrhage', 'Death'],
+        advice: ['NEVER consume cured meats', 'Life-threatening interaction', 'Emergency care', 'Strict dietary compliance']
+      },
+      'red-wine+maois': {
+        risk: 'deadly',
+        mechanism: 'Tyramine in red wine with MAOIs causes fatal hypertensive reactions.',
+        effects: ['Fatal hypertensive crisis', 'Stroke', 'Cardiovascular collapse', 'Death'],
+        advice: ['NEVER consume red wine', 'Fatal blood pressure spike', 'Emergency medical care', 'All alcohol dangerous']
       }
     };
   }
@@ -4479,11 +4867,6 @@ class EnhancedDrugInteractionChecker {
         riskText.textContent = 'DANGEROUS - High Risk';
         riskDescription.innerHTML = '<strong>This combination carries significant risks.</strong> Should generally be avoided or used only with extreme caution and medical supervision.';
         break;
-      case 'risky':
-        riskEmoji.textContent = '🟠';
-        riskText.textContent = 'RISKY - Proceed with Caution';
-        riskDescription.innerHTML = '<strong>This combination has notable risks.</strong> Requires careful consideration and harm reduction measures.';
-        break;
       case 'moderate':
         riskEmoji.textContent = '🟡';
         riskText.textContent = 'MODERATE RISK - Use Caution';
@@ -4493,16 +4876,6 @@ class EnhancedDrugInteractionChecker {
         riskEmoji.textContent = '🟢';
         riskText.textContent = 'LOW RISK - Generally Safe';
         riskDescription.innerHTML = '<strong>This combination is generally considered safer.</strong> Still requires caution and proper dosing.';
-        break;
-      case 'caution':
-        riskEmoji.textContent = '🟡';
-        riskText.textContent = 'CAUTION - Limited Data';
-        riskDescription.innerHTML = '<strong>Limited safety data available.</strong> Exercise caution and monitor for unexpected effects.';
-        break;
-      case 'required':
-        riskEmoji.textContent = '🔵';
-        riskText.textContent = 'REQUIRED - Traditional Combination';
-        riskDescription.innerHTML = '<strong>This combination is traditionally used together.</strong> Follow proper preparation and safety guidelines.';
         break;
       case 'unknown':
         riskEmoji.textContent = '⚪';
@@ -4530,245 +4903,13 @@ class EnhancedDrugInteractionChecker {
       adviceList.appendChild(li);
     });
 
-    // Update timing information
-    if (interaction.timing) {
-      document.getElementById('onsetTiming').textContent = interaction.timing.onset;
-      document.getElementById('durationTiming').textContent = interaction.timing.duration;
-      document.getElementById('spacingTiming').textContent = interaction.timing.spacing;
-    }
-
-    // Update dosage information
-    if (interaction.dosage) {
-      document.getElementById('dosageWarning').innerHTML = `<p>${interaction.dosage.warning}</p>`;
-      const recommendationsDiv = document.getElementById('dosageRecommendations');
-      recommendationsDiv.innerHTML = '';
-      
-      if (interaction.dosage.recommendations.length > 0) {
-        const ul = document.createElement('ul');
-        interaction.dosage.recommendations.forEach(rec => {
-          const li = document.createElement('li');
-          li.textContent = rec;
-          ul.appendChild(li);
-        });
-        recommendationsDiv.appendChild(ul);
-      }
-    }
-
-    // Update monitoring information
-    if (interaction.monitoring) {
-      const updateMonitoringList = (listId, items) => {
-        const list = document.getElementById(listId);
-        list.innerHTML = '';
-        items.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          list.appendChild(li);
-        });
-      };
-
-      updateMonitoringList('cardiovascularMonitoring', interaction.monitoring.cardiovascular);
-      updateMonitoringList('neurologicalMonitoring', interaction.monitoring.neurological);
-      updateMonitoringList('respiratoryMonitoring', interaction.monitoring.respiratory);
-      updateMonitoringList('otherMonitoring', interaction.monitoring.other);
-    }
-
-    // Update tab content
-    this.updateTabContent(interaction);
-
-    // Show results and scroll to them
+    // Show results
     resultsDiv.style.display = 'block';
     resultsDiv.scrollIntoView({ behavior: 'smooth' });
   }
-
-  updateTabContent(interaction) {
-    // Overview tab
-    const overviewSummary = document.getElementById('overviewSummary');
-    overviewSummary.innerHTML = `
-      <div class="overview-grid">
-        <div class="overview-item">
-          <strong>Risk Level:</strong> ${interaction.risk.toUpperCase()}
-        </div>
-        <div class="overview-item">
-          <strong>Primary Concern:</strong> ${this.getPrimaryConcern(interaction.risk)}
-        </div>
-        <div class="overview-item">
-          <strong>Recommendation:</strong> ${this.getRecommendation(interaction.risk)}
-        </div>
-      </div>
-    `;
-
-    // Research tab
-    if (interaction.research) {
-      document.getElementById('clinicalStudies').textContent = interaction.research.clinical;
-      document.getElementById('caseReports').textContent = interaction.research.cases;
-      document.getElementById('pharmacologicalEvidence').textContent = interaction.research.pharmacological;
-    }
-
-    // Alternatives tab
-    if (interaction.alternatives) {
-      const alternativesList = document.getElementById('alternativesList');
-      alternativesList.innerHTML = '';
-      interaction.alternatives.safer.forEach(alt => {
-        const li = document.createElement('li');
-        li.textContent = alt;
-        alternativesList.appendChild(li);
-      });
-
-      document.getElementById('sequentialTiming').innerHTML = `<p>${interaction.alternatives.sequential}</p>`;
-    }
-
-    // Add emergency information for high-risk combinations
-    const emergencyInfo = document.getElementById('emergencyInfo');
-    const emergencyText = document.getElementById('emergencyText');
-    
-    if (interaction.risk === 'deadly' || interaction.risk === 'dangerous') {
-      emergencyInfo.style.display = 'block';
-      emergencyText.innerHTML = this.getEmergencyProtocol(interaction.risk);
-    } else {
-      emergencyInfo.style.display = 'none';
-    }
-  }
-
-  getPrimaryConcern(risk) {
-    switch (risk) {
-      case 'deadly': return 'Fatal respiratory depression or cardiovascular collapse';
-      case 'dangerous': return 'Severe adverse reactions requiring medical intervention';
-      case 'risky': return 'Significant health risks with potential complications';
-      case 'moderate': return 'Moderate health risks manageable with precautions';
-      case 'low': return 'Minor risks with proper harm reduction';
-      case 'caution': return 'Unknown risks due to limited data';
-      case 'required': return 'Traditional combination requiring proper preparation';
-      default: return 'Unknown risk profile';
-    }
-  }
-
-  getRecommendation(risk) {
-    switch (risk) {
-      case 'deadly': return 'NEVER combine - seek emergency care if already combined';
-      case 'dangerous': return 'Avoid combination - use only with medical supervision';
-      case 'risky': return 'Use extreme caution with comprehensive harm reduction';
-      case 'moderate': return 'Manageable with proper precautions and monitoring';
-      case 'low': return 'Generally safe with basic harm reduction measures';
-      case 'caution': return 'Proceed cautiously with careful monitoring';
-      case 'required': return 'Follow traditional preparation and safety guidelines';
-      default: return 'Exercise extreme caution due to unknown risks';
-    }
-  }
-
-  getEmergencyProtocol(risk) {
-    if (risk === 'deadly') {
-      return `
-        <div class="emergency-protocol">
-          <h5>🚨 IMMEDIATE ACTIONS:</h5>
-          <ul>
-            <li><strong>Call 911 immediately</strong></li>
-            <li>Check breathing and pulse continuously</li>
-            <li>Administer naloxone if opioids are involved</li>
-            <li>Keep person awake and responsive</li>
-            <li>Recovery position if unconscious</li>
-            <li>Do NOT induce vomiting</li>
-            <li>Stay with person until help arrives</li>
-          </ul>
-          <div class="warning-box">
-            <p><strong>⚠️ This combination can be fatal within minutes</strong></p>
-          </div>
-        </div>
-      `;
-    } else if (risk === 'dangerous') {
-      return `
-        <div class="emergency-protocol">
-          <h5>⚠️ EMERGENCY ACTIONS:</h5>
-          <ul>
-            <li>Monitor vital signs closely</li>
-            <li>Call 911 if symptoms worsen</li>
-            <li>Keep person calm and sitting upright</li>
-            <li>Monitor for signs of overdose</li>
-            <li>Have emergency contacts ready</li>
-            <li>Do not leave person alone</li>
-          </ul>
-          <div class="warning-box">
-            <p><strong>⚠️ Seek medical attention for any concerning symptoms</strong></p>
-          </div>
-        </div>
-      `;
-    }
-    return '';
-  }
-
-  initializeTabs() {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    tabButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        const tabId = e.target.dataset.tab;
-        
-        // Remove active class from all buttons and contents
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
-        
-        // Add active class to clicked button and corresponding content
-        e.target.classList.add('active');
-        document.getElementById(tabId).classList.add('active');
-      });
-    });
-  }
-
-  getUnknownInteraction(substance1, substance2) {
-    return {
-      risk: 'unknown',
-      mechanism: 'Interaction mechanism not well studied or documented.',
-      effects: [
-        'Unknown interaction profile',
-        'Potential for unexpected effects',
-        'Limited safety data available'
-      ],
-      advice: [
-        'Exercise extreme caution',
-        'Start with minimal doses if proceeding',
-        'Have a sober trip sitter present',
-        'Monitor for unexpected reactions',
-        'Consider spacing substances significantly',
-        'Research individual substances thoroughly first'
-      ],
-      timing: {
-        onset: 'Unknown - may vary significantly',
-        duration: 'Unknown - potentially prolonged',
-        spacing: 'Recommend 24+ hours between substances'
-      },
-      dosage: {
-        warning: 'No established safe dosing guidelines exist for this combination.',
-        recommendations: [
-          'If proceeding, use significantly reduced doses',
-          'Start with 1/4 normal dose of each substance',
-          'Allow full effects before redosing',
-          'Have naloxone available if opioids involved'
-        ]
-      },
-      monitoring: {
-        cardiovascular: ['Heart rate', 'Blood pressure', 'Chest pain'],
-        neurological: ['Consciousness level', 'Coordination', 'Speech'],
-        respiratory: ['Breathing rate', 'Oxygen saturation'],
-        other: ['Temperature', 'Hydration', 'Unusual symptoms']
-      },
-      research: {
-        clinical: 'No clinical studies available for this combination.',
-        cases: 'Limited case reports available in literature.',
-        pharmacological: 'Theoretical interactions based on individual substance mechanisms.'
-      },
-      alternatives: {
-        safer: [
-          'Use substances individually on separate occasions',
-          'Research each substance thoroughly before combining',
-          'Consult with healthcare provider familiar with these substances'
-        ],
-        sequential: 'Consider using substances sequentially with appropriate spacing rather than simultaneously.'
-      }
-    };
-  }
 }
 
-// Initialize the enhanced interaction checker when the DOM is loaded
+// Initialize the interaction checker when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  new EnhancedDrugInteractionChecker();
+  new DrugInteractionChecker();
 });

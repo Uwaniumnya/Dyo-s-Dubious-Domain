@@ -474,178 +474,31 @@
       <div id="riskDescription" class="risk-description"></div>
     </div>
     
-    <div class="interaction-details-grid">
-      <div class="detail-section mechanism-section">
+    <div class="interaction-details">
+      <div class="detail-section">
         <h3>🧬 Mechanism of Interaction</h3>
         <p id="mechanismText"></p>
-        <div id="pharmacologyDetails" class="pharmacology-details" style="display: none;">
-          <h4>🔬 Pharmacological Details</h4>
-          <div id="pharmacologyText"></div>
-        </div>
       </div>
       
-      <div class="detail-section effects-section">
+      <div class="detail-section">
         <h3>⚠️ Potential Effects</h3>
         <ul id="effectsList"></ul>
-        <div id="severityBreakdown" class="severity-breakdown" style="display: none;">
-          <h4>📊 Effect Severity</h4>
-          <div id="severityChart"></div>
-        </div>
       </div>
       
-      <div class="detail-section advice-section">
+      <div class="detail-section">
         <h3>💡 Harm Reduction Advice</h3>
         <ul id="adviceList"></ul>
-        <div id="emergencyInfo" class="emergency-info" style="display: none;">
-          <h4>🚨 Emergency Protocol</h4>
-          <div id="emergencyText"></div>
-        </div>
-      </div>
-      
-      <div class="detail-section timing-section">
-        <h3>⏰ Timing Considerations</h3>
-        <div id="timingInfo">
-          <div class="timing-item">
-            <span class="timing-label">Onset Interaction:</span>
-            <span id="onsetTiming">Information not available</span>
-          </div>
-          <div class="timing-item">
-            <span class="timing-label">Duration Impact:</span>
-            <span id="durationTiming">Information not available</span>
-          </div>
-          <div class="timing-item">
-            <span class="timing-label">Safe Spacing:</span>
-            <span id="spacingTiming">Information not available</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="detail-section dosage-section">
-        <h3>💊 Dosage Modifications</h3>
-        <div id="dosageInfo">
-          <div class="dosage-warning" id="dosageWarning">
-            <p>⚠️ This combination requires careful dose consideration</p>
-          </div>
-          <div class="dosage-recommendations" id="dosageRecommendations"></div>
-        </div>
-      </div>
-      
-      <div class="detail-section monitoring-section">
-        <h3>🔍 What to Monitor</h3>
-        <div id="monitoringInfo">
-          <div class="monitoring-category">
-            <h4>🫀 Cardiovascular</h4>
-            <ul id="cardiovascularMonitoring"></ul>
-          </div>
-          <div class="monitoring-category">
-            <h4>🧠 Neurological</h4>
-            <ul id="neurologicalMonitoring"></ul>
-          </div>
-          <div class="monitoring-category">
-            <h4>🫁 Respiratory</h4>
-            <ul id="respiratoryMonitoring"></ul>
-          </div>
-          <div class="monitoring-category">
-            <h4>🌡️ Other Signs</h4>
-            <ul id="otherMonitoring"></ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="interaction-tabs">
-      <div class="tab-buttons">
-        <button class="tab-button active" data-tab="overview">Overview</button>
-        <button class="tab-button" data-tab="research">Research Data</button>
-        <button class="tab-button" data-tab="reports">User Reports</button>
-        <button class="tab-button" data-tab="alternatives">Safer Alternatives</button>
-      </div>
-      
-      <div class="tab-content">
-        <div id="overviewTab" class="tab-panel active">
-          <h4>📋 Interaction Summary</h4>
-          <div id="overviewSummary"></div>
-        </div>
-        
-        <div id="researchTab" class="tab-panel">
-          <h4>📚 Scientific Literature</h4>
-          <div id="researchData">
-            <div class="research-item">
-              <h5>Clinical Studies</h5>
-              <div id="clinicalStudies">No specific clinical studies available for this combination</div>
-            </div>
-            <div class="research-item">
-              <h5>Case Reports</h5>
-              <div id="caseReports">No case reports available for this combination</div>
-            </div>
-            <div class="research-item">
-              <h5>Pharmacological Evidence</h5>
-              <div id="pharmacologicalEvidence">Based on known pharmacological mechanisms</div>
-            </div>
-          </div>
-        </div>
-        
-        <div id="reportsTab" class="tab-panel">
-          <h4>👥 Community Reports</h4>
-          <div id="userReports">
-            <div class="report-disclaimer">
-              <p><strong>⚠️ Important:</strong> User reports are anecdotal and should not be considered medical advice. Individual responses vary greatly.</p>
-            </div>
-            <div id="reportsSummary">
-              <p>User experience data for this combination is limited. Always prioritize scientific evidence and medical advice.</p>
-            </div>
-          </div>
-        </div>
-        
-        <div id="alternativesTab" class="tab-panel">
-          <h4>🔄 Safer Alternatives</h4>
-          <div id="saferAlternatives">
-            <div class="alternatives-section">
-              <h5>Instead of combining, consider:</h5>
-              <ul id="alternativesList">
-                <li>Using one substance at a time</li>
-                <li>Spacing usage by several hours or days</li>
-                <li>Choosing substances with better safety profiles</li>
-                <li>Consulting with healthcare professionals</li>
-              </ul>
-            </div>
-            <div class="timing-alternatives">
-              <h5>Sequential Usage Guidelines:</h5>
-              <div id="sequentialTiming">
-                <p>If you must use both substances, consider spacing them appropriately based on their half-lives and interaction potential.</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     
     <div class="interaction-footer">
       <div class="source-note">
-        <p><strong>Sources:</strong> PsychonautWiki, TripSit, Erowid, clinical pharmacology literature, peer-reviewed studies</p>
+        <p><strong>Sources:</strong> PsychonautWiki, TripSit, Erowid, clinical pharmacology literature</p>
       </div>
       
       <div class="disclaimer-box">
         <h4>⚠️ Critical Disclaimer</h4>
-        <p>This tool is for educational purposes only and should not replace professional medical advice. Drug interactions can be unpredictable and potentially fatal. Always consult healthcare professionals before combining substances. Individual responses vary greatly.</p>
-      </div>
-      
-      <div class="emergency-contacts">
-        <h4>🚨 Emergency Resources</h4>
-        <div class="emergency-grid">
-          <div class="emergency-item">
-            <strong>Emergency Services:</strong> 911 (US), 999 (UK), 112 (EU)
-          </div>
-          <div class="emergency-item">
-            <strong>Poison Control:</strong> 1-800-222-1222 (US)
-          </div>
-          <div class="emergency-item">
-            <strong>Crisis Text Line:</strong> Text HOME to 741741
-          </div>
-          <div class="emergency-item">
-            <strong>TripSit Chat:</strong> chat.tripsit.me
-          </div>
-        </div>
+        <p>This tool is for educational purposes only and should not replace professional medical advice. Drug interactions can be unpredictable and potentially fatal. Always consult healthcare professionals before combining substances.</p>
       </div>
     </div>
   </div>
@@ -725,6 +578,7 @@
 
 
 
+<script src="/assets/js/interaction-checker.js"></script>
     </main>
      <div class="footer-divider"></div>
 <footer class="site-footer">
@@ -749,11 +603,6 @@
     <script src="/Dyo-s-Dubious-Domain/assets/js/substance-integration.js"></script>
     
     <!-- Only load profile.js on profile page -->
-    
-    
-    <!-- Only load interaction-checker.js on interaction checker page -->
-    
-    <script src="/Dyo-s-Dubious-Domain/assets/js/interaction-checker.js"></script>
     
 </body>
 </html>
