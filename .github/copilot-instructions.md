@@ -57,22 +57,59 @@ permalink: "/dyos-domain/substances/slug/"
 ## Database & User System
 
 ### SQLite Schema
-- `users` - Authentication (username, email, password)
-- `user_profiles` - Display profiles with bio, images
-- `user_experiences` - Substance experience logs
-- `user_substances` - User's substance collection
-- `user_ratings` - Substance ratings (1-10 scale)
+- `users` - Authentication (username, email, password, created_at)
+- `user_profiles` - Display profiles (display_name, bio, location, website, avatar_url, banner_url)
+- `user_experiences` - Substance experience logs with ratings and comments
+- `user_substances` - User's substance collection (substance_name, added_at)
+- `user_ratings` - Substance ratings (1-10 scale) with optional comments and timestamps
+- `wishlist` - User wishlist for substances to try (priority, notes)
 
-### API Authentication
+### Backend Server Architecture (`server.js`)
+- **Framework**: Express.js with comprehensive middleware stack
+- **Database**: SQLite with automatic backups every 6 hours (10 backup retention)
+- **Authentication**: JWT tokens in secure HTTP-only cookies
+- **Image Storage**: Base64 encoded images stored directly in database
+- **CORS**: Configured for cross-origin requests from GitHub Pages
+- **Security**: Trust proxy settings for HTTPS detection behind nginx
+
+### API Authentication System
 - JWT tokens stored in HTTP-only cookies (`auth_token`)
 - Middleware: `authenticateToken()` for protected routes
 - Session management with express-session
+- Automatic HTTPS redirect for mobile browsers
+- Enhanced cookie security with dynamic protocol detection
 
-### Key API Endpoints
-- `POST /api/register` - User registration
-- `GET /api/profile` - Get user profile
-- `POST /api/experiences` - Log substance experience
+### Complete API Endpoints
+#### Authentication
+- `POST /api/register` - User registration with validation
+- `POST /api/login` - User login with enhanced mobile support
+- `POST /api/logout` - Secure logout with cookie clearing
+- `GET /api/auth/check` - Verify authentication status
+
+#### User Profile Management
+- `GET /api/profile` - Get complete user profile with images
+- `PUT /api/profile` - Update profile (bio, images, display name)
+- Profile images automatically resized and stored as base64
+
+#### Substance Collections
+- `GET /api/substances` - Get user's substance collection
 - `POST /api/substances` - Add substance to collection
+- `DELETE /api/substances/:id` - Remove substance from collection
+
+#### Rating System
+- `GET /api/ratings` - Get all user ratings
+- `POST /api/ratings` - Submit substance rating (1-10) with comments
+- Ratings include timestamp and are used for analytics
+
+#### Wishlist Management
+- `GET /api/wishlist` - Get user's substance wishlist
+- `POST /api/wishlist` - Add substance to wishlist with priority
+- `PUT /api/wishlist/:id` - Update wishlist item
+- `DELETE /api/wishlist/:id` - Remove from wishlist
+
+#### Debug & Monitoring
+- `GET /debug/auth-info` - Mobile authentication debugging endpoint
+- Comprehensive logging for authentication and profile operations
 
 ## Eleventy Configuration Specifics
 
@@ -96,24 +133,57 @@ eleventyConfig.addCollection("substances", function(collectionApi) {
 
 ## Deployment & Production
 
+### Production Server Setup (Contabo VPS)
+- **Server**: Ubuntu VPS at `vmd175967.contaboserver.net`
+- **Process Manager**: PM2 for backend process management
+- **Web Server**: Nginx as reverse proxy with SSL termination
+- **SSL**: Let's Encrypt certificates with automatic renewal
+- **Domain**: HTTPS enforced for all traffic
+
 ### PM2 Configuration (`ecosystem.config.js`)
-- Single cluster instance for backend
-- Logs to `/var/log/pm2/cccc-*.log`
+- Process name: `cccc-backend`
+- Single cluster instance for backend stability
+- Logs to `/root/.pm2/logs/cccc-backend-*.log`
 - Auto-restart with delay for stability
+- Environment detection and configuration
 
-### Nginx Setup
-- Static files served from `public/`
-- API proxy to `localhost:3000` for `/api/*`
-- SSL termination with Let's Encrypt
+### Nginx Configuration
+- **Static Files**: Served from `/var/www/cccc/public/`
+- **API Proxy**: `/api/*` requests proxied to `localhost:3000`
+- **SSL Setup**: Full HTTPS with proper header forwarding
+- **CORS**: Headers configured for GitHub Pages frontend
+- **Proxy Headers**: Proper HTTPS detection with trust proxy
+- **Security**: HSTS, XSS protection, content type sniffing prevention
 
-### Environment Variables
+### Backend Environment Configuration
 ```bash
 NODE_ENV=production
 PORT=3000
 JWT_SECRET=<64-char-random-string>
 DB_PATH=./database.sqlite
-FRONTEND_URL=https://yourdomain.com
+FRONTEND_URL=https://uwaniumnya.github.io
+IS_PRODUCTION=true
 ```
+
+### Database Backup System
+- **Automatic Backups**: Every 6 hours via cron-style scheduler
+- **Retention**: 10 most recent backups kept
+- **Location**: `/var/www/cccc/backups/`
+- **Format**: `users_backup_YYYY-MM-DDTHH-mm-ss-sssZ.db`
+- **Logging**: Backup creation logged to console
+
+### Deployment Workflow
+1. **Local Development**: Changes made and tested locally
+2. **Git Push**: Code pushed to GitHub repository
+3. **Server Update**: `git pull origin main` on production server
+4. **Process Restart**: `pm2 restart cccc-backend` to apply changes
+5. **Nginx Reload**: `systemctl reload nginx` for config changes
+
+### Mobile Authentication Fixes
+- **HTTPS Detection**: Enhanced proxy header parsing
+- **Cookie Security**: Dynamic secure flag based on protocol
+- **Mobile Redirects**: Automatic HTTP→HTTPS for mobile browsers
+- **Debug Tools**: Mobile-specific debugging endpoints
 
 ## Content Patterns
 
@@ -123,10 +193,24 @@ FRONTEND_URL=https://yourdomain.com
 - Each category has browse page + individual substance profiles
 
 ### Frontend JavaScript Integration
-- `search.js` - Lunr.js search implementation
-- `substance-integration.js` - Add substances to user profiles
-- `profile.js` - User profile management
-- `interaction-checker.js` - Drug interaction warnings
+- `search.js` - Lunr.js search implementation with substance indexing
+- `substance-integration.js` - Add substances to user profiles (localStorage)
+- `profile.js` - Complete user profile management with backend sync
+- `interaction-checker.js` - Drug interaction warnings and safety info
+
+### Backend API Integration Patterns
+- **URL Detection**: `getBackendUrl()` function for environment-aware API calls
+- **Authentication**: Automatic credential inclusion with `credentials: 'include'`
+- **Error Handling**: Graceful fallbacks to localStorage on backend failures
+- **Image Sync**: Profile images sync between localStorage and database
+- **Optimistic Updates**: UI updates immediately, backend sync in background
+
+### Profile Image Management
+- **Upload Process**: File validation → resize → localStorage → database
+- **Sync Logic**: Database images prioritized over localStorage
+- **Cross-Device**: Images sync between PC and mobile through database
+- **Storage**: Base64 encoding in database, localStorage fallback
+- **Size Limits**: 10MB uploads, resized to manageable dimensions
 
 ## Common Development Tasks
 
@@ -138,19 +222,39 @@ FRONTEND_URL=https://yourdomain.com
 5. Images go in `src/assets/substances/`
 
 ### Database Changes
-- Modify schema in `initializeDatabase()` function
-- Handle existing data migration manually
-- Test with fresh database creation
+- Modify schema in `initializeDatabase()` function in `server.js`
+- Handle existing data migration manually via SQL
+- Test with fresh database creation and existing data
+- Backup system ensures data safety during changes
+
+### Backend API Development
+- All routes protected with `authenticateToken` middleware where needed
+- Request logging for debugging (`console.log` statements)
+- Error handling with proper HTTP status codes
+- CORS configuration for cross-origin GitHub Pages requests
+- Input validation and sanitization on all endpoints
 
 ### Frontend Changes
 - Templates in `src/` with `.njk` extension
 - Static assets copied from `src/assets/`
 - CSS in `src/style.css` (single file approach)
+- JavaScript in `src/assets/js/` with modular architecture
 - Run `npm run build` to regenerate `public/`
+
+### Mobile Development Considerations
+- Forced desktop layout via viewport manipulation
+- HTTPS-only authentication for security
+- Enhanced debugging tools for mobile issues
+- Cookie handling optimized for cross-origin scenarios
 
 ## Security Considerations
 - Passwords hashed with bcryptjs (10 rounds)
-- CORS configured for specific origins
+- CORS configured for specific origins (GitHub Pages)
 - Input validation on all API endpoints
 - SQL injection prevention with parameterized queries
 - XSS prevention through proper template escaping
+- JWT tokens in HTTP-only cookies for security
+- Trust proxy configuration for proper HTTPS detection
+- Rate limiting considerations for production use
+- Image upload validation and size limits
+- Secure session management with proper cookie settings
