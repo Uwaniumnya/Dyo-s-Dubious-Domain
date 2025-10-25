@@ -4181,6 +4181,468 @@ class DrugInteractionChecker {
         mechanism: 'Tyramine in red wine with MAOIs causes fatal hypertensive reactions.',
         effects: ['Fatal hypertensive crisis', 'Stroke', 'Cardiovascular collapse', 'Death'],
         advice: ['NEVER consume red wine', 'Fatal blood pressure spike', 'Emergency medical care', 'All alcohol dangerous']
+      },
+
+      // EXPANDED DEADLY COMBINATIONS
+
+      // Tramadol Deadly Combinations
+      'tramadol+ssris': {
+        risk: 'deadly',
+        mechanism: 'Tramadol inhibits serotonin reuptake and combined with SSRIs can cause fatal serotonin syndrome.',
+        effects: ['Serotonin syndrome', 'Hyperthermia', 'Seizures', 'Cardiac arrhythmias', 'Death'],
+        advice: ['NEVER combine', 'Seek immediate emergency care', 'Serotonin syndrome is medical emergency', 'May require ICU care']
+      },
+      'tramadol+maois': {
+        risk: 'deadly',
+        mechanism: 'MAOIs dramatically increase serotonin syndrome risk with tramadol\'s dual mechanism.',
+        effects: ['Severe serotonin syndrome', 'Fatal hyperthermia', 'Seizures', 'Cardiovascular collapse', 'Death'],
+        advice: ['Absolutely contraindicated', 'Wait 14 days after MAOI discontinuation', 'Emergency medical care if combined', 'Fatal interaction']
+      },
+      'tramadol+dextromethorphan': {
+        risk: 'deadly',
+        mechanism: 'Both substances affect serotonin and can cause fatal serotonin syndrome together.',
+        effects: ['Serotonin syndrome', 'Seizures', 'Hyperthermia', 'Cardiac complications', 'Death'],
+        advice: ['NEVER combine', 'Check cough medicine ingredients', 'Seek emergency care', 'Life-threatening interaction']
+      },
+
+      // Xylazine (Tranq) Deadly Combinations
+      'xylazine+heroin': {
+        risk: 'deadly',
+        mechanism: 'Xylazine makes opioid overdoses much more difficult to reverse and increases necrosis risk.',
+        effects: ['Naloxone-resistant overdose', 'Severe skin necrosis', 'Respiratory failure', 'Death', 'Zombie drug effects'],
+        advice: ['Extremely dangerous combination', 'Naloxone less effective', 'Multiple naloxone doses needed', 'Immediate emergency care']
+      },
+      'xylazine+fentanyl': {
+        risk: 'deadly',
+        mechanism: 'Creates naloxone-resistant overdoses with severe tissue death and respiratory depression.',
+        effects: ['Naloxone-resistant overdose', 'Severe necrosis', 'Respiratory failure', 'Prolonged unconsciousness', 'Death'],
+        advice: ['Life-threatening combination', 'Give naloxone anyway', 'Call 911 immediately', 'Tissue death common']
+      },
+      'xylazine+alcohol': {
+        risk: 'deadly',
+        mechanism: 'Both are CNS depressants creating dangerous respiratory depression that naloxone cannot reverse.',
+        effects: ['Severe respiratory depression', 'Prolonged unconsciousness', 'Skin necrosis', 'Death'],
+        advice: ['NEVER combine', 'Naloxone ineffective for xylazine', 'Emergency medical care', 'Multiple organ failure risk']
+      },
+
+      // U-47700 (Pink) Deadly Combinations
+      'u-47700+alcohol': {
+        risk: 'deadly',
+        mechanism: 'U-47700 is an extremely potent synthetic opioid that causes fatal respiratory depression with alcohol.',
+        effects: ['Immediate respiratory failure', 'Cardiac arrest', 'Death within minutes', 'Naloxone resistance'],
+        advice: ['Extremely lethal combination', 'Call 911 immediately', 'Multiple naloxone doses', 'Often fatal']
+      },
+      'u-47700+benzodiazepines': {
+        risk: 'deadly',
+        mechanism: 'Synthetic opioid with benzodiazepines creates nearly certain fatal respiratory depression.',
+        effects: ['Respiratory arrest', 'Coma', 'Death', 'Prolonged unconsciousness'],
+        advice: ['Almost always fatal', 'Emergency medical care', 'Multiple antidotes needed', 'ICU level care required']
+      },
+      'u-47700+anything': {
+        risk: 'deadly',
+        mechanism: 'U-47700 is so potent that any additional CNS depressant makes overdose extremely likely.',
+        effects: ['Fatal overdose', 'Respiratory failure', 'Cardiac arrest', 'Death'],
+        advice: ['Never combine with ANYTHING', 'Emergency only drug', 'Fatal with any depressant', 'Avoid completely']
+      },
+
+      // NBOMe Deadly Combinations
+      'nbome+stimulants': {
+        risk: 'deadly',
+        mechanism: 'NBOMe with stimulants causes fatal seizures, hyperthermia, and cardiovascular collapse.',
+        effects: ['Fatal seizures', 'Extreme hyperthermia', 'Heart attack', 'Stroke', 'Death'],
+        advice: ['NEVER combine', 'Often fatal', 'Emergency medical care', 'Test substances before use']
+      },
+      'nbome+mdma': {
+        risk: 'deadly',
+        mechanism: 'NBOMe sold as LSD combined with MDMA causes fatal hyperthermia and seizures.',
+        effects: ['Fatal hyperthermia', 'Seizures', 'Cardiac arrest', 'Multi-organ failure', 'Death'],
+        advice: ['Extremely dangerous', 'Test all substances', 'Emergency care needed', 'Often lethal combination']
+      },
+      'nbome+amphetamine': {
+        risk: 'deadly',
+        mechanism: 'NBOMe\'s stimulant properties with amphetamines cause fatal cardiovascular events.',
+        effects: ['Heart attack', 'Stroke', 'Fatal arrhythmias', 'Hyperthermia', 'Death'],
+        advice: ['Fatal combination', 'Cardiovascular emergency', 'Call 911', 'Never combine']
+      },
+      'nbome+caffeine': {
+        risk: 'deadly',
+        mechanism: 'Even caffeine with NBOMe can trigger fatal seizures and cardiovascular collapse.',
+        effects: ['Fatal seizures', 'Heart attack', 'Stroke', 'Hyperthermia', 'Death'],
+        advice: ['Avoid all stimulants', 'Even caffeine dangerous', 'Emergency care', 'Test all psychedelics']
+      },
+
+      // More MAOI Deadly Combinations
+      'maois+tyramine-foods': {
+        risk: 'deadly',
+        mechanism: 'Tyramine in aged foods causes hypertensive crisis with MAOIs that can be fatal.',
+        effects: ['Hypertensive crisis', 'Stroke', 'Brain hemorrhage', 'Cardiac complications', 'Death'],
+        advice: ['Strict dietary restrictions', 'Avoid aged cheeses, wines, meats', 'Medical emergency if symptoms', 'Know food restrictions']
+      },
+      'maois+over-the-counter-drugs': {
+        risk: 'deadly',
+        mechanism: 'Many OTC drugs contain sympathomimetics that cause fatal reactions with MAOIs.',
+        effects: ['Hypertensive emergency', 'Stroke', 'Heart attack', 'Death'],
+        advice: ['Check ALL medications', 'Avoid decongestants', 'Read labels carefully', 'Medical supervision']
+      },
+      'maois+st-johns-wort': {
+        risk: 'deadly',
+        mechanism: 'St. John\'s Wort acts as an MAOI and creates dangerous serotonin syndrome when combined.',
+        effects: ['Severe serotonin syndrome', 'Hyperthermia', 'Seizures', 'Death'],
+        advice: ['NEVER combine', 'Natural doesn\'t mean safe', 'Serotonin emergency', 'Check herbal supplements']
+      },
+
+      // DANGEROUS COMBINATIONS (High Risk)
+
+      // Cocaine Dangerous Combinations
+      'cocaine+sildenafil': {
+        risk: 'dangerous',
+        mechanism: 'Cocaine with Viagra causes dangerous cardiovascular interactions and prolonged erections.',
+        effects: ['Dangerous hypotension', 'Cardiovascular stress', 'Priapism', 'Heart attack risk', 'Stroke risk'],
+        advice: ['High cardiovascular risk', 'Monitor heart rate/BP', 'Seek medical care for priapism', 'Avoid combination']
+      },
+      'cocaine+nitroglycerin': {
+        risk: 'dangerous',
+        mechanism: 'Cocaine blocks sodium channels while nitroglycerin affects nitric oxide, creating cardiovascular chaos.',
+        effects: ['Severe hypotension', 'Cardiovascular collapse', 'Paradoxical chest pain', 'Heart attack'],
+        advice: ['Medical emergency', 'Inform emergency responders', 'Dangerous interaction', 'ICU monitoring needed']
+      },
+      'cocaine+propranolol': {
+        risk: 'dangerous',
+        mechanism: 'Beta-blockers with cocaine can cause unopposed alpha stimulation and severe hypertension.',
+        effects: ['Severe hypertension', 'Stroke risk', 'Cardiovascular emergency', 'Paradoxical effects'],
+        advice: ['Dangerous cardiovascular effects', 'Emergency medical care', 'Inform about cocaine use', 'Monitor blood pressure']
+      },
+
+      // Methamphetamine Dangerous Combinations
+      'methamphetamine+antidepressants': {
+        risk: 'dangerous',
+        mechanism: 'Methamphetamine with antidepressants can cause serotonin syndrome and cardiovascular complications.',
+        effects: ['Serotonin syndrome risk', 'Severe hypertension', 'Hyperthermia', 'Cardiac arrhythmias'],
+        advice: ['High risk combination', 'Monitor for serotonin syndrome', 'Cardiovascular monitoring', 'Medical supervision']
+      },
+      'methamphetamine+anesthetics': {
+        risk: 'dangerous',
+        mechanism: 'Methamphetamine interferes with anesthetics and causes dangerous cardiovascular effects during surgery.',
+        effects: ['Anesthetic complications', 'Severe hypertension', 'Cardiac arrhythmias', 'Surgical complications'],
+        advice: ['Inform anesthesiologist', 'Surgery postponement needed', 'Medical emergency potential', 'Honest disclosure essential']
+      },
+      'methamphetamine+ephedrine': {
+        risk: 'dangerous',
+        mechanism: 'Combining stimulants dramatically increases cardiovascular stress and hyperthermia risk.',
+        effects: ['Severe cardiovascular stress', 'Fatal hyperthermia', 'Heart attack', 'Stroke', 'Seizures'],
+        advice: ['Extremely dangerous', 'High overdose risk', 'Cardiovascular emergency', 'Avoid all stimulant combinations']
+      },
+
+      // Ketamine Dangerous Combinations
+      'ketamine+tramadol': {
+        risk: 'dangerous',
+        mechanism: 'Both affect NMDA receptors and serotonin, potentially causing dangerous interactions.',
+        effects: ['Enhanced dissociation', 'Serotonin effects', 'Respiratory depression', 'Confusion'],
+        advice: ['Dangerous combination', 'Monitor breathing', 'Enhanced dissociative effects', 'Medical supervision']
+      },
+      'ketamine+dxm': {
+        risk: 'dangerous',
+        mechanism: 'Both are NMDA antagonists that can cause dangerous levels of dissociation and confusion.',
+        effects: ['Extreme dissociation', 'Complete loss of reality', 'Dangerous behavior', 'Injury risk'],
+        advice: ['Very dangerous combination', 'Complete reality disconnect', 'Constant supervision needed', 'High injury risk']
+      },
+      'ketamine+pcp': {
+        risk: 'dangerous',
+        mechanism: 'Two powerful dissociatives create extremely dangerous levels of dissociation and unpredictable behavior.',
+        effects: ['Extreme dissociation', 'Violent behavior', 'Complete reality loss', 'Severe injury risk'],
+        advice: ['Extremely dangerous', 'Unpredictable violent behavior', 'Constant restraint may be needed', 'Emergency care']
+      },
+
+      // DXM Dangerous Combinations
+      'dxm+alcohol': {
+        risk: 'dangerous',
+        mechanism: 'DXM with alcohol causes dangerous respiratory depression and liver toxicity from acetaminophen.',
+        effects: ['Respiratory depression', 'Liver damage', 'Extreme sedation', 'Nausea/vomiting'],
+        advice: ['High respiratory risk', 'Check for acetaminophen', 'Monitor breathing', 'Recovery position']
+      },
+      'dxm+grapefruit': {
+        risk: 'dangerous',
+        mechanism: 'Grapefruit inhibits enzymes that break down DXM, causing dangerous overdose levels.',
+        effects: ['DXM overdose', 'Extreme dissociation', 'Serotonin syndrome', 'Dangerous behavior'],
+        advice: ['Avoid grapefruit completely', 'Can cause accidental overdose', 'Monitor for overdose signs', 'Dangerous potentiation']
+      },
+
+      // Cannabis Dangerous Combinations
+      'thc+warfarin': {
+        risk: 'dangerous',
+        mechanism: 'THC may enhance anticoagulant effects and increase bleeding risk significantly.',
+        effects: ['Increased bleeding risk', 'Enhanced anticoagulation', 'Bruising', 'Internal bleeding'],
+        advice: ['Monitor INR closely', 'Watch for bleeding signs', 'Medical supervision', 'Dose adjustments needed']
+      },
+      'thc+lithium': {
+        risk: 'dangerous',
+        mechanism: 'Cannabis may increase lithium levels and cause lithium toxicity.',
+        effects: ['Lithium toxicity', 'Tremors', 'Confusion', 'Kidney damage', 'Cardiac effects'],
+        advice: ['Monitor lithium levels', 'Watch for toxicity signs', 'Medical supervision essential', 'Dose adjustments']
+      },
+
+      // MDMA Dangerous Combinations
+      'mdma+antidepressants': {
+        risk: 'dangerous',
+        mechanism: 'MDMA with antidepressants can cause serotonin syndrome and reduce MDMA effects.',
+        effects: ['Serotonin syndrome', 'Reduced MDMA effects', 'Hyperthermia', 'Dangerous interactions'],
+        advice: ['Taper antidepressants safely', 'Medical supervision', 'Monitor for serotonin syndrome', 'Plan withdrawal period']
+      },
+      'mdma+lithium': {
+        risk: 'dangerous',
+        mechanism: 'MDMA may interact with lithium causing seizures and lithium toxicity.',
+        effects: ['Seizure risk', 'Lithium toxicity', 'Cardiac effects', 'Neurological complications'],
+        advice: ['High seizure risk', 'Medical supervision essential', 'Monitor lithium levels', 'Emergency plan needed']
+      },
+
+      // MODERATE RISK COMBINATIONS
+
+      // LSD Moderate Combinations
+      'lsd+lithium': {
+        risk: 'moderate',
+        mechanism: 'LSD may interact with lithium affecting mood stabilization and causing mild complications.',
+        effects: ['Mood destabilization', 'Enhanced trip effects', 'Possible lithium level changes'],
+        advice: ['Medical supervision recommended', 'Monitor mood closely', 'Adjust lithium if needed', 'Psychiatric follow-up']
+      },
+      'lsd+cannabis': {
+        risk: 'moderate',
+        mechanism: 'Cannabis can intensify LSD effects and may cause anxiety or thought loops.',
+        effects: ['Intensified visuals', 'Increased anxiety', 'Thought loops', 'Extended duration'],
+        advice: ['Start with small cannabis amounts', 'Have CBD available', 'Safe environment essential', 'Experienced sitter recommended']
+      },
+      'lsd+caffeine': {
+        risk: 'moderate',
+        mechanism: 'Caffeine may increase anxiety and jitteriness during LSD experiences.',
+        effects: ['Increased anxiety', 'Jitteriness', 'Enhanced stimulation', 'Difficulty relaxing'],
+        advice: ['Limit caffeine intake', 'Monitor anxiety levels', 'Have calming techniques ready', 'Consider decaf alternatives']
+      },
+
+      // Psilocybin Moderate Combinations
+      'psilocybin-psilocin+cannabis': {
+        risk: 'moderate',
+        mechanism: 'Cannabis can intensify psilocybin effects and may increase anxiety or enhance visuals.',
+        effects: ['Enhanced visuals', 'Increased introspection', 'Possible anxiety', 'Intensified experience'],
+        advice: ['Use small cannabis amounts', 'Have CBD available', 'Calm environment needed', 'Experienced guidance helpful']
+      },
+      'psilocybin-psilocin+alcohol': {
+        risk: 'moderate',
+        mechanism: 'Alcohol may reduce beneficial effects and increase nausea during mushroom experiences.',
+        effects: ['Reduced therapeutic effects', 'Increased nausea', 'Impaired judgment', 'Diminished introspection'],
+        advice: ['Avoid alcohol completely', 'Maximizes therapeutic potential', 'Reduces nausea risk', 'Better integration']
+      },
+
+      // DMT Moderate Combinations
+      'dmt+cannabis': {
+        risk: 'moderate',
+        mechanism: 'Cannabis may extend and intensify DMT experiences, making them more difficult to integrate.',
+        effects: ['Extended experience', 'Intensified visuals', 'Difficult integration', 'Overwhelming effects'],
+        advice: ['Use sparingly if at all', 'Prepare for intensity', 'Integration support needed', 'Experienced guidance essential']
+      },
+
+      // Mescaline Moderate Combinations
+      'mescaline+cannabis': {
+        risk: 'moderate',
+        mechanism: 'Cannabis may intensify mescaline visuals but can increase anxiety and confusion.',
+        effects: ['Enhanced visuals', 'Possible anxiety', 'Increased confusion', 'Intensified experience'],
+        advice: ['Use minimal amounts', 'Have CBD available', 'Safe environment crucial', 'Experienced guidance helpful']
+      },
+      'mescaline+alcohol': {
+        risk: 'moderate',
+        mechanism: 'Alcohol increases nausea and may interfere with the spiritual aspects of mescaline experiences.',
+        effects: ['Severe nausea', 'Reduced spiritual effects', 'Dehydration', 'Impaired experience'],
+        advice: ['Avoid alcohol completely', 'Traditional contraindication', 'Increases nausea significantly', 'Stay hydrated']
+      },
+
+      // Salvia Moderate Combinations
+      'salvia-divinorum+cannabis': {
+        risk: 'moderate',
+        mechanism: 'Cannabis may extend salvia effects and increase confusion during the intense but brief experience.',
+        effects: ['Extended confusion', 'Intensified effects', 'Difficult integration', 'Overwhelming experience'],
+        advice: ['Use one substance only', 'Salvia is intense enough alone', 'Safe environment essential', 'Sitter required']
+      },
+      'salvia-divinorum+alcohol': {
+        risk: 'moderate',
+        mechanism: 'Alcohol may increase the risk of injury during salvia\'s intense but brief dissociative effects.',
+        effects: ['Increased injury risk', 'Impaired coordination', 'Dangerous behavior', 'Memory issues'],
+        advice: ['High injury potential', 'Remove all hazards', 'Padded environment', 'Constant supervision']
+      },
+
+      // Ibogaine Moderate Combinations
+      'ibogaine+medications': {
+        risk: 'moderate',
+        mechanism: 'Ibogaine has complex pharmacology and may interact with many medications.',
+        effects: ['Unpredictable interactions', 'Cardiac effects', 'Altered medication levels'],
+        advice: ['Medical supervision essential', 'Comprehensive drug screening', 'Cardiac monitoring', 'Experienced provider needed']
+      },
+
+      // LOW RISK COMBINATIONS
+
+      // CBD Low Risk Combinations
+      'cbd+thc': {
+        risk: 'low',
+        mechanism: 'CBD may reduce THC anxiety and paranoia while maintaining therapeutic effects.',
+        effects: ['Reduced anxiety', 'Balanced effects', 'Enhanced therapeutic benefits', 'Reduced paranoia'],
+        advice: ['Generally beneficial combination', 'Adjust ratios as needed', 'Monitor effects', 'May reduce THC tolerance']
+      },
+      'cbd+caffeine': {
+        risk: 'low',
+        mechanism: 'CBD may reduce caffeine jitters and anxiety while maintaining alertness.',
+        effects: ['Reduced jitters', 'Calmer alertness', 'Potential enhanced focus', 'Less anxiety'],
+        advice: ['Generally well tolerated', 'Monitor caffeine sensitivity', 'May improve focus', 'Start with small amounts']
+      },
+
+      // Caffeine Low Risk Combinations
+      'caffeine+l-theanine': {
+        risk: 'low',
+        mechanism: 'L-theanine reduces caffeine jitters and anxiety while maintaining alertness.',
+        effects: ['Calm alertness', 'Reduced jitters', 'Enhanced focus', 'Less anxiety'],
+        advice: ['Excellent combination', 'Natural in green tea', 'Enhances cognitive benefits', 'Start with 2:1 theanine:caffeine ratio']
+      },
+      'caffeine+nicotine': {
+        risk: 'low',
+        mechanism: 'Common combination that enhances cognitive effects but increases cardiovascular stress.',
+        effects: ['Enhanced focus', 'Increased alertness', 'Mild cardiovascular stress', 'Habit formation'],
+        advice: ['Monitor heart rate', 'Common but addictive', 'Limit total stimulant intake', 'Stay hydrated']
+      },
+
+      // Melatonin Low Risk Combinations
+      'melatonin+cbd': {
+        risk: 'low',
+        mechanism: 'Both substances promote relaxation and sleep through different mechanisms.',
+        effects: ['Enhanced sleep quality', 'Faster sleep onset', 'Improved relaxation'],
+        advice: ['Beneficial for sleep', 'Start with low doses', 'Natural sleep enhancement', 'Monitor morning grogginess']
+      },
+      'melatonin+chamomile': {
+        risk: 'low',
+        mechanism: 'Both are natural sleep aids that work synergistically for better sleep.',
+        effects: ['Enhanced sleep quality', 'Natural relaxation', 'Reduced sleep latency'],
+        advice: ['Natural sleep combination', 'Generally safe', 'Monitor for morning drowsiness', 'Start with low doses']
+      },
+
+      // PRESCRIPTION MEDICATION INTERACTIONS
+
+      // Antidepressant Interactions
+      'ssris+nsaids': {
+        risk: 'dangerous',
+        mechanism: 'SSRIs with NSAIDs significantly increase bleeding risk, especially gastrointestinal bleeding.',
+        effects: ['Increased bleeding risk', 'GI bleeding', 'Bruising', 'Internal bleeding'],
+        advice: ['Monitor for bleeding signs', 'Use alternatives to NSAIDs', 'Medical supervision', 'Emergency care for bleeding']
+      },
+      'ssris+aspirin': {
+        risk: 'dangerous',
+        mechanism: 'SSRIs impair platelet function and combined with aspirin create dangerous bleeding risk.',
+        effects: ['Severe bleeding risk', 'Easy bruising', 'GI bleeding', 'Internal bleeding'],
+        advice: ['High bleeding risk', 'Monitor closely', 'Medical supervision', 'Consider alternatives']
+      },
+
+      // Blood Thinner Interactions
+      'warfarin+alcohol': {
+        risk: 'dangerous',
+        mechanism: 'Alcohol affects warfarin metabolism and dramatically increases bleeding risk.',
+        effects: ['Dangerous bleeding', 'INR fluctuations', 'Internal bleeding', 'Bruising'],
+        advice: ['Limit alcohol severely', 'Monitor INR closely', 'Medical supervision', 'Emergency care for bleeding']
+      },
+      'warfarin+antibiotics': {
+        risk: 'dangerous',
+        mechanism: 'Many antibiotics increase warfarin effects and cause dangerous bleeding.',
+        effects: ['Increased anticoagulation', 'Bleeding risk', 'INR elevation'],
+        advice: ['Monitor INR closely', 'Dose adjustments needed', 'Medical supervision', 'Frequent testing']
+      },
+      'warfarin+nsaids': {
+        risk: 'dangerous',
+        mechanism: 'NSAIDs with warfarin create extremely high bleeding risk through multiple mechanisms.',
+        effects: ['Severe bleeding risk', 'GI bleeding', 'Internal bleeding', 'Fatal hemorrhage'],
+        advice: ['Avoid NSAIDs completely', 'Use alternatives', 'Emergency care for bleeding', 'High mortality risk']
+      },
+
+      // FOOD AND HERBAL INTERACTIONS
+
+      // Grapefruit Interactions
+      'grapefruit+medications': {
+        risk: 'dangerous',
+        mechanism: 'Grapefruit inhibits CYP3A4 enzyme, dramatically increasing levels of many medications.',
+        effects: ['Medication overdose', 'Increased side effects', 'Toxicity', 'Dangerous levels'],
+        advice: ['Avoid grapefruit with medications', 'Check drug labels', 'Medical consultation', 'Can last 72+ hours']
+      },
+      'grapefruit+simvastatin': {
+        risk: 'dangerous',
+        mechanism: 'Grapefruit increases statin levels dramatically, causing muscle breakdown and kidney damage.',
+        effects: ['Muscle breakdown', 'Kidney damage', 'Liver toxicity', 'Potentially fatal'],
+        advice: ['Never combine', 'Muscle pain is warning sign', 'Emergency care for symptoms', 'Switch to different statin']
+      },
+
+      // St. John\'s Wort Interactions
+      'st-johns-wort+birth-control': {
+        risk: 'dangerous',
+        mechanism: 'St. John\'s Wort reduces birth control effectiveness by increasing metabolism.',
+        effects: ['Birth control failure', 'Unplanned pregnancy', 'Breakthrough bleeding'],
+        advice: ['Use backup contraception', 'Consider alternative treatments', 'Medical consultation', 'Plan accordingly']
+      },
+      'st-johns-wort+transplant-drugs': {
+        risk: 'deadly',
+        mechanism: 'St. John\'s Wort dramatically reduces immunosuppressive drug levels, causing organ rejection.',
+        effects: ['Organ rejection', 'Transplant failure', 'Death', 'Treatment failure'],
+        advice: ['NEVER combine', 'Inform transplant team', 'Medical emergency', 'Life-threatening interaction']
+      },
+
+      // RESEARCH CHEMICAL INTERACTIONS
+
+      // Novel Psychoactive Substances
+      'research-chemicals+anything': {
+        risk: 'unknown',
+        mechanism: 'Research chemicals have unknown pharmacology and unpredictable interactions.',
+        effects: ['Unknown interaction profile', 'Unpredictable effects', 'Potential toxicity', 'Unknown risks'],
+        advice: ['Extreme caution required', 'No safety data available', 'Avoid combinations', 'Medical supervision recommended']
+      },
+
+      // Synthetic Cathinones
+      'synthetic-cathinones+alcohol': {
+        risk: 'dangerous',
+        mechanism: 'Bath salts with alcohol increase cardiovascular stress and unpredictable behavior.',
+        effects: ['Severe cardiovascular stress', 'Unpredictable behavior', 'Hyperthermia', 'Violence'],
+        advice: ['High risk combination', 'Unpredictable effects', 'Medical supervision', 'Emergency plan needed']
+      },
+      'synthetic-cathinones+stimulants': {
+        risk: 'deadly',
+        mechanism: 'Combining synthetic stimulants creates extreme cardiovascular stress and hyperthermia.',
+        effects: ['Fatal hyperthermia', 'Heart attack', 'Stroke', 'Seizures', 'Death'],
+        advice: ['Extremely dangerous', 'Often fatal', 'Emergency medical care', 'Avoid all combinations']
+      },
+
+      // EMERGING INTERACTIONS
+
+      // Kratom Interactions
+      'kratom+alcohol': {
+        risk: 'dangerous',
+        mechanism: 'Kratom with alcohol increases respiratory depression and liver toxicity risks.',
+        effects: ['Respiratory depression', 'Liver damage', 'Enhanced sedation', 'Overdose risk'],
+        advice: ['High risk combination', 'Monitor breathing', 'Liver toxicity risk', 'Reduce doses']
+      },
+      'kratom+benzodiazepines': {
+        risk: 'dangerous',
+        mechanism: 'Kratom\'s opioid-like effects with benzodiazepines create dangerous respiratory depression.',
+        effects: ['Severe respiratory depression', 'Unconsciousness', 'Overdose', 'Death risk'],
+        advice: ['Very dangerous combination', 'Monitor breathing closely', 'Emergency plan needed', 'Avoid combination']
+      },
+      'kratom+opioids': {
+        risk: 'deadly',
+        mechanism: 'Kratom acts on opioid receptors and combined with opioids creates fatal respiratory depression.',
+        effects: ['Severe respiratory depression', 'Overdose', 'Death', 'Prolonged sedation'],
+        advice: ['Potentially fatal', 'Never combine', 'Emergency medical care', 'Naloxone may help']
+      },
+
+      // Tianeptine Interactions
+      'tianeptine+opioids': {
+        risk: 'deadly',
+        mechanism: 'Tianeptine has opioid activity at high doses and combined with opioids causes fatal overdose.',
+        effects: ['Fatal respiratory depression', 'Overdose', 'Death', 'Prolonged sedation'],
+        advice: ['Extremely dangerous', 'Often fatal', 'Emergency medical care', 'Naloxone needed']
+      },
+      'tianeptine+alcohol': {
+        risk: 'dangerous',
+        mechanism: 'Tianeptine\'s CNS depressant effects with alcohol increase respiratory depression risk.',
+        effects: ['Respiratory depression', 'Enhanced sedation', 'Overdose risk', 'Liver toxicity'],
+        advice: ['High risk combination', 'Monitor breathing', 'Medical supervision', 'Reduce alcohol intake']
       }
     };
   }
